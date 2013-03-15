@@ -2,9 +2,36 @@
 
 'use strict';
 
+PJS.ViewModels = {
+  Project: function(project) {
+    project = PJS.ViewModels.all(project);
+    project.projectManager = findFirstUserByRole(project.projectUsers, 'projectmanager').user;
+    project.progress = 50; // TODO: Calculate this
+    return project;
+  },
+  
+  Milestone: function(milestone) {
+    return PJS.ViewModels.all(milestone);
+  },
+  
+  WorkPackage: function(workPackage) {
+    return PJS.ViewModels.all(workPackage);
+  },
+
+  all: function(resource) {
+    resource = angular.extend({}, resource);
+    if (resource.status) {
+      resource.status = statuses[resource.status];
+      resource.status.labelType = labelTypes[resource.status.level];
+    }
+    return resource;
+  },
+};
+
 var statuses = {
-  'onSchedule': {text: 'On Schedule', level: 0},
-  'late': {text: 'Late', level: 2}
+  'open': {text: 'Open', level: 0},
+  'late': {text: 'Late', level: 2},
+  'closed': {text: 'Closed', level: 2}
 };
 
 var labelTypes = {
@@ -13,13 +40,14 @@ var labelTypes = {
   2: 'label-important'
 };
 
-PJS.ViewModels = {
-  project: function(project) {
-    project = angular.extend({}, project);
-    project.status = statuses[project.status];
-    project.status.labelType = labelTypes[project.status.level];
-    return project;
+var findFirstUserByRole = function(users, role) {
+  var user = null;
+  for (var i=0; i<users.length && !user; ++i) {
+    if (users[i].role === role) {
+      user = users[i];
+    }
   }
+  return user;
 };
 
 })();

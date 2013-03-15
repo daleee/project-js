@@ -18,8 +18,8 @@
 </div>
 
 <div class="row projects">
-  <div class="well span5 project" id="{{project.name}}" ng-repeat="project in projects">
-    <h3><a href="#/projects/{{project.name}}">{{project.name}}</a></h3>
+  <div class="well span5 project" id="{{project._id}}" ng-repeat="project in projects">
+    <h3><a href="#/projects/{{project._id}}">{{project.title}}</a></h3>
     <p><b>Project Manager:</b> <a href="#/users/{{project.projectManager}}">{{project.projectManager}}</a></p>
     <p><b>Current Status:</b> <span class="label {{project.status.labelType}}">{{project.status.text}}</span></p>
     <b>Overall Progress:</b> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>

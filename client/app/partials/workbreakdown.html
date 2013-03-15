@@ -1,1 +1,31 @@
-<h2>Work Breakdown Structure</h2>
+<div ng-include src="'partials/project-nav.html'"></div>
+
+<div class="row">
+  <!--<div class="span11">-->
+  <!--<a class="btn" href="#/projects/{{project._id}}/add-workbreakdownitem">Add Work Breakdown Item</a>-->
+  <!--</div>-->
+</div>
+<br />
+<li ng-repeat="data in workBreakdown" ng-controller="PJS.Controllers.WorkBreakdown.treeInit" ng-include="'partials/workbreakdowntree.html'"></li>
+
+<!--<div class="row">-->
+<!--<div class="well span11 milestone" id="{{milestone._id}}" ng-repeat="milestone in milestones">-->
+<!--<h4><a href="#/projects/{{project._id}}/milestones/{{milestone._id}}">{{milestone.title}}</a></h4>-->
+<!--<p><b>Description:</b> {{milestone.description}}</p>-->
+
+<!--<div class="span4 workPackages">-->
+<!--<h5>Work Packages</h5>-->
+<!--<div class="workPackage" id="{{workPackage._id}}" ng-repeat="workPackage in milestone.workPackages">-->
+<!--<a href="#/projects/{{project._id}}/workpackages/{{workPackage._id}}">{{workPackage.title}}</a>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<div class="span4 dependencies">-->
+<!--<h5>Dependencies</h5>-->
+<!--<div class="dependencies" id="{{dependency._id}}" ng-repeat="dependency in milestone.dependencies">-->
+<!--<a href="#/projects/{{project._id}}/milestones/{{dependency._id}}">{{dependency.title}}</a>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->

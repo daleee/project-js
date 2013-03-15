@@ -9,8 +9,11 @@
       <a class="brand" href="#">Project.js</a>
       <div class="pull-right" ng-switch on="loggedIn">
         <span ng-switch-when="true">
-          <a href="#/profile/{{user.name}}">Logged in as {{user.name}}</a>
-          <a href="#/logout">Log Out</a>
+          <ul class="nav pull-right">
+            <li><a href="#/profile/{{user.name}}">Logged in as {{user.name}}</a></li>
+            <li class="divider-vertical"></li>
+            <li><a href="#/users/logout">Log Out</a></li>
+          </ul>
         </span>
         <span ng-switch-default>
           <ul class="nav pull-right">
