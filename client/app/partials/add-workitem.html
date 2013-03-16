@@ -1,0 +1,59 @@
+<div ng-include src="'partials/project-nav.html'"></div>
+
+<form class="form-horizontal" ng-submit="addWorkItem()">
+  <div class="control-group">
+    <label class="control-label" for="inputTitle">Title:</label>
+    <div class="controls">
+      <input type="text" id="inputTitle" ng-model="workItem.title" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputDescription">Description:</label>
+    <div class="controls">
+      <input type="text" id="inputDescription" ng-model="workItem.description" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputWorkPackages">Work Packages:</label>
+    <div class="controls">
+      <input type="text" id="inputWorkPackages" ng-model="workItem.workPackages" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputAssignedUsers">Assigned Users:</label>
+    <div class="controls">
+      <input type="text" id="inputAssignedUsers" ng-model="workItem.assignedUsers" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputDependencies">Dependencies:</label>
+    <div class="controls">
+      <input type="text" id="inputDependencies" ng-model="workItem.dependencies" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputTimeEstimate">Time Estimate:</label>
+    <div class="controls">
+      <input type="text" id="inputTimeEstimate" ng-model="workItem.timeEstimate" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputTimeSpent">Time Spent:</label>
+    <div class="controls">
+      <input type="text" id="inputTimeSpent" ng-model="workItem.timeSpent" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputCompletionPercentage">Completion Percentage:</label>
+    <div class="controls">
+      <input type="text" id="inputCompletionPercentage" ng-model="workItem.completionPercentage" />
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputStatus">Status:</label>
+    <div class="controls">
+      <input type="text" id="inputStatus" ng-model="workItem.status" />
+    </div>
+  </div>
+  <button type="submit" class="btn">Submit</button>
+</form>
