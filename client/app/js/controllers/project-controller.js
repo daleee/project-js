@@ -14,7 +14,8 @@ PJS.Controllers.Project = {
   
   add: function($scope, $routeParams, Project) {
     $scope.addProject = function() {
-      var project = new Project({id: $scope.title, description: $scope.description});
+      var project = new Project({title: $scope.title, description: $scope.description, 
+        clientName: 'testing', projectDueDate: new Date()});
       project.$save(project);
     };
   },

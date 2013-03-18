@@ -5,7 +5,7 @@ var dummyDB = require('./dummydb');
 var MemoryStore = express.session.MemoryStore;
 var fs = require('fs');
 // configuration
-var port = 3000;
+var port = 2999;
 
 app.use(express.cookieParser());
 app.use(express.session({
@@ -21,11 +21,11 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/api/users', function(req, res) {
+app.get('/api/user', function(req, res) {
   res.send(dummyDB.users);
 });
 
-app.get('/api/users/:userId', function(req, res) {
+app.get('/api/user/:userId', function(req, res) {
   res.send(findInArray(dummyDB.users, req.params.userId));
 });
 
@@ -51,28 +51,28 @@ app.get('/api/logout', function(req, res) {
   res.send(null);
 });
 
-app.get('/api/roles', function(req, res) {
+app.get('/api/role', function(req, res) {
   res.send(dummyDB.roles);
 });
 
-app.get('/api/roles/:roleId', function(req, res) {
+app.get('/api/role/:roleId', function(req, res) {
   res.send(findInArray(dummyDB.roles, req.params.roleId));
 });
 
-app.get('/api/projects', function(req, res) {
+app.get('/api/project', function(req, res) {
   res.send(dummyDB.projects);
 });
 
-app.get('/api/projects/:projectId', function(req, res) {
+app.get('/api/project/:projectId', function(req, res) {
   res.send(findInArray(dummyDB.projects, req.params.projectId));
 });
 
-app.get('/api/projects/:projectId/milestones', function(req, res) {
+app.get('/api/project/:projectId/milestone', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(project.milestones);
 });
 
-app.post('/api/projects/:projectId/milestones', function(req, res) {
+app.post('/api/project/:projectId/milestone', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   project.milestones.push({
     _id: req.query.name,
@@ -87,32 +87,32 @@ app.post('/api/projects/:projectId/milestones', function(req, res) {
   });
 });
 
-app.get('/api/projects/:projectId/milestones/:milestoneId', function(req, res) {
+app.get('/api/project/:projectId/milestone/:milestoneId', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(findInArray(project.milestones, req.params.milestoneId));
 });
 
-app.get('/api/projects/:projectId/workpackages', function(req, res) {
+app.get('/api/project/:projectId/workpackage', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(project.workPackages);
 });
 
-app.get('/api/projects/:projectId/workpackages/:workPackageId', function(req, res) {
+app.get('/api/project/:projectId/workpackage/:workPackageId', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(findInArray(project.workPackages, req.params.workPackageId));
 });
 
-app.get('/api/projects/:projectId/workitems', function(req, res) {
+app.get('/api/project/:projectId/workitem', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(project.workItems);
 });
 
-app.get('/api/projects/:projectId/workbreakdown', function(req, res) {
+app.get('/api/project/:projectId/workbreakdown', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(project.workBreakdownStructure);
 });
 
-app.get('/api/projects/:projectId/workitems/:workItemId', function(req, res) {
+app.get('/api/project/:projectId/workitem/:workItemId', function(req, res) {
   var project = findInArray(dummyDB.projects, req.params.projectId);
   res.send(findInArray(project.workItems, req.params.workItemId));
 });

@@ -8,13 +8,13 @@ PJS.factories = {
   dir: 'api/',
 
   resourceUrls: {
-    'Project': 'projects/:id',
-    'User': 'users/:id',
+    'Project': 'project/:id',
+    'User': 'user/:id',
     'Login': 'login',
-    'WorkBreakdown': 'projects/:projectId/workbreakdown/:id',
-    'WorkPackage': 'projects/:projectId/workpackages/:id',
-    'Milestone': 'projects/:projectId/milestones/:id',
-    'WorkItem': 'projects/:projectId/workitems/:id'
+    'WorkBreakdown': 'project/:projectId/workbreakdown/:id',
+    'WorkPackage': 'project/:projectId/workpackage/:id',
+    'Milestone': 'project/:projectId/milestone/:id',
+    'WorkItem': 'project/:projectId/workitem/:id'
   },
 
   init: function() {
