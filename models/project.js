@@ -2,98 +2,103 @@
 //Project.JS
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var ProjectUser = new Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'User'},
-  role: { type: Schema.Types.ObjectId, ref: 'Role'}
-});
-
-var WorkBreakdown = new Schema({
-  items: [Schema.Types.ObjectId],
-  lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
+  user: { type: ObjectId, ref: 'User'},
+  role: { type: ObjectId, ref: 'Role'} 
 });
 
 var WorkBreakdownItem = new Schema({
-  itemNumber: { type: Number, required: true, unique: true }, // index start?
-  description: { type: String, required: true, unique: true, trim: true },
-  ancestors: [Schema.Types.ObjectId], // itemNumber instead?
-  parent: Schema.Types.ObjectId, // itemNumber instead?
+  //itemNumber: { type: Number, required: true, unique: true },
+  title: { type: String, required: true, unique: true, trime: true },
+  description: { type: String, trim: true },
+  children: [{ type: ObjectId }],
+  status: { type: String, trim: true, default: 'open' },
   lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
-var MilestoneListEntry = new Schema({
-  items: [Schema.Types.ObjectId], // use msNumber instead?
+var WorkBreakdown = new Schema({
+  items: [{ type: ObjectId }],
   lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
-});
-
-var Completion = new Schema({
-  wkPackage: { type: Schema.Types.ObjectId, required: true }, // use wpNumber instead?
-  percentage: { type: Number, required: true, min: 0, max: 100, default: 100 }
-});
-
-var Milestone = new Schema({
-  msNumber: { type: Number, required: true, unique: true }, // index start?
-  description: { type: String, required: true, unique: true, trim: true }, // unique necessary?
-  dueDate: { type: Date, required: true },
-  priority: { type: String, trim: true }, //required?
-  completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
-  status: { type: String, trim: true },
-  wpDependencies: [Schema.Types.ObjectId], // use wpNumber instead?
-  msDependencies: [Schema.Types.ObjectId], // use msNumber instead?
-  requiredCompletion: [Completion],
-  lastModifiedDate: {type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
-});
-
-var WorkPackageListEntry = new Schema({
-  items: [Schema.Types.ObjectId], // use wpNumber instead?
-  lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
 var WorkPackage = new Schema({
-  wpNumber: { type: Number, required: true, unique: true }, // index start?
-  description: { type: String, required: true, unique: true, trim: true },
-  priority: { type: String, trim: true },
-  timeEstimate: { type: Number, required: true },
+  //wpNumber: { type: Number, required: true, unique: true }, 
+  title: { type: String, required: true, unique: true, trim: true },
+  description: { type: String, trim: true },
+  priority: { type: String, trim: true }, //required?
+  timeEstimate: { type: Number, required: true }, // timeEstimate is a value representing number of days
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
-  status: { type: String, trim: true },
-  dependencies: [Schema.Types.ObjectId], // use wpNumber instead?
+  status: { type: String, trim: true, default: 'open' }, 
+  dependencies: [{ type: ObjectId }],
   lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
-var WorkItemListEntry = new Schema({
-  items: [Schema.Types.ObjectId], // use itemNumber instead?
-  lastModifiedDate: {type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
+var WorkPackageListing = new Schema({
+  items: [{ type: ObjectId }],
+  lastModifiedDate: { type: Date, default: Date.now },
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
 var Comment = new Schema({
-  commentNumber: { type: Number, required: true }, //unique?
+  //commentNumber: { type: Number, required: true }, //unique?
   title: { type: String, trim: true },
   text: { type: String, required: true },
-  postedBy: Schema.Types.ObjectId, // use userId instead?
+  postedBy: { type: ObjectId, ref: 'User' }, 
   datePosted: { type: Date, default: Date.now }
 });
 
 var WorkItem = new Schema({
-  itemNumber: { type: Number, required: true, unique: true }, // index start?
-  description: { type: String, required: true, unique: true, trim: true },
-  workPackages: [Schema.Types.ObjectId], // use wpNumber instead?
-  assignedUsers: [Schema.Types.ObjectId], // use userId instead?
-  dependencies: [Schema.Types.ObjectId], // use itemNumber instead?
+  //itemNumber: { type: Number, required: true, unique: true }, 
+  title: { type: String, required: true, unique: true, trim: true },
+  description: { type: String, trim: true },
+  workPackages: [{ type: ObjectId }], 
+  assignedUsers: [{ type: ObjectId, ref: 'User' }], 
+  dependencies: [{ type: ObjectId }],
   startDate: { type: Date, required: true },
-  timeEstimate: { type: Number, required: true },
-  timeSpent: { type: Number }, // ? required: true, default: 0
+  timeEstimate: { type: Number, required: true }, // timeEstimate is a value representing number of days
+  timeSpent: { type: Number, min: 0 }, // timeSpent is a value representing number of days
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
-  status: { type: String, trim: true },
+  status: { type: String, trim: true, default: 'open' },
   comments: [Comment],
   lastModifiedDate: { type: Date, default: Date.now },
-  lastModifiedBy: Schema.Types.ObjectId // use userId instead?
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
+});
+
+var WorkItemListing = new Schema({
+  items: [{ type: ObjectId }],
+  lastModifiedDate: {type: Date, default: Date.now },
+  lastModifiedBy: { type: ObjectId, ref: 'User' } 
+});
+
+var Completion = new Schema({
+  wkPackage: { type: ObjectId, required: true },
+  percentage: { type: Number, required: true, min: 0, max: 100, default: 100 }
+});
+
+var Milestone = new Schema({
+  //msNumber: { type: Number, required: true, unique: true }, 
+  title: { type: String, required: true, unique: true, trim: true },
+  description: { type: String, trim: true }, 
+  dueDate: { type: Date, required: true },
+  priority: { type: String, trim: true }, //required?
+  completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
+  status: { type: String, trim: true, default: 'open' }, 
+  wpDependencies: [{ type: ObjectId }], 
+  msDependencies: [{ type: ObjectId }],
+  requiredCompletion: [Completion],
+  lastModifiedDate: {type: Date, default: Date.now },
+  lastModifiedBy: { type: ObjectId, ref: 'User' }
+});
+
+var MilestoneListing = new Schema({
+  items: [{ type: ObjectId }],
+  lastModifiedDate: { type: Date, default: Date.now },
+  lastModifiedBy: { type: ObjectId, ref: 'User' } 
 });
 
 var projectSchema = new Schema({
@@ -101,14 +106,18 @@ var projectSchema = new Schema({
   clientName: { type: String, required: true, trim: true },
   projectDueDate: { type: Date, required: true },
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
-  status: { type: String, trim: true},
+  status: { type: String, trim: true, default: 'open' }, 
   dateCreated: { type: Date, default: Date.now },
-  lastModifiedDate: {type: Date, default: Date.now },
-  dateCompleted: {type: Date},
-  projectUsers: [ProjectUser],
+  lastModifiedDate: { type: Date, default: Date.now },
+  dateCompleted: { type: Date },
+  projectUsers: [ProjectUser],  
   workBreakdownStructure: [WorkBreakdown],
+  workBreakdownItems: [WorkBreakdownItem],
+  milestoneList: [MilestoneListing],
   milestones: [Milestone],
+  workPackageList: [WorkPackageListing],
   workPackages: [WorkPackage],
+  workItemList: [WorkItemListing],
   workItems: [WorkItem]
 });
 
