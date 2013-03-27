@@ -122,58 +122,67 @@ var projectSchema = new Schema({
 });
 
 projectSchema.methods.hasUser = function(id, cb) {
-  for (var i = 0; i < this.projectUsers.length; i += 1) {
-    if (this.projectUsers[i].user._id == id) {
-      return true;
-    }
-  }
-  return false;
+  return !!this.find('projectUsers', id, cb);
 };
 
 projectSchema.methods.hasUserAndRetrieve = function(id, cb) {
-  for (var i = 0; i < this.projectUsers.length; i += 1) {
-    if (this.projectUsers[i].user._id == id) {
-      return this.projectUsers[i];
-    }
-  }
-  return false;
+  return this.find('projectUsers', id, cb);
 };
 
 projectSchema.methods.hasUserAndRetrieveIndex = function(id, cb) {
-  for (var i = 0; i < this.projectUsers.length; i += 1) {
-    if (this.projectUsers[i].user._id == id) {
-      return i;
-    }
-  }
-  return false;
+  return this.findIndex('projectUsers', id, cb);
 };
 
 projectSchema.methods.hasMilestoneAndRetrieve = function(id, cb) {
-  for (var i = 0; i < this.milestones.length; i += 1) {
-    if (this.milestones[i]._id == id) {
-      return i;
-    }
-  }
-  return false;
+  return this.find('milestones', id, cb);
 };
 
 projectSchema.methods.hasWorkPackageAndRetrieve = function(id, cb) {
-  for (var i = 0; i < this.workPackages.length; i += 1) {
-    if (this.workPackages[i]._id == id) {
+  return this.find('workPackages', id, cb);
+};
+
+projectSchema.methods.hasWorkItemAndRetrieve = function(id, cb) {
+  return this.find('workItems', id, cb);
+};
+
+projectSchema.methods.hasWorkBreakdownItemAndRetrieve = function(id, cb) {
+  return this.find('workBreakdownItems', id, cb);
+};
+
+projectSchema.methods.find = function(listName, id, cb) {
+  var item = findInArray(this[listName], id);
+  if (cb) {
+    cb(item);
+  }
+  return item;
+};
+
+projectSchema.methods.findIndex = function(listName, id, cb) {
+  var index = findIndexInArray(this[listName], id);
+  if (cb) {
+    cb(index);
+  }
+  return index;
+};
+
+var findInArray = function(list, id) {
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i]._id == id) {
+      return list[i];
+    }
+  }
+  return false;
+};
+
+var findIndexInArray = function(list, id) {
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i]._id == id) {
       return i;
     }
   }
   return false;
 };
 
-projectSchema.methods.hasWorkItemAndRetrieve = function(id, cb) {
-  for (var i = 0; i < this.workItems.length; i += 1) {
-    if (this.workItems[i]._id == id) {
-      return i;
-    }
-  }
-  return false;
-};
 projectSchema.pre('save', function(next) {
   var project = this;
   project.lastModifiedDate = new Date();

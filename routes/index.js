@@ -11,6 +11,19 @@ module.exports = function(app) {
   app.post(prefix + '/login',
            passport.authenticate('local'),
            function(req, res){
-             res.end('You did it.');
-           });
+             req.session.user = {};
+           }
+  );
+
+  app.get('/api/login', function(req, res) {
+    if (req.session.user) {
+      res.send(req.session.user);
+    }
+  }
+  );
+
+  app.get('/api/logout', function(req, res) {
+    req.session.user = null;
+    res.send(null);
+  });
 };

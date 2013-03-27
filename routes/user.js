@@ -7,7 +7,7 @@ var mongoose = require('mongoose')
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
   // GET /user: get all users
-  app.get(prefix + "/user", function(req, res) {
+  app.get(prefix + "/users", function(req, res) {
     User.find({}, function(err, users) {
       if(err) {
         res.send(500, err);
@@ -18,7 +18,7 @@ module.exports = function(app) {
   });
 
   // POST /user: create a new user
-  app.post(prefix + "/user", function(req, res, next) {
+  app.post(prefix + "/users", function(req, res, next) {
     if(!(req.body.userId &&
       req.body.firstName,
       req.body.lastName,
@@ -46,12 +46,12 @@ module.exports = function(app) {
   });
 
   // GET /user/:user: get specific user information
-  app.get(prefix + "/user/:user", function(req, res) {
+  app.get(prefix + "/users/:user", function(req, res) {
     res.json(req.user);
   });
 
   // PUT /user/:user: update user information
-  app.put(prefix + "/user/:user", function(req, res) {
+  app.put(prefix + "/users/:user", function(req, res) {
     var user = req.user[0];
     if(req.body.firstName) user.firstName = req.body.firstName;
     if(req.body.lastName) user.lastName = req.body.lastName;
@@ -66,7 +66,7 @@ module.exports = function(app) {
   // POST /user/:user/password: change a user's password
   // arguments:
   // newPassword: the user's desired new password
-  app.post(prefix + "/user/:user/password", function(req, res) {
+  app.post(prefix + "/users/:user/password", function(req, res) {
     // make sure required data was sent in HTTP payload
     if(!req.body.newPassword) {
       res.send(500, "Data required: newPassword");

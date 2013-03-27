@@ -22,14 +22,23 @@
             <li class="dropdown">
               <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
               <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                <div ng-include src="'partials/login.html'"></div>
+                <!--<div ng-include src="'partials/login.html'"></div>-->
               </div>
             </li>
           </ul>
         </span>
       </div>
       <ul class="nav">
-        <li><a href="#/projects">Projects</a></li>
+        <li>
+          <a href="#/projects">Projects</a>
+        </li>
+        <li>
+          <span class="nullable">
+            <select ng-change="changeProject()" ng-model="projectChosen" ng-options="project.title for project in projectsList">
+              <option value="">Choose a Project</option>
+            </select>
+          </span>
+        </li>
       </ul>
     </div>
   </div>

@@ -3,3 +3,7 @@
 .container {
   margin-top: 80px;
 }
+
+.navbar select {
+  margin: 6px;
+}

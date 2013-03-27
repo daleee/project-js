@@ -1,21 +1,24 @@
 PJS.Controllers.WorkPackage = {
   relations: {
-    'dependencies': 'WorkPackage'
+    'dependencies': {list: 'workPackages', type: 'WorkPackage'}
   },
 
   reverseRelations: {
-    'workItems': {relation: 'workPackages', type: 'WorkItem'}
+    'workItems': {list: 'workItems', relation: 'workPackages', type: 'WorkItem'}
   },
 
   list: function($scope, $routeParams, WorkPackage, Project, WorkItem) {
     $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
-      $scope.workPackages = WorkPackage.query({projectId: $scope.project._id});
+      PJS.Controllers.allRelations('WorkPackage', project, project.workPackages);
+      $scope.workPackages = PJS.ViewModels.each('WorkPackage', project.workPackages);
     });
   },
 
   get: function($scope, $routeParams, WorkPackage, Project, WorkItem) {
     $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
-      $scope.workPackage = WorkPackage.get({projectId: $scope.project._id, id: $routeParams.workPackageId.toLowerCase()});
+      var workPackage = PJS.Utilities.findInArray(project.workPackages, $routeParams.workPackageId.toLowerCase());
+      PJS.Controllers.relations('WorkPackage', project, workPackage);
+      $scope.workPackage = PJS.ViewModels.WorkPackage(workPackage);
     });
   }
 };

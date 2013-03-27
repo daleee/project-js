@@ -2,30 +2,30 @@
 
 <div class="row">
   <div class="span11">
-    <a class="btn" href="#/projects/{{project._id}}/add-milestone">Add Milestone</a>
+    <a class="btn" href="#/projects/{{project.id}}/add-milestone">Add Milestone</a>
   </div>
 </div>
 
 <br />
 
 <div class="row">
-  <div class="well span11 milestone" id="{{milestone._id}}" ng-repeat="milestone in milestones">
-    <h4><a href="#/projects/{{project._id}}/milestones/{{milestone._id}}">{{milestone.title}}</a></h4>
+  <div class="well span11 milestone" id="{{milestone.id}}" ng-repeat="milestone in milestones">
+    <h4><a href="#/projects/{{project.id}}/milestones/{{milestone.id}}">{{milestone.title}}</a></h4>
     <p><b>Description:</b> {{milestone.description}}</p>
     <p><b>Current Status:</b> <span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
 
     <div class="span4 workPackages">
       <h5>Work Packages</h5>
-      <div class="workPackage" id="{{workPackage._id}}" ng-repeat="workPackage in milestone.wpDependencies">
-        <a href="#/projects/{{project._id}}/workpackages/{{workPackage._id}}">{{workPackage.title}}</a>
+      <div class="workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in milestone.wpDependencies">
+        <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a>
       </div>
     </div>
 
     <div class="span4 dependencies">
       <h5>Dependencies</h5>
-      <div class="dependencies" id="{{dependency._id}}" ng-repeat="dependency in milestone.msDependencies">
-        <a href="#/projects/{{project._id}}/milestones/{{dependency._id}}">{{dependency.title}}</a>
+      <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
+        <a href="#/projects/{{project.id}}/milestones/{{dependency.id}}">{{dependency.title}}</a>
       </div>
     </div>
 

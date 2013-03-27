@@ -4,15 +4,23 @@
 
 PJS.Controllers = {
   all: function($scope, $routeParams, Login) {
-    Login.get(function(user) {
-      $scope.user = user;
-      $scope.user.name = $scope.user._id;
-      $scope.loggedIn = !!$scope.user;
-    });
+//    Login.get(function(user) {
+//      $scope.user = user;
+//      $scope.user.name = $scope.user._id;
+//      $scope.loggedIn = !!$scope.user;
+    $scope.loggedIn = false;
+//    });
   },
 
-  nav: function($scope, $routeParams, Login) {
+  nav: function($scope, $routeParams, Login, Project) {
     PJS.Controllers.all($scope, $routeParams, Login);
+    $scope.projectsList = Project.query({list: true});
+
+    $scope.changeProject = function() {
+      if ($scope.projectChosen) {
+        window.location = '/#/projects/' + $scope.projectChosen._id;
+      }
+    };
   },
 
   login: function($scope, $routeParams, $location, Login) {
@@ -36,6 +44,55 @@ PJS.Controllers = {
         user = loggedInUser;
       });*/
     };
+  },
+
+  relations: function(controllerName, project, model) {
+    var Controller = PJS.Controllers[controllerName];
+    if (Controller.relations) {
+      for (var key in Controller.relations) {
+        if (Controller.relations.hasOwnProperty(key)) {
+          var type = Controller.relations[key].type;
+          var listName = Controller.relations[key].list;
+          var list = project[listName];
+          model[key].forEach(function(id, index) {
+            if (typeof id === 'string') {
+              model[key][index] = PJS.ViewModels[type](PJS.Utilities.findInArray(list, id));
+            }
+          });
+        }
+      }
+    }
+    if (Controller.reverseRelations) {
+      this.reverseRelations(controllerName, project, model);
+    }
+  },
+
+  reverseRelations: function(controllerName, project, model) {
+    var Controller = PJS.Controllers[controllerName];
+    if (Controller.reverseRelations) {
+      for (var key in Controller.reverseRelations) {
+        if (Controller.reverseRelations.hasOwnProperty(key)) {
+          var type = Controller.reverseRelations[key].type;
+          var listName = Controller.reverseRelations[key].list;
+          var relation = Controller.reverseRelations[key].relation;
+          var list = project[listName];
+          model[key] = [];
+          list.forEach(function(item) {
+            item[relation].forEach(function(id, index) {
+              if (typeof id === 'string' && id === model._id) {
+                model[key].push(PJS.ViewModels[type](item));
+              }
+            })
+          });
+        }
+      }
+    }
+  },
+
+  allRelations: function(controllerName, project, list) {
+    list.forEach(function(model) {
+      PJS.Controllers.relations(controllerName, project, model);
+    });
   }
 };
 

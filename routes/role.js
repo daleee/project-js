@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
   // GET /role: get all roles
-  app.get(prefix + "/role", function(req, res) {
+  app.get(prefix + "/roles", function(req, res) {
     Role.find({}, function(err, roles) {
      if(err) {
        res.send(500, err);
@@ -18,7 +18,7 @@ module.exports = function(app) {
   });
 
   // GET /role/:role: get specific roles
-  app.get(prefix + "/role/:role", function(req, res) {
+  app.get(prefix + "/roles/:role", function(req, res) {
     res.json(req.role);
   });
 
@@ -27,7 +27,7 @@ module.exports = function(app) {
   // title: Role name
   // permissions: an Array of Permission objects:
   // (eg: [{"title": "canEat"}, {"title": "canSleep"}]
-  app.post(prefix + "/role", function(req, res, next) {
+  app.post(prefix + "/roles", function(req, res, next) {
     if(!(req.body.title)){
         res.send(404);
         res.end('Not enough data to create a new role.');
@@ -54,7 +54,7 @@ module.exports = function(app) {
   });
 
   // POST /role/:role: add new permissions to role
-  app.post(prefix + "/role/:role", function(req, res, next) {
+  app.post(prefix + "/roles/:role", function(req, res, next) {
     if(!req.role) {
       res.send(404);
       res.end();
@@ -72,7 +72,7 @@ module.exports = function(app) {
   });
 
   // PUT /role/:role: update role information
-  app.put(prefix + "/role/:role", function(req, res) {
+  app.put(prefix + "/roles/:role", function(req, res) {
     if(!req.role) {
       res.send(404);
       res.end();
@@ -89,7 +89,7 @@ module.exports = function(app) {
   // if a param 'permission' is given with
   // a permission id, only that permission
   // is deleted from the role
-  app.delete(prefix + "/role/:role", function(req, res) {
+  app.delete(prefix + "/roles/:role", function(req, res) {
     // if permissions to delete were sent,
     // only delete those...
     if(req.body.permissions) {
@@ -131,6 +131,10 @@ module.exports = function(app) {
         res.send(500, "Error while finding role");
         res.end()
       } else if (role) {
+        // Hack, find out why it's an array?!
+        if (role instanceof Array && role.length === 1) {
+          role = role[0];
+        }
         req.role = role;
         next();
       } else {

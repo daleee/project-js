@@ -1,9 +1,9 @@
 // import express & mongoose modules, start express app
-var express = require("express")
-  , mongoose = require("mongoose")
-  , passport = require("passport")
-  , app = express();
-
+var express = require("express"), 
+    mongoose = require("mongoose"),
+    passport = require("passport"),
+    app = express(),
+    MemoryStore = express.session.MemoryStore;
 
 // configuration
 require('./config/project')(app);
@@ -12,6 +12,14 @@ app.use(express.cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/client/app'));
+
+app.use(express.cookieParser());
+app.use(express.session({
+  store: new MemoryStore(), 
+  secret: 'thisisagreatsecretdontyouthink'
+}));
+app.use(app.router);
+
 // connect to mongoDB
 mongoose.connect('localhost', 'test');
 

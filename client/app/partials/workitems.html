@@ -1,15 +1,15 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
 <div>
-  <a class="btn" href="#/projects/{{project._id}}/add-work-item">
+  <a class="btn" href="#/projects/{{project.id}}/add-work-item">
     Add Work Item
   </a>
   <table class="table table-condensed">
     <thead>
     <tr>
       <th></th>
-      <th><a href="" ng-click="predicate = '_id'; reverse=!reverse">ID</a></th>
-      <th><a href="" ng-click="predicate = 'itemNumber'; reverse=!reverse">Item Number</a></th>
+      <th><a href="" ng-click="predicate = 'id'; reverse=!reverse">ID</a></th>
+      <th><a href="" ng-click="predicate = 'index'; reverse=!reverse">Index</a></th>
       <th><a href="" ng-click="predicate = 'title'; reverse=!reverse">Title</a></th>
       <th><a href="" ng-click="predicate = 'description'; reverse=!reverse">Description</a></th>
       <th><a href="" ng-click="predicate = 'workPackages'; reverse=!reverse">Work Packages</a></th>
@@ -24,8 +24,8 @@
     </tr>
     <tr>
       <th>Filters</th>
-      <td><input class="input-small" ng-model="wkFilter._id"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.itemNumber"></input></td>
+      <td><input class="input-small" ng-model="wkFilter.id"></input></td>
+      <td><input class="input-small" ng-model="wkFilter.index"></input></td>
       <td><input class="input-medium" ng-model="wkFilter.title"></input></td>
       <td><input class="input-medium" ng-model="wkFilter.description"></input></td>
       <td><input class="input-small" ng-model="wkFilter.workPackages"></input></td>
@@ -42,11 +42,11 @@
     <tbody>
     <tr ng-repeat="workItem in workItems | filter:wkFilter | orderBy:predicate:reverse">
       <td>
-        <a href="#/projects/{{project._id}}/work-items/{{workItem._id}}/view">View</a>
-        <a href="#/projects/{{project._id}}/work-items/{{workItem._id}}/edit">Edit</a>
+        <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view">View</a>
+        <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit">Edit</a>
       </td>
-      <td>{{workItem._id}}</td>
-      <td>{{workItem.itemNumber}}</td>
+      <td>{{workItem.id}}</td>
+      <td>{{workItem.index}}</td>
       <td>{{workItem.title}}</td>
       <td>{{workItem.description}}</td>
       <td>{{workItem.workPackages}}</td>

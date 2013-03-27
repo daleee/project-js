@@ -3,16 +3,20 @@
 <div class="row">
   <div class="well well-small span11 project">
     <h3>Your Project at a Glance:</h3>
-    <h4>Project Manager: <a href="#/users/{{project.projectManager}}">{{project.projectManager}}</a></h4>
+    <h4>Project Manager: <a href="#/users/{{project.projectManager._id}}">{{project.projectManager.firstName}} {{project.projectManager.lastName}}</a></h4>
     <h4>Current Status: <span class="label {{project.status.labelType}}">{{project.status.text}}</span></h4>
     <h4>Overall Progress:</h4> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>
   </div>
-  <div class="span4 milestones">
+  <div class="span5 milestones">
     <h4>Upcoming Milestones</h4>
-    ...
+    <div id="{{milestone.id}}" ng-repeat="milestone in upcomingMilestones">
+      <a href="#/projects/{{project.id}}/milestones/{{milestone._id}}">{{milestone.dueDate | date:'yy/MM/dd'}} {{milestone.title}}</a>
+    </div>
   </div>
-  <div class="span4 issues">
+  <div class="span5 issues">
     <h4>Latest Issues</h4>
-    ...
+    <div id="{{issue.id}}" ng-repeat="issue in latestIssues">
+      <a href="#/projects/{{project.id}}/work-items/{{issue._id}}/view">{{issue.lastModifiedDate | date:'yy/MM/dd'}} {{issue.title}}</a>
+    </div>
   </div>
 </div>

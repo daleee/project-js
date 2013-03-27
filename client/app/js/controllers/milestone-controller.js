@@ -1,15 +1,14 @@
 PJS.Controllers.Milestone = {
   relations: {
-    'wpDependencies': 'WorkPackage',
-    'msDependencies': 'Milestone'
+    'wpDependencies': {list: 'workPackages', type: 'WorkPackage'},
+    'msDependencies': {list: 'milestones', type: 'Milestone'}
   },
 
   list: function($scope, $routeParams, Milestone, Project, WorkPackage) {
     var projectId = $routeParams.projectId.toLowerCase();
     $scope.project = Project.get({id: projectId}, function(project) {
-      $scope.milestones = Milestone.query({projectId: projectId}, function(milestones) {
-        $scope.milestones = milestones;
-      });
+      PJS.Controllers.allRelations('Milestone', project, project.milestones);
+      $scope.milestones = PJS.ViewModels.each('Milestone', project.milestones);
     });
   },
 
@@ -17,19 +16,19 @@ PJS.Controllers.Milestone = {
     var projectId = $routeParams.projectId.toLowerCase();
     var milestoneId = $routeParams.milestoneId.toLowerCase();
     $scope.project = Project.get({id: projectId}, function(project) {
-      Milestone.get({projectId: projectId, id: milestoneId}, function(milestone) {
-        $scope.milestone = milestone;
-      });
+      var milestone = PJS.Utilities.findInArray(project.milestones, milestoneId);
+      PJS.Controllers.relations('Milestone', project, milestone);
+      $scope.milestone = PJS.ViewModels.Milestone(milestone);
     });
   },
 
   add: function($scope, $routeParams, Milestone, Project) {
     var projectId = $routeParams.projectId.toLowerCase();
     $scope.addMilestone = function() {
-      var milestone = new Milestone({name: $scope.title, description: $scope.description});
+      var milestone = new Milestone({title: $scope.title, description: $scope.description});
       milestone.projectId = projectId;
       milestone.$save(milestone);
-      window.location = '/#/projects/' + projectId + '/milestones/' + milestone.title;
+      window.location = '/#/projects/' + projectId + '/milestones/' + PJS.Utilities.dashed(milestone.title);
     };
   },
 
@@ -43,7 +42,7 @@ PJS.Controllers.Milestone = {
           milestone.description = $scope.description;
           milestone.projectId = projectId;
           milestone.$save(milestone);
-          window.location = '/#/projects/' + projectId + '/milestones/' + milestone._id;
+          window.location = '/#/projects/' + projectId + '/milestones/' + PJS.Utilities.dashed(milestone.title);
         };
       });
     });

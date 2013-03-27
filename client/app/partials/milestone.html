@@ -1,7 +1,7 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
 <div class="row">
-  <div class="span11 milestone" id="{{milestone._id}}">
+  <div class="span11 milestone" id="{{milestone.id}}">
     <h4>{{milestone.title}}</h4>
     <p><b>Description:</b> {{milestone.description}}</p>
     <p><b>Current Status:</b> <span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
@@ -9,15 +9,15 @@
 
     <div class="span4 workPackages">
       <h5>Work Packages</h5>
-      <div class="workPackage" id="{{workPackage._id}}" ng-repeat="workPackage in milestone.wpDependencies">
-        <a href="#/projects/{{project._id}}/workpackages/{{workPackage._id}}">{{workPackage.title}}</a>
+      <div class="workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in milestone.wpDependencies">
+        <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a>
       </div>
     </div>
 
     <div class="span4 dependencies">
       <h5>Dependencies</h5>
-      <div class="dependencies" id="{{dependency._id}}" ng-repeat="dependency in milestone.msDependencies">
-        <a href="#/projects/{{project._id}}/milestones/{{dependency._id}}">{{dependency.title}}</a>
+      <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
+        <a href="#/projects/{{project.id}}/milestones/{{dependency.id}}">{{dependency.title}}</a>
       </div>
     </div>
 
