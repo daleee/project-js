@@ -8,10 +8,8 @@
     <thead>
     <tr>
       <th></th>
-      <th><a href="" ng-click="predicate = 'id'; reverse=!reverse">ID</a></th>
-      <th><a href="" ng-click="predicate = 'index'; reverse=!reverse">Index</a></th>
       <th><a href="" ng-click="predicate = 'title'; reverse=!reverse">Title</a></th>
-      <th><a href="" ng-click="predicate = 'description'; reverse=!reverse">Description</a></th>
+      <th><a href="" ng-click="predicate = 'status.text'; reverse=!reverse">Status</a></th>
       <th><a href="" ng-click="predicate = 'workPackages'; reverse=!reverse">Work Packages</a></th>
       <th><a href="" ng-click="predicate = 'assignedUsers'; reverse=!reverse">Assigned Users</a></th>
       <th><a href="" ng-click="predicate = 'dependencies'; reverse=!reverse">Dependencies</a></th>
@@ -24,10 +22,8 @@
     </tr>
     <tr>
       <th>Filters</th>
-      <td><input class="input-small" ng-model="wkFilter.id"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.index"></input></td>
       <td><input class="input-medium" ng-model="wkFilter.title"></input></td>
-      <td><input class="input-medium" ng-model="wkFilter.description"></input></td>
+      <td><input class="input-small" ng-model="wkFilter.status.text"></input></td>
       <td><input class="input-small" ng-model="wkFilter.workPackages"></input></td>
       <td><input class="input-small" ng-model="wkFilter.assignedUsers"></input></td>
       <td><input class="input-small" ng-model="wkFilter.dependencies"></input></td>
@@ -45,10 +41,8 @@
         <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view">View</a>
         <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit">Edit</a>
       </td>
-      <td>{{workItem.id}}</td>
-      <td>{{workItem.index}}</td>
       <td>{{workItem.title}}</td>
-      <td>{{workItem.description}}</td>
+      <td>{{workItem.status.text}}</td>
       <td>{{workItem.workPackages}}</td>
       <td>{{workItem.assignedUsers}}</td>
       <td>{{workItem.dependencies}}</td>

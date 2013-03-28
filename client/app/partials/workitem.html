@@ -6,18 +6,6 @@
       <fieldset>
         <legend>Edit Work Item</legend>
         <div class="control-group">
-          <label class="control-label span2" for="inputID">ID:</label>
-          <div class="controls">
-            <span id="inputID" class="input uneditable-input">{{workItem.id}}</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label span2" for="inputIndex">Index:</label>
-          <div class="controls">
-            <span id="inputIndex" class="input uneditable-input">{{workItem.index}}</span>
-          </div>
-        </div>
-        <div class="control-group">
           <label class="control-label span2" for="inputTitle">Title:</label>
           <div class="controls">
             <input type="text" id="inputTitle" ng-model="workItem.title" />
@@ -74,7 +62,7 @@
         <div class="control-group">
           <label class="control-label span2" for="inputStatus">Status:</label>
           <div class="controls">
-            <input type="text" id="inputStatus" ng-model="workItem.status" />
+            <input type="text" id="inputStatus" ng-model="workItem.status.text" />
           </div>
         </div>
         <div class="control-group">
@@ -99,18 +87,6 @@
     <form>
     <fieldset>
       <legend>View Work Item</legend>
-      <div class="control-group">
-        <label class="control-label span2" for="ID">ID:</label>
-        <div class="controls">
-          <span id="ID" class="input uneditable-input">{{workItem.id}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label span2" for="index">Index:</label>
-        <div class="controls">
-          <span id="index" class="input uneditable-input">{{workItem.index}}</span>
-        </div>
-      </div>
       <div class="control-group">
         <label class="control-label span2" for="title">Title:</label>
         <div class="controls">
@@ -168,7 +144,7 @@
       <div class="control-group">
         <label class="control-label span2" for="status">Status:</label>
         <div class="controls">
-          <span id="status" class="input uneditable-input">{{workItem.status}}</span>
+          <span id="status" class="input uneditable-input">{{workItem.status.text}}</span>
         </div>
       </div>
       <div class="control-group">
