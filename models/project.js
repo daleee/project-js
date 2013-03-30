@@ -38,11 +38,11 @@ var WorkPackage = new Schema({
   lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
-var WorkPackageListing = new Schema({
+/*var WorkPackageListing = new Schema({
   items: [{ type: ObjectId }],
   lastModifiedDate: { type: Date, default: Date.now },
   lastModifiedBy: { type: ObjectId, ref: 'User' }
-});
+}); */
 
 var Comment = new Schema({
   //commentNumber: { type: Number, required: true }, //unique?
@@ -69,11 +69,11 @@ var WorkItem = new Schema({
   lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
-var WorkItemListing = new Schema({
+/*var WorkItemListing = new Schema({
   items: [{ type: ObjectId }],
   lastModifiedDate: {type: Date, default: Date.now },
   lastModifiedBy: { type: ObjectId, ref: 'User' } 
-});
+}); */
 
 var Completion = new Schema({
   wkPackage: { type: ObjectId, required: true },
@@ -95,14 +95,15 @@ var Milestone = new Schema({
   lastModifiedBy: { type: ObjectId, ref: 'User' }
 });
 
-var MilestoneListing = new Schema({
+/*var MilestoneListing = new Schema({
   items: [{ type: ObjectId }],
   lastModifiedDate: { type: Date, default: Date.now },
   lastModifiedBy: { type: ObjectId, ref: 'User' } 
-});
+}); */
 
 var projectSchema = new Schema({
   title: { type: String, required: true, unique: true, trim: true },
+  description: { type: String, trim: true },
   clientName: { type: String, required: true, trim: true },
   projectDueDate: { type: Date, required: true },
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
@@ -113,11 +114,11 @@ var projectSchema = new Schema({
   projectUsers: [ProjectUser],  
   workBreakdownStructure: [WorkBreakdown],
   workBreakdownItems: [WorkBreakdownItem],
-  milestoneList: [MilestoneListing],
+  //milestoneList: [MilestoneListing],
   milestones: [Milestone],
-  workPackageList: [WorkPackageListing],
+  //workPackageList: [WorkPackageListing],
   workPackages: [WorkPackage],
-  workItemList: [WorkItemListing],
+  //workItemList: [WorkItemListing],
   workItems: [WorkItem]
 });
 
@@ -205,7 +206,7 @@ WorkBreakdown.methods.addToList = function(id, index, userId) {
   listing.lastModifiedDate = new Date();
   listing.lastModifiedBy = userId;
   // mark the work breakdown structure as modified
-  project.workBreakdown.markModified(listing);
+  project.workBreakdownStructure.markModified(listing);
   project.save(function(err) {
     if (err) {
       console.log(err);
@@ -227,6 +228,7 @@ WorkBreakdown.methods.moveItemInList = function(id, oldIndex, newIndex, newChild
   listing.items.splice(oldIndex, 1);
   // add list item to new index position
   listing.items.splice(newIndex, 0, id);
+  project.workBreakdownStructure.markModified(listing);
   
   // retrieve work breakdown item and replace old children with new ones
   project.workBreakdownItems.findById(id, function(err, item) {
@@ -403,9 +405,11 @@ Milestone.methods.editMilestone = function(id, newTitle, newDesc, newPriority, n
         milestone.requiredCompletion.pop();
       }
       // insert new requiredCompletion	
-      for (var i = 0; i < msDep.length; i++) {
-         milestone.requiredCompletion.push(reqComp.title[i]);
-         milestone.requiredCompletion.push(reqComp.percentage[i]);
+      var comp = new Completion();
+      for (var i = 0; i < reqComp.length; i++) {
+        comp.title = reqComp.title[i];
+        comp.percentage = reqComp.percentage[i];
+        milestone.requiredCompletion.push(comp);
       }
     }
     milestone.lastModifiedDate = new Date();
@@ -435,7 +439,7 @@ Milestone.methods.deleteMilestone = function(id, userId) {
     }
     // change status to deleted
     milestone.status = 'deleted';
-    milestone.lastModifiedDate = Date.now;
+    milestone.lastModifiedDate = new Date();
     milestone.lastModifiedBy = userId;
     	
     project.milestones.markModified(milestone);
@@ -466,10 +470,10 @@ Milestone.methods.viewDeletedItems = function() {
 }; // end viewDeletedItems (milestone)
 
 // enableDeletedItem - reverts status of deleted mileston back to 'open'
-Milestone.methods.enableDeletedItem = function(id) {
+Milestone.methods.enableDeletedItem = function(id, userId) {
   var project = new Project();
   var milestone = new Milestone();
-  project.milestones.findById(id, 'status', function(err, milestone) {
+  project.milestones.findById(id, 'status lastModifiedDate lastModifiedBy', function(err, milestone) {
     if (err) {
       console.log(err);
       res.send(500, err);
@@ -477,6 +481,8 @@ Milestone.methods.enableDeletedItem = function(id) {
     }
     // change status back to open
     milestone.status = 'open';
+    milestone.lastModifiedDate = new Date();
+    milestone.lastModifiedBy = userId;
     project.milestones.markModified(milestone);
     project.save(function(err) {
       if (err) {
