@@ -3,8 +3,12 @@
 <div class="row">
   <div class="well well-small span11 project">
     <h3>Your Project at a Glance:</h3>
-    <h4>Project Manager: <a href="#/users/{{project.projectManager._id}}">{{project.projectManager.firstName}} {{project.projectManager.lastName}}</a></h4>
-    <h4>Current Status: <span class="label {{project.status.labelType}}">{{project.status.text}}</span></h4>
+    <h4>Project Manager: 
+      <span ng-repeat="user in project.usersByRole['project manager']">
+        <a href="#/users/{{user._id}}"> {{user.firstName}} {{user.lastName}} </a>
+      </span>
+    </h4>
+    <h4><span class="label {{project.status.labelType}}">{{project.status.text}}</span></h4>
     <h4>Overall Progress:</h4> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>
   </div>
   <div class="span5 milestones">

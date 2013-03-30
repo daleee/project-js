@@ -60,8 +60,8 @@ var workItemSchema = new Schema({
 });
 
 var Completion = new Schema({
-  wkPackage: { type: ObjectId, required: true, sparse: true },
-  percentage: { type: Number, min: 0, max: 100, default: 100 }
+  wkPackage: { type: ObjectId },
+  percentage: { type: Number, min: 0, max: 100 }
 });
 
 var Milestone = new Schema({
@@ -79,6 +79,7 @@ var Milestone = new Schema({
 
 var projectSchema = new Schema({
   title: { type: String, required: true, unique: true, trim: true, sparse: true },
+  description: { type: String, trim: true }, 
   clientName: { type: String, required: true, trim: true },
   projectDueDate: { type: Date, required: true },
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
@@ -95,15 +96,19 @@ var projectSchema = new Schema({
 });
 
 projectSchema.methods.hasUser = function(id, cb) {
-  return !!this.find('projectUsers', id, cb);
+  return !!this.hasUserAndRetrieve(id, cb);
 };
 
 projectSchema.methods.hasUserAndRetrieve = function(id, cb) {
-  return this.find('projectUsers', id, cb);
+  var item = findInArrayInner(this.projectUsers, id, 'user');
+  if (cb) cb(item);
+  return item;
 };
 
 projectSchema.methods.hasUserAndRetrieveIndex = function(id, cb) {
-  return this.findIndex('projectUsers', id, cb);
+  var item = findIndexInArrayInner(this.projectUsers, id, 'user');
+  if (cb) cb(item);
+  return item;
 };
 
 projectSchema.methods.hasMilestoneAndRetrieve = function(id, cb) {
@@ -136,6 +141,24 @@ projectSchema.methods.findIndex = function(listName, id, cb) {
     cb(index);
   }
   return index;
+};
+
+var findInArrayInner = function(list, id, inner) {
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i] && list[i][inner] == id) {
+      return list[i];
+    }
+  }
+  return false;
+};
+
+var findIndexInArrayInner = function(list, id, inner) {
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i] && list[i][inner] == id) {
+      return i;
+    }
+  }
+  return false;
 };
 
 var findInArray = function(list, id) {

@@ -124,7 +124,9 @@ db.roles.insert([
 
 
 db.projects.insert ([
-  { _id: ObjectId("5146b4e310cbdcdacc1261cc"), title: "Project 1", clientName: "Client 1", projectDueDate: new Date("Apr 30, 2013"), status: "open", completionPercentage: 0, 
+  { _id: ObjectId("5146b4e310cbdcdacc1261cc"), title: "Project 1", 
+    description: "This is a sample project from the dummy database",
+    clientName: "Client 1", projectDueDate: new Date("Apr 30, 2013"), status: "open", completionPercentage: 0, 
     dateCreated: new Date("Jan 29, 2013"), lastModifiedDate: new Date("Jan 29, 2013"), dateCompleted: null,
     projectUsers: [ 
                     { user: ObjectId("5146b4e310cbdcdacc1261be"), role: ObjectId("5146b4e310cbdcdacc1261c6") },
@@ -241,7 +243,9 @@ db.projects.insert ([
     ],
     milestones: [
                   { _id: ObjectId("514e4c51002fb0e90331a85e"), title: "Project1 Theory Complete", description: "...", dueDate: new Date("Feb 2, 2013"), priority: "high", completionPercentage: 0, status: "open",
-                    wpDependencies: [ObjectId("514e4741002fb0e90331a84f")],
+                    wpDependencies: [
+                      { wkpackage: ObjectId("514e4741002fb0e90331a84f") }
+                    ],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
                   { _id: ObjectId("514e4c78002fb0e90331a85f"), title: "Project1 Materials Selected", description: "...", dueDate: new Date("Feb 7, 2013"), priority: "high", completionPercentage: 0, status: "open",
                     msDependencies: [ObjectId("514e4c51002fb0e90331a85e")],
@@ -259,7 +263,7 @@ db.projects.insert ([
                     msDependencies: [ObjectId("514e4cfe002fb0e90331a862")],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
                   { _id: ObjectId("514e4d6b002fb0e90331a864"), title: "Project1 Indiv_idual Assembly at 33%", description: "...", dueDate: new Date("Mar 14, 2013"), priority: "medium", completionPercentage: 0, status: "open",
-                    requiredCompletion: [
+                    wpDependencies: [
                       { wkpackage: ObjectId("514e4741002fb0e90331a84f"), percentage: 33 },
                       { wkpackage: ObjectId("514e488b002fb0e90331a851"), percentage: 33 },
                       { wkpackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 33 },
@@ -271,7 +275,7 @@ db.projects.insert ([
                     msDependencies: [ObjectId("514e4d6b002fb0e90331a864")],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
                   { _id: ObjectId("514e4dc8002fb0e90331a866"), title: "Project1 Indiv_idual Assembly at 66%", description: "...", dueDate: new Date("Mar 28, 2013"), priority: "medium", completionPercentage: 0, status: "open",
-                    requiredCompletion: [
+                    wpDependencies: [
                       { wkpackage: ObjectId("514e488b002fb0e90331a851"), percentage: 66 },
                       { wkpackage: ObjectId("514e48bc002fb0e90331a852"), percentage: 66 },
                       { wkpackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 66 },
@@ -281,11 +285,11 @@ db.projects.insert ([
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
                   { _id: ObjectId("514e4e30002fb0e90331a867"), title: "Project1 Test Pulse Send", description: "...", dueDate: new Date("Apr 10, 2013"), priority: "medium", completionPercentage: 0, status: "open",
                     wpDependencies: [
-                      ObjectId("514e488b002fb0e90331a851"),
-                      ObjectId("514e48bc002fb0e90331a852"),
-                      ObjectId("514e48ef002fb0e90331a853"),
-                      ObjectId("514e491a002fb0e90331a854"),
-                      ObjectId("514e494c002fb0e90331a855")
+                      { wkpackage: ObjectId("514e488b002fb0e90331a851") },
+                      { wkpackage: ObjectId("514e48bc002fb0e90331a852") },
+                      { wkpackage: ObjectId("514e48ef002fb0e90331a853") },
+                      { wkpackage: ObjectId("514e491a002fb0e90331a854") },
+                      { wkpackage: ObjectId("514e494c002fb0e90331a855") }
                     ],
                     msDependencies: [ObjectId("514e4dc8002fb0e90331a866")],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },

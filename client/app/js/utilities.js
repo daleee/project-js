@@ -42,4 +42,8 @@ PJS.Utilities.findIndexInArray = function(list, id) {
   return -1;
 };
 
+PJS.Utilities.isDefined = function(val) {
+  return val !== null && val !== undefined && val !== NaN;
+};
+
 })();

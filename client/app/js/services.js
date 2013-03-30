@@ -12,6 +12,7 @@ PJS.factories = {
     'User': 'users/:id',
     'Role': 'roles/:id',
     'Login': 'login',
+    'ProjectUser': 'projects/:projectId/users/:id',
     'WorkBreakdown': 'projects/:projectId/workbreakdown/:id',
     'WorkPackage': 'projects/:projectId/workpackages/:id',
     'Milestone': 'projects/:projectId/milestones/:id',

@@ -51,12 +51,19 @@ PJS.Controllers = {
     if (Controller.relations) {
       for (var key in Controller.relations) {
         if (Controller.relations.hasOwnProperty(key)) {
-          var type = Controller.relations[key].type;
-          var listName = Controller.relations[key].list;
+          var relation = Controller.relations[key];
+          var type = relation.type, listName = relation.list, inner = relation.inner;
           var list = project[listName];
           model[key].forEach(function(id, index) {
-            if (typeof id === 'string') {
-              model[key][index] = PJS.ViewModels[type](PJS.Utilities.findInArray(list, id));
+            if (inner) {
+              id = id[inner];
+            }
+            if (id && typeof id === 'string') {
+              if (inner) {
+                model[key][index][inner] = PJS.ViewModels[type](PJS.Utilities.findInArray(list, id));
+              } else {
+                model[key][index] = PJS.ViewModels[type](PJS.Utilities.findInArray(list, id));
+              }
             }
           });
         }

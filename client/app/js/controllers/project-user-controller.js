@@ -1,94 +1,93 @@
 (function() {
 
 PJS.Controllers.ProjectUser = {
-  populate: function(project, User, Project, Role) {
-    project.projectUsers.forEach(function(userObj, index) {
-      PJS.Controllers.ProjectUser.populateUser(project, userObj, User, Project, Role);
-    });
-  },
-
-  populateUser: function(project, userObj, User, Project, Role) {
-    User.get({id: userObj.user}, function(user) {
-      userObj.user = user;
-      Role.get({id: userObj.role}, function(role) {
-        userObj.role = role;
-        project.projectManager = findFirstUserByRole(project.projectUsers, 'project manager');
+  populate: function(project, projectUsers, User, Role, callback) {
+    User.query(function(users) {
+      Role.query(function(roles) {
+        PJS.Controllers.ProjectUser.populateUsers(projectUsers, users, roles, project, callback);
       });
     });
   },
 
-  update: function($scope, $routeParams, User, Project, Role) {
+  populateUsers: function(projectUsers, users, roles, project, callback) {
+    projectUsers.forEach(function(userObj) {
+      PJS.Controllers.ProjectUser.populateUser(users, roles, userObj);
+    });
+    if (project) {
+      project.usersByRole = usersByRole(projectUsers);
+    }
+    if (callback) {
+      callback(projectUsers);
+    }
+    return projectUsers;
+  },
+
+  populateUser: function(users, roles, userObj) {
+    userObj.userId = userObj.user;
+    userObj.roleId = userObj.role;
+    userObj.user = PJS.Utilities.findInArray(users, userObj.userId);
+    userObj.role = PJS.Utilities.findInArray(roles, userObj.roleId);
+    return userObj;
+  },
+
+  update: function($scope, $routeParams, User, Project, Role, ProjectUser) {
     var projectId = $routeParams.projectId.toLowerCase();
 
     User.query(function(users) {
       $scope.usersList = PJS.ViewModels.each('User', users);
-      
-      Role.query({list: true}, function(roles) {
+      Role.query(function(roles) {
         $scope.rolesList = PJS.ViewModels.each('Role', roles);
-
-        Project.get({id: projectId}, function(project) {
-          $scope.project = project;
-          PJS.Controllers.ProjectUser.populate(project, User, Project, Role);
-          $scope.users = PJS.ViewModels.each('ProjectUser', project.projectUsers);
+        ProjectUser.query({projectId: projectId}, function(projectUsers) {
+          PJS.Controllers.ProjectUser.populateUsers(projectUsers, users, roles);
+          $scope.users = projectUsers;
 
           $scope.updateRole = function(userObj) {
-            project.$save(project);
+            userObj.roleId = userObj.role.id;
+            userObj.$save({id: userObj.user.id, projectId: projectId}, function(updated) {
+              var index = projectUsers.indexOf(userObj);
+              if (index !== -1) {
+                projectUsers[index] = PJS.Controllers.ProjectUser.populateUser(users, roles, updated);
+              }
+            });
           };
 
           $scope.addUser = function() {
             var userId = $scope.addUserChosen._id;
-            if (!userInProject(project.projectUsers, userId)) {
-              project.projectUsers.push({user: $scope.addUserChosen._id, role: $scope.addRoleChosen._id});
-              project.$save(project);
+            var roleId = $scope.addRoleChosen._id;
+            var index = PJS.Utilities.findIndexInArray(projectUsers, userId);
+            if (index === -1) {
+              var projectUser = new ProjectUser({userId: userId, roleId: roleId});
+              projectUser.projectId = projectId;
+              projectUser.$save(projectUser, function(added) {
+                projectUsers.push(PJS.Controllers.ProjectUser.populateUser(users, roles, added));
+              });
             }
           };
 
           $scope.removeUser = function(userObj) {
-            var index = userIndexInProject(project.projectUsers, userObj.user.id);
+            var index = projectUsers.indexOf(userObj);
             if (index !== -1) {
-              project.projectUsers.splice(index, 1);
-              console.log(project.projectUsers);
-              console.log(project);
-              project.$save(project);
+              userObj.$delete({projectId: projectId, id: userObj.user.id}, function() {
+                projectUsers.splice(index, 1);
+              });
             }
           };
 
         });
-
       });
-
     });
   }
 };
 
-var userInProject = function(users, id) {
-  var found = false;
-  for (var i=0; i<users.length && !found; ++i) {
-    if (users[i].user.id === id) {
-      found = true;
+var usersByRole = function(users) {
+  var byRole = {};
+  users.forEach(function(userObj) {
+    if (userObj.role) {
+      byRole[userObj.role.title] = byRole[userObj.role.title] || [];
+      byRole[userObj.role.title].push(userObj.user);
     }
-  }
-  return found;
-};
-
-var userIndexInProject = function(users, id) {
-  var found = -1;
-  for (var i=0; i<users.length && found === -1; ++i) {
-    if (users[i].user.id === id) {
-      found = i;
-    }
-  }
-  return found;
-};
-
-var findFirstUserByRole = function(users, role) {
-  var user = null;
-  for (var i=0; i<users.length && !user; ++i) {
-    if (users[i].role.title.toLowerCase() === role) {
-      user = users[i].user;
-    }
-  }
-  return user;
+  });
+  return byRole;
 };
 
 })();

@@ -9,7 +9,7 @@ PJS.Controllers.Project = {
     $scope.projects = Project.query(function(projects) {
       var sortingMethod = PJS.Controllers.Project.sortingMethods[$routeParams.sort] ? $routeParams.sort : 'name';
       $scope.projects.forEach(function(project) {
-        PJS.Controllers.ProjectUser.populate(project, User, Project, Role);
+        PJS.Controllers.ProjectUser.populate(project, project.projectUsers, User, Role);
       });
       $scope.projects = PJS.Controllers.Project.sortingMethods[sortingMethod]($scope.projects);
     });
@@ -18,7 +18,7 @@ PJS.Controllers.Project = {
   getMain: function($scope, $routeParams, Project, User, Role) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       $scope.project = project;
-      PJS.Controllers.ProjectUser.populate(project, User, Project, Role);
+      PJS.Controllers.ProjectUser.populate(project, project.projectUsers, User, Role);
       $scope.upcomingMilestones = project.milestones.sort(function(a, b) {
         return a.dueDate > b.dueDate ? -1 : 1;
       }).splice(0, 5);

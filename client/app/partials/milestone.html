@@ -3,14 +3,16 @@
 <div class="row">
   <div class="span11 milestone" id="{{milestone.id}}">
     <h4>{{milestone.title}}</h4>
-    <p><b>Description:</b> {{milestone.description}}</p>
-    <p><b>Current Status:</b> <span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
+    <p>{{milestone.description}}</p>
+    <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
 
     <div class="span4 workPackages">
       <h5>Work Packages</h5>
-      <div class="workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in milestone.wpDependencies">
-        <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a>
+      <div class="workPackage" id="{{container.wkpackage.id}}" ng-repeat="container in milestone.wpDependencies">
+        <a href="#/projects/{{project.id}}/work-packages/{{container.wkpackage.id}}">{{container.wkpackage.title}}
+          <span ng-show="isDefined(container.percentage)">{{container.wkpackage.completionPercentage}}/{{container.percentage}}%</label>
+        </a>
       </div>
     </div>
 
