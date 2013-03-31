@@ -40,12 +40,15 @@ PJS.Controllers.ProjectUser = {
         ProjectUser.query({projectId: projectId}, function(projectUsers) {
           PJS.Controllers.ProjectUser.populateUsers(projectUsers, users, roles);
           $scope.users = projectUsers;
+          $scope.setSelectedOptionUser = setSelectedOptionUser;
 
           $scope.updateRole = function(userObj) {
-            userObj.roleId = userObj.role.id;
+            var role = userObj.role;
+            userObj.roleId = role.id;
             userObj.$save({id: userObj.user.id, projectId: projectId}, function(updated) {
               var index = projectUsers.indexOf(userObj);
               if (index !== -1) {
+                userObj.role = role.id; // this shouldn't be needed...
                 projectUsers[index] = PJS.Controllers.ProjectUser.populateUser(users, roles, updated);
               }
             });
@@ -77,6 +80,11 @@ PJS.Controllers.ProjectUser = {
       });
     });
   }
+};
+
+var setSelectedOptionUser = function(userObj) {
+  var selectMenu = document.getElementById(userObj.user.id + '-menu');
+  PJS.Utilities.setSelectedOption(selectMenu, userObj.role.title);
 };
 
 var usersByRole = function(users) {

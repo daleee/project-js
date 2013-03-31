@@ -32,6 +32,7 @@ PJS.Controllers.Project = {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       $scope.project = project;
     });
+    $scope.setSelectedOptionProject = setSelectedOptionProject;
   },
   
   add: function($scope, $routeParams, Project) {
@@ -40,6 +41,7 @@ PJS.Controllers.Project = {
         clientName: 'testing', projectDueDate: new Date()});
       project.$save(project, function(project) {
         window.location = '/#/projects/' + project._id;
+        window.location.reload(true);
       });
     };
   },
@@ -51,6 +53,7 @@ PJS.Controllers.Project = {
         project.description = $scope.description;
         project.$save(project, function(project) {
           window.location = '/#/projects/' + project._id;
+          window.location.reload(true);
         });
       };
     });
@@ -81,6 +84,13 @@ PJS.Controllers.Project = {
         return a.name > b.name ? 1 : -1;
       });
     }
+  }
+};
+
+var setSelectedOptionProject = function(project) {
+  if (project) {
+    var selectMenu = document.getElementById('projects-menu');
+    PJS.Utilities.setSelectedOption(selectMenu, project.title);
   }
 };
 

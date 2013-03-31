@@ -9,7 +9,15 @@ PJS.Controllers.Milestone = {
     $scope.project = Project.get({id: projectId}, function(project) {
       PJS.Controllers.allRelations('Milestone', project, project.milestones);
       $scope.isDefined = PJS.Utilities.isDefined;
-      $scope.milestones = PJS.ViewModels.each('Milestone', project.milestones);
+      var milestones = PJS.ViewModels.each('Milestone', project.milestones);
+      
+      $scope.status = 'open';
+      $scope.milestones = PJS.Utilities.filterByStatus(milestones, $scope.status);
+
+      $scope.changeMode = function(status) {
+        $scope.status = status;
+        $scope.milestones = PJS.Utilities.filterByStatus(milestones, $scope.status);
+      };
     });
   },
 

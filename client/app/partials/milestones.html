@@ -1,33 +1,51 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
-<div class="row">
-  <div class="span11">
-    <a class="btn" href="#/projects/{{project.id}}/add-milestone">Add Milestone</a>
+<div>
+  <a class="btn" href="#/projects/{{project.id}}/add-milestone">Add Milestone</a>
+  
+  <form class="form-inline pull-right">
+    Search: <input class="input-medium" ng-model="filter.title"></input>
+  </form>
+
+  <div ng-init="predicate = 'lastModifiedBy'; reverse=!reverse" class="pull-right span4 sorting">
+    <span class="sorting-title">Sort:</span> 
+    <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
+    <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
+    <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
   </div>
 </div>
 
-<br />
-
 <div class="row">
-  <div class="well span11 milestone" id="{{milestone.id}}" ng-repeat="milestone in milestones">
-    <h4><a href="#/projects/{{project.id}}/milestones/{{milestone.id}}">{{milestone.title}}</a></h4>
-    <p>{{milestone.description}}</p>
-    <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
-    <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
+  <ul class="above-well nav nav-tabs">
+    <li class="active"><a ng-click="changeMode('open')" href="#open" data-toggle="tab">Open</a></li>
+    <li><a href="#closed" ng-click="changeMode('closed')" data-toggle="tab">Closed</a></li>
+  </ul>
 
-    <div class="span4 workPackages">
-      <h5>Work Packages</h5>
-      <div class="workPackage" id="{{container.wkpackage.id}}" ng-repeat="container in milestone.wpDependencies">
-        <a href="#/projects/{{project.id}}/work-packages/{{container.wkpackage.id}}">{{container.wkpackage.title}}
-          <span ng-show="isDefined(container.percentage)">{{container.wkpackage.completionPercentage}}/{{container.percentage}}%</label>
-        </a>
-      </div>
-    </div>
+  <div class="tab-content work-packages">
+    <div class="tab-pane active" id="{{status}}">
 
-    <div class="span4 dependencies">
-      <h5>Dependencies</h5>
-      <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
-        <a href="#/projects/{{project.id}}/milestones/{{dependency.id}}">{{dependency.title}}</a>
+      <div class="well span11 milestone" id="{{milestone.id}}" ng-repeat="milestone in milestones | filter:filter | orderBy:predicate:reverse">
+        <h4><a href="#/projects/{{project.id}}/milestones/{{milestone.id}}">{{milestone.title}}</a></h4>
+        <p>{{milestone.description}}</p>
+        <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
+        <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
+
+        <div class="span4 workPackages">
+          <h5>Work Packages</h5>
+          <div class="workPackage" id="{{container.wkpackage.id}}" ng-repeat="container in milestone.wpDependencies">
+            <a href="#/projects/{{project.id}}/work-packages/{{container.wkpackage.id}}">{{container.wkpackage.title}}
+              <span ng-show="isDefined(container.percentage)">{{container.wkpackage.completionPercentage}}/{{container.percentage}}%</label>
+            </a>
+          </div>
+        </div>
+
+        <div class="span4 dependencies">
+          <h5>Dependencies</h5>
+          <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
+            <a href="#/projects/{{project.id}}/milestones/{{dependency.id}}">{{dependency.title}}</a>
+          </div>
+        </div>
+
       </div>
     </div>
 

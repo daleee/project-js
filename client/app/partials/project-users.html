@@ -23,8 +23,9 @@
         </td>
 
         <td class="span3">
-          <select ng-change="updateRole(container)" ng-model="container.role" ng-options="role.title for role in rolesList">
+          <select id="{{container.user.id + '-menu'}}" ng-change="updateRole(container)" ng-model="container.role" ng-options="role.title for role in rolesList">
           </select>
+          {{setSelectedOptionUser(container)}} <!-- a bit of a hack, ng-model isn't loading the default -->
         </td>
 
         <td class="span5">

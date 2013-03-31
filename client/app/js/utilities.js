@@ -46,4 +46,38 @@ PJS.Utilities.isDefined = function(val) {
   return val !== null && val !== undefined && val !== NaN;
 };
 
+PJS.Utilities.setSelectedOption = function(selectMenu, expected) {
+  var anySelected = false;
+  var length = selectMenu.children.length;
+  for (var i=0; i<length; ++i) {
+    var child = selectMenu.children[i];
+    if (child) {
+      if (!child.textContent) {
+        selectMenu.removeChild(child);
+        --i;
+      } else {
+        child.selected = child.textContent === expected ? 'selected' : '';
+        if (child.selected) anySelected = true;
+      }
+    }
+  }
+  if (!anySelected && selectMenu.children.length) {
+    selectMenu.children[0].selected = true;
+  }
+};
+
+PJS.Utilities.filterByStatus = function(items, status) {
+  var newItems = [];
+
+  items.forEach(function(item) {
+    if (item.status) {
+      if (item.status === status || item.status.type === status) {
+        newItems.push(item);
+      }
+    }
+  });
+
+  return newItems;
+};
+
 })();

@@ -1,7 +1,14 @@
 PJS.Controllers.WorkItem = {
   list: function($scope, $routeParams, WorkItem, Project) {
     $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
-      $scope.workItems = PJS.ViewModels.each('WorkItem', project.workItems);
+      var workItems = PJS.ViewModels.each('WorkItem', project.workItems);
+      $scope.status = 'open';
+      $scope.workItems = PJS.Utilities.filterByStatus(workItems, $scope.status);
+
+      $scope.changeMode = function(status) {
+        $scope.status = status;
+        $scope.workItems = PJS.Utilities.filterByStatus(workItems, $scope.status);
+      };
     });
   },
 

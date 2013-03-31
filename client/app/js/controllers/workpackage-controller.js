@@ -10,7 +10,14 @@ PJS.Controllers.WorkPackage = {
   list: function($scope, $routeParams, WorkPackage, Project, WorkItem) {
     $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       PJS.Controllers.allRelations('WorkPackage', project, project.workPackages);
-      $scope.workPackages = PJS.ViewModels.each('WorkPackage', project.workPackages);
+      var workPackages = PJS.ViewModels.each('WorkPackage', project.workPackages);
+      $scope.status = 'open';
+      $scope.workPackages = PJS.Utilities.filterByStatus(workPackages, $scope.status);
+
+      $scope.changeMode = function(status) {
+        $scope.status = status;
+        $scope.workPackages = PJS.Utilities.filterByStatus(workPackages, $scope.status);
+      };
     });
   },
 

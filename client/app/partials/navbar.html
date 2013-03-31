@@ -34,7 +34,7 @@
         </li>
         <li>
           <span class="nullable">
-            <select ng-change="changeProject()" ng-model="projectChosen" ng-options="project.title for project in projectsList">
+            <select id="projects-menu" ng-change="changeProject()" ng-model="projectChosen" ng-options="projectChoice.title for projectChoice in projectsList">
               <option value="">Choose a Project</option>
             </select>
           </span>

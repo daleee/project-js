@@ -50,7 +50,9 @@ PJS.ViewModels = {
       resource.id = resource._id;
     }
     if (resource.status) {
+      var type = resource.status;
       resource.status = statuses[resource.status];
+      resource.status.type = type;
       resource.status.labelType = labelTypes[resource.status.level];
     }
     return resource;

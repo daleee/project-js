@@ -4,56 +4,51 @@
   <a class="btn" href="#/projects/{{project.id}}/add-work-item">
     Add Work Item
   </a>
-  <table class="table table-condensed">
-    <thead>
-    <tr>
-      <th></th>
-      <th><a href="" ng-click="predicate = 'title'; reverse=!reverse">Title</a></th>
-      <th><a href="" ng-click="predicate = 'status.text'; reverse=!reverse">Status</a></th>
-      <th><a href="" ng-click="predicate = 'workPackages'; reverse=!reverse">Work Packages</a></th>
-      <th><a href="" ng-click="predicate = 'assignedUsers'; reverse=!reverse">Assigned Users</a></th>
-      <th><a href="" ng-click="predicate = 'dependencies'; reverse=!reverse">Dependencies</a></th>
-      <th><a href="" ng-click="predicate = 'startDate'; reverse=!reverse">Start Date</a></th>
-      <th><a href="" ng-click="predicate = 'timeEstimate'; reverse=!reverse">Time Estimate</a></th>
-      <th><a href="" ng-click="predicate = 'timeSpent'; reverse=!reverse">Time Spent</a></th>
-      <th><a href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completion Percentage</a></th>
-      <th><a href="" ng-click="predicate = 'lastModifiedDate'; reverse=!reverse">Last Modified</a></th>
-      <th><a href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Last Modified By</a></th>
-    </tr>
-    <tr>
-      <th>Filters</th>
-      <td><input class="input-medium" ng-model="wkFilter.title"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.status.text"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.workPackages"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.assignedUsers"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.dependencies"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.startDate"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.timeEstimate"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.timeSpent"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.completionPercentage"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.lastModifiedDate"></input></td>
-      <td><input class="input-small" ng-model="wkFilter.lastModifiedBy"></input></td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="workItem in workItems | filter:wkFilter | orderBy:predicate:reverse">
-      <td>
-        <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view">View</a>
-        <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit">Edit</a>
-      </td>
-      <td>{{workItem.title}}</td>
-      <td>{{workItem.status.text}}</td>
-      <td>{{workItem.workPackages}}</td>
-      <td>{{workItem.assignedUsers}}</td>
-      <td>{{workItem.dependencies}}</td>
-      <td>{{workItem.startDate | date:'yy/MM/dd'}}</td>
-      <td>{{workItem.timeEstimate}}</td>
-      <td>{{workItem.timeSpent}}</td>
-      <td>{{workItem.completionPercentage}}</td>
-      <td>{{workItem.lastModifiedDate | date:'yy/MM/dd'}}</td>
-      <td>{{workItem.lastModifiedBy}}</td>
-    </tr>
-    </tbody>
-  </table>
+  <form class="form-inline pull-right">
+    Search: <input class="input-medium" ng-model="wkFilter.title"></input>
+  </form>
+
+  <div ng-init="predicate = 'lastModifiedBy'; reverse=!reverse" class="pull-right span4 sorting">
+    <span class="sorting-title">Sort:</span> 
+    <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
+    <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
+    <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
+  </div>
+
+  <ul class="above-table nav nav-tabs">
+    <li class="active"><a ng-click="changeMode('open')" href="#open" data-toggle="tab">Open</a></li>
+    <li><a href="#closed" ng-click="changeMode('closed')" data-toggle="tab">Closed</a></li>
+  </ul>
+
+  <div class="work-items tab-content">
+
+    <div class="tab-pane active" id="{{status}}">
+      <table class="table table-condensed table-striped table-bordered">
+        <tbody>
+        <tr ng-repeat="workItem in workItems | filter:wkFilter | orderBy:predicate:reverse">
+          <td>
+            <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view"><b>{{workItem.title}}</b></a>
+            <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit"><i class="icon icon-edit"></i></a>
+            <div>{{workItem.description}}</div>
+            <p class="pull-left info-small">by: 
+              <a href="#/users/{{workItem.lastModifiedBy}}">Username</a> on {{workItem.lastModifiedDate | date:'yy/MM/dd'}} 
+            </p>
+            <table class="span10">
+              <tr>
+                <td class="span1">
+                  <span class="label {{workItem.status.labelType}}">{{workItem.status.text}}</span>
+                </td>
+                <td class="span10">
+                  <div class="span10 progress"><div class="bar" style="width: {{workItem.completionPercentage}}%;"></div></div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 
 </div>
