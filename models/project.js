@@ -88,8 +88,8 @@ var projectSchema = new Schema({
   lastModifiedDate: { type: Date, default: Date.now },
   dateCompleted: { type: Date },
   projectUsers: [ProjectUser],  
-  workBreakdownStructure: [WorkBreakdown],
-  workBreakdownItems: [WorkBreakdownItem],
+  workBreakdownStructure: [WorkBreakdownItem],
+  //workBreakdownItems: [WorkBreakdownItem],
   milestones: [Milestone],
   workPackages: [WorkPackage],
   workItems: [workItemSchema]

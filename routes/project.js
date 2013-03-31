@@ -383,8 +383,8 @@ module.exports = function(app) {
     res.send(project.workBreakdownStructure);
   });
   
-  // POST /projects/:project/workbreakdownitems: create project work breakdown items
-  app.post(prefix + "/projects/:project/workbreakdownitems", function(req, res, next) {
+  // POST /projects/:project/workbreakdown: create a new parent work breakdown item
+  app.post(prefix + "/projects/:project/workbreakdown", function(req, res, next) {
     if (!(req.body.title)) {
       res.send(404, 'Title is required');
       res.end();
@@ -398,22 +398,23 @@ module.exports = function(app) {
       lastModifiedDate: new Date(),
       //lastModifiedBy: 
     };
-    if (!(req.body.children.length === 0)) {
+    if (req.body.children) {
       for (var i = 0; i < req.body.children.lengh; i++) {
         item.children.push(req.body.children[i]);
       }
     }
-    project.workBreakdownItems.push(item);
+    project.workBreakdownStructure.push(item);
     project.save(function(err) {
       if (err) {
         res.send(500, err);
         res.end()
       }
+      res.json(item);
+      res.end();
     });
-    res.json(req.project.item);
-    res.end();
   });
 
+  // ----------------------- HELPER METHODS
   var lightList = function(list) {
     var newList = [];
     list.forEach(function(item, index) {
