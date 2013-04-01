@@ -71,6 +71,7 @@ module.exports = function(app) {
 
     // add dependencies
     if(req.body.dependencies){
+      wp.dependencies = [];
       for (var i = 0, l = req.body.dependencies.length; i < l; i ++) {
         var v = req.body.dependencies[i];
         if (v) wp.dependencies.push(v._id || v);

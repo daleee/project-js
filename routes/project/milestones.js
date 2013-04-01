@@ -78,6 +78,7 @@ module.exports = function(app) {
 
     // add dependencies
     if(req.body.wpDependencies){
+      ms.wpDependencies = [];
       for (var i = 0, l = req.body.wpDependencies.length; i < l; i ++) {
         var v = req.body.wpDependencies[i];
         v.wkpackage = v.wkpackage._id || v.wkpackage;
@@ -86,6 +87,7 @@ module.exports = function(app) {
     }
 
     if(req.body.msDependencies){
+      ms.msDependencies = [];
       for (var i = 0, l = req.body.msDependencies.length; i < l; i ++) {
         var v = req.body.msDependencies[i];
         ms.msDependencies.push(v._id || v);

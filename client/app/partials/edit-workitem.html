@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Edit Work Item</legend>
 
-    <div class="  span5">
+    <div class="span5">
       <div class="control-group">
         <label class="control-label span2" for="inputTitle">Title:</label>
         <div class="controls">
@@ -19,20 +19,44 @@
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
-        <div class="controls">
-          <input type="text" id="inputWorkPackages" ng-model="workItem.workPackages" />
+        <div class="nullable">
+          <select id="{{workPackages + '-menu'}}" ng-change="workPackagesAdd(workPackage)" 
+            ng-model="workPackagesAddChosen" ng-options="workPackage.title for workPackage in workPackagesList">
+            <option value="">-- Add a Work Package --</option>
+          </select>
+        </div>
+        <div class="info-small span3 pull-right workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in workItem.workPackages">
+          <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}
+          </a>
+          <a ng-click="workPackagesRemove(workPackage)"><i class="icon-remove-circle"></i></a>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputAssignedUsers">Assigned Users:</label>
-        <div class="controls">
-          <input type="text" id="inputAssignedUsers" ng-model="workItem.assignedUsers" />
+        <div class="nullable">
+          <select id="{{assignedUsers + '-menu'}}" ng-change="assignedUsersAdd(assigned)" 
+            ng-model="assignedUsersAddChosen" ng-options="assigned.username + ': ' + assigned.firstName + ' ' + assigned.lastName for assigned in usersList">
+            <option value="">-- Assign a User --</option>
+          </select>
+        </div>
+        <div class="info-small span3 pull-right assigned" id="{{assigned.id}}" ng-repeat="assigned in workItem.assignedUsers">
+          <a href="#/users/{{assigned._id}}">{{assigned.username}}: {{assigned.firstName}} {{assigned.lastName}}
+          </a>
+          <a ng-click="assignedUsersRemove(assigned)"><i class="icon-remove-circle"></i></a>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDependencies">Dependencies:</label>
-        <div class="controls">
-          <input type="text" id="inputDependencies" ng-model="workItem.dependencies" />
+        <div class="nullable">
+          <select id="{{dependencies + '-menu'}}" ng-change="dependenciesAdd(dependency)" 
+            ng-model="dependenciesAddChosen" ng-options="dependency.title for dependency in dependenciesList">
+            <option value="">-- Add a Dependency --</option>
+          </select>
+        </div>
+        <div class="info-small span3 pull-right dependency" id="{{dependency.id}}" ng-repeat="dependency in workItem.dependencies">
+          <a href="#/projects/{{project.id}}/work-items/{{dependency.id}}">{{dependency.title}}
+          </a>
+          <a ng-click="dependenciesRemove(dependency)"><i class="icon-remove-circle"></i></a>
         </div>
       </div>
     </div>

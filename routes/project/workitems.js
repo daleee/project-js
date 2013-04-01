@@ -64,6 +64,13 @@ module.exports = function(app) {
       }
     }
 
+    if(req.body.assignedUsers){
+      for (var i = 0, l = req.body.assignedUsers.length; i < l; i ++) {
+        var v = req.body.assignedUsers[i];
+        if (v) wi.assignedUsers.push(v._id || v);
+      }
+    }
+
     project.workItems.push(wi);
     project.save(function(err){
       if(err) {
@@ -101,6 +108,14 @@ module.exports = function(app) {
       for (var i = 0, l = req.body.workPackages.length; i < l; i ++) {
         var v = req.body.workPackages[i];
         if (v) wi.workPackages.push(v._id || v);
+      }
+    }
+
+    if(req.body.assignedUsers){
+      wi.assignedUsers = [];
+      for (var i = 0, l = req.body.assignedUsers.length; i < l; i ++) {
+        var v = req.body.assignedUsers[i];
+        if (v) wi.assignedUsers.push(v._id || v);
       }
     }
 

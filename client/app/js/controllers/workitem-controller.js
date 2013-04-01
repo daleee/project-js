@@ -1,3 +1,5 @@
+(function() {
+
 PJS.Controllers.WorkItem = {
   relations: {
     'dependencies': {list: 'workItems', type: 'WorkItem'},
@@ -39,13 +41,24 @@ PJS.Controllers.WorkItem = {
     };
   },
 
-  update: function($scope, $routeParams, WorkItem, Project){
+  update: function($scope, $routeParams, WorkItem, Project, WorkPackage, User){
     var projectId = $routeParams.projectId.toLowerCase();
     var workItemId = $routeParams.workItemId.toLowerCase();
     Project.get({id: projectId}, function(project) {
       $scope.project = project;
       WorkItem.get({projectId: projectId, id: workItemId}, function(workItem) {
         $scope.workItem = workItem;
+        PJS.Controllers.relations('WorkItem', project, workItem);
+
+        PJS.Controllers.updateRelations($scope, workItem, 'workPackages', WorkPackage);
+        PJS.Controllers.updateRelations($scope, workItem, 'dependencies', WorkItem);
+        PJS.Controllers.updateRelations($scope, workItem, 'assignedUsers', User);
+
+        // TODO: filter these based on what's already chosen
+        $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
+        $scope.dependenciesList = WorkItem.query({projectId: projectId, list: true});
+        $scope.usersList = User.query({projectId: projectId, list: true}); 
+        
         $scope.updateWorkItem = function() {
           workItem.title = $scope.workItem.title;
           workItem.description = $scope.workItem.description;
@@ -56,8 +69,9 @@ PJS.Controllers.WorkItem = {
           workItem.timeSpent = $scope.workItem.timeSpent;
           workItem.completionPercentage = $scope.workItem.completionPercentage;
           workItem.status = $scope.workItem.status;
+          workItem.projectId = projectId;
           workItem.$save(workItem, function(workItem) {
-            window.location = '/#/projects/' + projectId + '/work-items/' + workItem._id + '/edit';
+            window.location = '/#/projects/' + projectId + '/work-items/' + workItem._id;
           });
         };
       });
@@ -84,3 +98,5 @@ PJS.Controllers.WorkItem = {
     })
   }
 };
+
+})();

@@ -102,6 +102,36 @@ PJS.Controllers = {
     list.forEach(function(model) {
       PJS.Controllers.relations(controllerName, project, model);
     });
+  },
+
+  updateRelations: function($scope, model, key, Related, shouldSave) {
+    var projectId = $scope.project._id;
+    var list = model[key];
+
+    $scope[key + 'Add'] = function() {
+      var id = $scope[key + 'AddChosen']._id;
+      var index = PJS.Utilities.findIndexInArray(list, id);
+      if (index === -1) {
+        Related.get({projectId: projectId, id: id}, function(related) {
+          list.push(related);
+          if (shouldSave) {
+            model.projectId = projectId;
+            model.$save(model);
+          }
+        });
+      }
+    };
+
+    $scope[key + 'Remove'] = function(related) {
+      var index = PJS.Utilities.findIndexInArray(list, related._id);
+      if (index !== -1) {
+        list.splice(index, 1);
+        if (shouldSave) {
+          model.projectId = projectId;
+          model.$save(model);
+        }
+      }
+    };
   }
 };
 
