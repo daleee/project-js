@@ -3,40 +3,42 @@
 <div>
   <a class="btn" href="#/projects/{{project.id}}/add-workPackage">Add Work Package</a>
   
-  <form class="form-inline pull-right">
-    Search: <input class="input-medium" ng-model="filter.title"></input>
-  </form>
+  <span ng-show="hasWorkPackages">
+    <form class="form-inline pull-right">
+      Search: <input class="input-medium" ng-model="filter.title"></input>
+    </form>
 
-  <div ng-init="predicate = 'lastModifiedBy'; reverse=!reverse" class="pull-right span4 sorting">
-    <span class="sorting-title">Sort:</span> 
-    <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
-    <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
-    <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
-  </div>
+    <div ng-init="predicate = 'lastModifiedDate'; reverse=!reverse" class="pull-right sorting">
+      <span class="sorting-title">Sort:</span> 
+      <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
+      <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
+      <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
+    </div>
+  </span>
 </div>
 
-<div class="row">
+<div ng-show="hasWorkPackages" class="row">
   <ul class="above-well nav nav-tabs">
-    <li class="active"><a ng-click="changeMode('open')" href="#open" data-toggle="tab">Open</a></li>
-    <li><a href="#closed" ng-click="changeMode('closed')" data-toggle="tab">Closed</a></li>
+    <li class="active"><a ng-click="changeMode(['open', 'late'])" href="#open" data-toggle="tab">Open</a></li>
+    <li><a href="#closed" ng-click="changeMode(['closed'])" data-toggle="tab">Closed</a></li>
   </ul>
 
   <div class="tab-content work-packages">
-    <div class="tab-pane active" id="{{status}}">
+    <div class="tab-pane active" id="{{status[0]}}">
       <div class="well span11 workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in workPackages | filter:filter | orderBy:predicate:reverse">
-        <h4><a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a></h4>
+        <h4 class="title"><a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a></h4>
         <p>{{workPackage.description}}</p>
         <p><span class="label {{workPackage.status.labelType}}">{{workPackage.status.text}}</span></p>
         <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{workPackage.completionPercentage}}%;"></div></div>
 
-        <div class="span4 workItems">
+        <div ng-show="workPackage.workItems.length != 0" class="span4 workItems">
           <h5>Work Items</h5>
           <div class="workItem" id="{{workItem.id}}" ng-repeat="workItem in workPackage.workItems">
             <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view">{{workItem.title}}</a>
           </div>
         </div>
 
-        <div class="span4 dependencies">
+        <div ng-show="workPackage.dependencies.length != 0" class="span4 dependencies">
           <h5>Dependencies</h5>
           <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in workPackage.dependencies">
             <a href="#/projects/{{project.id}}/work-packages/{{dependency.id}}">{{dependency.title}}</a>
@@ -45,4 +47,9 @@
       </div>
     </div>
   </div>
+</div>
+
+<div ng-show="!hasWorkPackages" class="empty-message">
+  <hr />
+  There are currently no work packages in this project.
 </div>

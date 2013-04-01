@@ -26,4 +26,12 @@ module.exports = function(app) {
     req.session.user = null;
     res.send(null);
   });
+
+  return {
+    users: require('./users')(app),
+    roles: require('./roles')(app),
+    projects: require('./projects')(app),
+    utility: require('./utility')(app),
+    project: require('./project')(app)
+  };
 };

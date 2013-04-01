@@ -7,18 +7,16 @@ PJS.Controllers.Project = {
 
   list: function($scope, $routeParams, Project, User, Role) {
     $scope.projects = Project.query(function(projects) {
-      var sortingMethod = PJS.Controllers.Project.sortingMethods[$routeParams.sort] ? $routeParams.sort : 'name';
       $scope.projects.forEach(function(project) {
-        PJS.Controllers.ProjectUser.populate(project, project.projectUsers, User, Role);
+        project.usersByRole = PJS.Controllers.ProjectUser.usersByRole(project.projectUsers);
       });
-      $scope.projects = PJS.Controllers.Project.sortingMethods[sortingMethod]($scope.projects);
     });
   },
   
   getMain: function($scope, $routeParams, Project, User, Role) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+      project.usersByRole = PJS.Controllers.ProjectUser.usersByRole(project.projectUsers);
       $scope.project = project;
-      PJS.Controllers.ProjectUser.populate(project, project.projectUsers, User, Role);
       $scope.upcomingMilestones = project.milestones.sort(function(a, b) {
         return a.dueDate > b.dueDate ? -1 : 1;
       }).splice(0, 5);
@@ -64,26 +62,6 @@ PJS.Controllers.Project = {
       project.$remove(project);
       window.location = '/#/projects/';
     });
-  },
-  
-  sortingMethods: {
-    priority: function(projects) {
-      return projects.sort(function(a, b) {
-        return a.priority > b.priority ? 1 : -1;
-      });
-    },
-    
-    due: function(projects) {
-      return projects.sort(function(a, b) {
-        return a.projectDueDate > b.projectDueDate ? 1 : -1;
-      });
-    },
-    
-    name: function(projects) {
-      return projects.sort(function(a, b) {
-        return a.name > b.name ? 1 : -1;
-      });
-    }
   }
 };
 

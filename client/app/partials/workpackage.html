@@ -1,20 +1,20 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
-<div class="row">
-  <div class="span11 workPackage" id="{{workPackage.id}}">
-    <h4>{{workPackage.title}}</h4>
+<div>
+  <div class="span11 workPackage well" id="{{workPackage.id}}">
+    <h4 class="title">{{workPackage.title}}</h4>
     <p>{{workPackage.description}}</p>
     <p><span class="label {{workPackage.status.labelType}}">{{workPackage.status.text}}</span></p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{workPackage.completionPercentage}}%;"></div></div>
 
-    <div class="span4 workItems">
+    <div ng-show="workPackage.workItems.length != 0" class="span4 workItems">
       <h5>Work Items</h5>
       <div class="workItem" id="{{workItem.id}}" ng-repeat="workItem in workPackage.workItems">
         <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view">{{workItem.title}}</a>
       </div>
     </div>
 
-    <div class="span4 dependencies">
+    <div ng-show="workPackage.dependencies.length != 0" class="span4 dependencies">
       <h5>Dependencies</h5>
       <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in workPackage.dependencies">
         <a href="#/projects/{{project.id}}/work-packages/{{dependency.id}}">{{dependency.title}}</a>

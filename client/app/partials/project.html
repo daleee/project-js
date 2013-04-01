@@ -2,23 +2,23 @@
 
 <div class="row">
   <div class="well well-small span11 project">
-    <h3>Your Project at a Glance:</h3>
-    <h4>Project Manager: 
+    <h4>Your Project at a Glance:</h4>
+    <h5 ng-show="project.projectUsers.length != 0">Project Manager: 
       <span ng-repeat="user in project.usersByRole['project manager']">
-        <a href="#/users/{{user._id}}"> {{user.firstName}} {{user.lastName}} </a>
+        <a class="btn btn-mini" href="#/users/{{user._id}}"> {{user.firstName}} {{user.lastName}} </a>
       </span>
-    </h4>
-    <h4><span class="label {{project.status.labelType}}">{{project.status.text}}</span></h4>
-    <h4>Overall Progress:</h4> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>
+    </h5>
+    <h5><span class="label {{project.status.labelType}}">{{project.status.text}}</span></h5>
+    <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>
   </div>
   <div class="span5 milestones">
-    <h4>Upcoming Milestones</h4>
+    <h5>Upcoming Milestones</h5>
     <div id="{{milestone.id}}" ng-repeat="milestone in upcomingMilestones">
       <a href="#/projects/{{project.id}}/milestones/{{milestone._id}}">{{milestone.dueDate | date:'yy/MM/dd'}} {{milestone.title}}</a>
     </div>
   </div>
   <div class="span5 issues">
-    <h4>Latest Issues</h4>
+    <h5>Latest Issues</h5>
     <div id="{{issue.id}}" ng-repeat="issue in latestIssues">
       <a href="#/projects/{{project.id}}/work-items/{{issue._id}}/view">{{issue.lastModifiedDate | date:'yy/MM/dd'}} {{issue.title}}</a>
     </div>

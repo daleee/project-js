@@ -1,0 +1,34 @@
+<h5>Comments</h5>
+
+<table class="comments table table-condensed table-bordered info-small">
+  <tr>
+    <td>
+      <div class="comment info-small" ng-repeat="comment in workItem.comments">
+        {{comment.title}} <hr />
+        {{comment.text}} <hr />
+        Posted by: <a href="#/users/{{comment.postedBy._id}}">{{comment.postedBy.firstName}} {{comment.postedBy.lastName}}</a>
+        On: {{comment.datePosted | date:'yy/MM/dd'}} <br />
+      </div>
+    </td>
+  </tr>
+</table>
+
+<form class="info-small form-vertical" ng-submit="addComment()">
+  <fieldset>
+    <h5>Add Comment</h5>
+    <hr />
+    <div class="control-group">
+      <label class="control-label" for="inputNewCommentTitle">Title:</label>
+      <div class="controls">
+        <input type="text" id="inputNewCommentTitle" ng-model="newComment.title" />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputNewCommentText">Comment:</label>
+      <div class="controls">
+        <textarea id="inputNewCommentText" ng-model="newComment.text" />
+      </div>
+    </div>
+      <button type="submit" class="btn">Add Comment</button>
+  </fieldset>
+</form>

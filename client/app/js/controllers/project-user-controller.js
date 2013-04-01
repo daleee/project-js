@@ -1,33 +1,15 @@
 (function() {
 
 PJS.Controllers.ProjectUser = {
-  populate: function(project, projectUsers, User, Role, callback) {
-    User.query(function(users) {
-      Role.query(function(roles) {
-        PJS.Controllers.ProjectUser.populateUsers(projectUsers, users, roles, project, callback);
-      });
+  usersByRole: function(users) {
+    var byRole = {};
+    users.forEach(function(userObj) {
+      if (userObj.role) {
+        byRole[userObj.role.title] = byRole[userObj.role.title] || [];
+        byRole[userObj.role.title].push(userObj.user);
+      }
     });
-  },
-
-  populateUsers: function(projectUsers, users, roles, project, callback) {
-    projectUsers.forEach(function(userObj) {
-      PJS.Controllers.ProjectUser.populateUser(users, roles, userObj);
-    });
-    if (project) {
-      project.usersByRole = usersByRole(projectUsers);
-    }
-    if (callback) {
-      callback(projectUsers);
-    }
-    return projectUsers;
-  },
-
-  populateUser: function(users, roles, userObj) {
-    userObj.userId = userObj.user;
-    userObj.roleId = userObj.role;
-    userObj.user = PJS.Utilities.findInArray(users, userObj.userId);
-    userObj.role = PJS.Utilities.findInArray(roles, userObj.roleId);
-    return userObj;
+    return byRole;
   },
 
   update: function($scope, $routeParams, User, Project, Role, ProjectUser) {
@@ -38,7 +20,6 @@ PJS.Controllers.ProjectUser = {
       Role.query(function(roles) {
         $scope.rolesList = PJS.ViewModels.each('Role', roles);
         ProjectUser.query({projectId: projectId}, function(projectUsers) {
-          PJS.Controllers.ProjectUser.populateUsers(projectUsers, users, roles);
           $scope.users = projectUsers;
           $scope.setSelectedOptionUser = setSelectedOptionUser;
 
@@ -48,8 +29,9 @@ PJS.Controllers.ProjectUser = {
             userObj.$save({id: userObj.user.id, projectId: projectId}, function(updated) {
               var index = projectUsers.indexOf(userObj);
               if (index !== -1) {
-                userObj.role = role.id; // this shouldn't be needed...
-                projectUsers[index] = PJS.Controllers.ProjectUser.populateUser(users, roles, updated);
+                projectUsers[index].user = PJS.ViewModels.User(updated.user);
+                projectUsers[index].role = PJS.ViewModels.Role(updated.role);
+                projectUsers[index].id = updated.user.id;
               }
             });
           };
@@ -62,7 +44,10 @@ PJS.Controllers.ProjectUser = {
               var projectUser = new ProjectUser({userId: userId, roleId: roleId});
               projectUser.projectId = projectId;
               projectUser.$save(projectUser, function(added) {
-                projectUsers.push(PJS.Controllers.ProjectUser.populateUser(users, roles, added));
+                added.user = PJS.ViewModels.User(added.user);
+                added.role = PJS.ViewModels.Role(added.role);
+                added.id = added.user.id;
+                projectUsers.push(added);
               });
             }
           };
@@ -85,17 +70,6 @@ PJS.Controllers.ProjectUser = {
 var setSelectedOptionUser = function(userObj) {
   var selectMenu = document.getElementById(userObj.user.id + '-menu');
   PJS.Utilities.setSelectedOption(selectMenu, userObj.role.title);
-};
-
-var usersByRole = function(users) {
-  var byRole = {};
-  users.forEach(function(userObj) {
-    if (userObj.role) {
-      byRole[userObj.role.title] = byRole[userObj.role.title] || [];
-      byRole[userObj.role.title].push(userObj.user);
-    }
-  });
-  return byRole;
 };
 
 })();

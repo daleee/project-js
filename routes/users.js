@@ -4,11 +4,16 @@ var mongoose = require('mongoose')
   , passport = require('passport')
   , User = mongoose.model('User')
 
+var populateUserList = [
+  'lastModifiedProject',
+  'currentProject'
+].join(' ');
+
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
   // GET /user: get all users
   app.get(prefix + "/users", function(req, res) {
-    User.find({}, function(err, users) {
+    User.find({}).populate(populateUserList).exec(function(err, users) {
       if(err) {
         res.send(500, err);
         res.end();
@@ -87,7 +92,7 @@ module.exports = function(app) {
   // :user parameter route: finds users &
   // passes them to other route, handles errors
   app.param('user', function(req, res, next, id){
-    User.findById(id, function(err, user){
+    User.findById(id).populate(populateUserList).exec(function(err, user){
       if (err) {
         res.send(500, err);
         res.end();

@@ -17,16 +17,8 @@ app.use(app.router);
 // connect to mongoDB
 mongoose.connect('localhost', 'test');
 
-// import project.js models
-require('./models/user');
-require('./models/project');
-require('./models/role');
-// import project.js routes
-require('./routes/index')(app);
-require('./routes/user')(app);
-require('./routes/role')(app);
-require('./routes/project')(app);
-require('./routes/utility')(app);
+var models = require('./models/index');
+var routes = require('./routes/index')(app);
 
 // initialize passport
 require("./config/passport");

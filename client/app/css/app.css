@@ -1,7 +1,23 @@
 /* app css stylesheet */
 
+html, body {
+  word-wrap: break-word;
+}
+
 .container {
   margin-top: 80px;
+}
+
+.container div {
+  max-width: 950px;
+}
+
+.table div, p, a, h1, h2, h3, h4, h5 {
+  max-width: 880px;
+}
+
+.container li {
+  list-style-type: none;
 }
 
 .navbar select {
@@ -10,9 +26,23 @@
 
 .info-small {
   font-size: 12px;
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.info-modified {
   margin-top: 7px;
   margin-bottom: 7px;
   margin: 7px 7px 7px 0px;
+}
+
+.container-bordered {
+  border: 1px solid #ddd;
+  border-collapse: separate;
+  border-radius: 4px;
 }
 
 .progress {
@@ -42,6 +72,86 @@
   margin-bottom: 5px;
 }
 
-.sorting span {
+.sorting, .sorting span {
   margin-right: 8px;
+}
+
+input, select, form {
+  margin-bottom: 0 !important;
+}
+
+.navbar li .title {
+  float: none;
+  display: inline-block;
+  padding: 10px 0 10px 5px;
+}
+
+table .work-item, table .work-item tr, table .work-item td {
+  border: 0;
+  margin-bottom: 0;
+  padding: 1px;
+  padding-bottom: 4px;
+}
+
+.span2 {
+  max-width: 121px;
+}
+
+.span4 {
+  max-width: 284px;
+}
+
+.span7 {
+  max-width: 503px;
+}
+
+table .work-item {
+  border-bottom: 1px solid #eee;
+}
+
+.comments {
+  width: 500px;
+}
+
+.comments div {
+  padding: 5px;
+}
+
+.content {
+  padding: 0;
+}
+
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.span4 .title {
+  float: left;
+  max-width: 250px;
+  padding-right: 10px;
+}
+
+.btn-mini {
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-horizontal {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.form-horizontal label {
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+.form-actions {
+  margin-bottom: 0;
+  margin-top: 0;
 }

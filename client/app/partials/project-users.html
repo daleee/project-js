@@ -1,37 +1,43 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
-<div class="row">
-  <div class="span11">
-    <a class="btn" ng-click="addUser()">Add User</a>
+<a class="btn" ng-click="addUser()">Add User</a>
+
+<span ng-show="users.length != 0" class="table">
+  <span class="span11">
     <select ng-model="addUserChosen" ng-options="(user.username + ': ' + user.firstName + ' ' + user.lastName) for user in usersList">
       <option value="">Choose a User</option>
     </select>
     <select ng-model="addRoleChosen" ng-options="role.title for role in rolesList">
       <option value="">Choose a Role</option>
     </select>
-  </div>
+  </span>
+</span>
+
+<div ng-show="users.length != 0" class="table">
+
+  <hr />
+  
+  <table class="container-bordered table table-condensed table-striped">
+    <tr class="user" id="{{container.user.id}}" ng-repeat="container in users">
+      <td class="span2">
+        <a href="#/users/{{container.user.id}}">{{container.user.username}} </a>
+      </td>
+
+      <td class="span7">
+        {{container.user.firstName}} {{container.user.lastName}}
+      </td>
+
+      <td class="span4">
+        <select id="{{container.user.id + '-menu'}}" ng-change="updateRole(container)" ng-model="container.role" ng-options="role.title for role in rolesList">
+        </select>
+        {{setSelectedOptionUser(container)}} <!-- a bit of a hack, ng-model isn't loading the default -->
+        <a ng-click="removeUser(container)"><i class="icon-remove-circle"></i></a>
+      </td>
+    </tr>
+  </table>
 </div>
 
-<br />
-
-<div class="row">
-  <div class="well span11 users">
-    <table class="span11">
-      <tr class="user" id="{{container.user.id}}" ng-repeat="container in users">
-        <td class="span3">
-          <a href="#/users/{{container.user.id}}">{{container.user.username}}: </a>{{container.user.firstName}} {{container.user.lastName}}
-        </td>
-
-        <td class="span3">
-          <select id="{{container.user.id + '-menu'}}" ng-change="updateRole(container)" ng-model="container.role" ng-options="role.title for role in rolesList">
-          </select>
-          {{setSelectedOptionUser(container)}} <!-- a bit of a hack, ng-model isn't loading the default -->
-        </td>
-
-        <td class="span5">
-          <a ng-click="removeUser(container)"><i class="icon-remove-circle"></i></a>
-        </td>
-      </tr>
-    </table>
-  </div>
+<div ng-show="users.length == 0" class="empty-message">
+  <hr />
+  There are currently no users in this project.
 </div>

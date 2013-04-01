@@ -47,6 +47,8 @@ PJS.Utilities.isDefined = function(val) {
 };
 
 PJS.Utilities.setSelectedOption = function(selectMenu, expected) {
+  if (!selectMenu) return;
+
   var anySelected = false;
   var length = selectMenu.children.length;
   for (var i=0; i<length; ++i) {
@@ -70,10 +72,14 @@ PJS.Utilities.filterByStatus = function(items, status) {
   var newItems = [];
 
   items.forEach(function(item) {
+    var itemAdded = false;
     if (item.status) {
-      if (item.status === status || item.status.type === status) {
-        newItems.push(item);
-      }
+      status.forEach(function(s) {
+        if (!itemAdded && (item.status === s || item.status.type === s)) {
+          newItems.push(item);
+          itemAdded = true;
+        }
+      });
     }
   });
 

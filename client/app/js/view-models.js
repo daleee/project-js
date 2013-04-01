@@ -12,7 +12,14 @@ PJS.ViewModels = {
   },
   
   WorkItem: function(workItem) {
+    workItem.timeSpentStr = hoursString(workItem.timeSpent);
+    workItem.timeEstimateStr = hoursString(workItem.timeEstimate);
     return PJS.ViewModels.all(workItem);
+  },
+  
+  Comment: function(comment) {
+    comment.postedBy = PJS.ViewModels.User(comment.postedBy);
+    return PJS.ViewModels.all(comment);
   },
   
   WorkBreakdownItem: function(wbItem) {
@@ -23,8 +30,10 @@ PJS.ViewModels = {
     return PJS.ViewModels.all(workPackage);
   },
 
-  ProjectUser: function(user) {
-    return PJS.ViewModels.all(user);
+  ProjectUser: function(projectUser) {
+    projectUser.role = PJS.ViewModels.Role(projectUser.role);
+    projectUser.user = PJS.ViewModels.User(projectUser.user);
+    return PJS.ViewModels.all(projectUser);
   },
 
   User: function(user) {
@@ -36,7 +45,7 @@ PJS.ViewModels = {
   },
 
   each: function(viewModelName, list) {
-    var ViewModel = PJS.ViewModels[viewModelName];
+    var ViewModel = PJS.ViewModels[viewModelName] || PJS.ViewModels.all;
     var newList = [];
     list.forEach(function(item) {
       newList.push(ViewModel(item));
@@ -49,9 +58,12 @@ PJS.ViewModels = {
     if (resource.id === undefined) {
       resource.id = resource._id;
     }
+    if (resource.lastModifiedBy) {
+      resource.lastModifiedBy = PJS.ViewModels.User(resource.lastModifiedBy);
+    }
     if (resource.status) {
       var type = resource.status;
-      resource.status = statuses[resource.status];
+      resource.status = statuses[resource.status ? resource.status.toLowerCase() : 'open'] || statuses.open;
       resource.status.type = type;
       resource.status.labelType = labelTypes[resource.status.level];
     }
@@ -59,9 +71,19 @@ PJS.ViewModels = {
   },
 };
 
+var hoursString = function(time) {
+  var timeStr = '';
+  if (time > 1) {
+    timeStr = time + ' hours';
+  } else if (time === 1) {
+    timeStr = time + ' hour';
+  }
+  return timeStr;
+};
+
 var statuses = {
   'open': {text: 'Open', level: 0},
-  'late': {text: 'Late', level: 2},
+  'late': {text: 'Late', level: 1},
   'closed': {text: 'Closed', level: 2},
   'deleted': {text: 'Deleted', level: 2}
 };

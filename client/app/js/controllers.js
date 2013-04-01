@@ -47,6 +47,7 @@ PJS.Controllers = {
   },
 
   relations: function(controllerName, project, model) {
+    if (!model) return
     var Controller = PJS.Controllers[controllerName];
     if (Controller.relations) {
       for (var key in Controller.relations) {
@@ -54,6 +55,7 @@ PJS.Controllers = {
           var relation = Controller.relations[key];
           var type = relation.type, listName = relation.list, inner = relation.inner;
           var list = project[listName];
+          if (!model[key]) continue;
           model[key].forEach(function(id, index) {
             if (inner) {
               id = id[inner];

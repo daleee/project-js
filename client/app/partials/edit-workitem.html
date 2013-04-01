@@ -1,0 +1,80 @@
+<div ng-include src="'partials/project-nav.html'"></div>
+
+<form class="form-horizontal" ng-submit="updateWorkItem()">
+  <fieldset>
+    <legend>Edit Work Item</legend>
+
+    <div class="  span5">
+      <div class="control-group">
+        <label class="control-label span2" for="inputTitle">Title:</label>
+        <div class="controls">
+          <input type="text" id="inputTitle" ng-model="workItem.title" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputDescription">Description:</label>
+        <div class="controls">
+          <input type="text" id="inputDescription" ng-model="workItem.description" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
+        <div class="controls">
+          <input type="text" id="inputWorkPackages" ng-model="workItem.workPackages" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputAssignedUsers">Assigned Users:</label>
+        <div class="controls">
+          <input type="text" id="inputAssignedUsers" ng-model="workItem.assignedUsers" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputDependencies">Dependencies:</label>
+        <div class="controls">
+          <input type="text" id="inputDependencies" ng-model="workItem.dependencies" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="span5">
+      <div class="control-group">
+        <label class="control-label span2" for="inputStartDate">Start Date:</label>
+        <div class="controls">
+          <span id="inputStartDate" class="input uneditable-input">{{workItem.startDate | date:'yy/MM/dd'}}</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputTimeEstimate">Time Estimate:</label>
+        <div class="controls">
+          <input type="text" id="inputTimeEstimate" ng-model="workItem.timeEstimate" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputTimeSpent">Time Spent:</label>
+        <div class="controls">
+          <input type="text" id="inputTimeSpent" ng-model="workItem.timeSpent" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputCompletionPercentage">Completion Percentage:</label>
+        <div class="controls">
+          <input type="text" id="inputCompletionPercentage" ng-model="workItem.completionPercentage" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputStatus">Status:</label>
+        <div class="controls">
+          <input type="text" id="inputStatus" ng-model="workItem.status.text" />
+        </div>
+      </div>
+    </div>
+
+  </fieldset>
+
+  <div style="float: none;" class="form-actions">
+    <button type="submit" class="btn">Update</button>
+  </div>
+</form>
+
+<div ng-include src="'partials/comments.html'"></div>

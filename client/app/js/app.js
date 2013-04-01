@@ -29,7 +29,8 @@ angular.module('ProjectJS', ['ProjectJS.filters', 'ProjectJS.services', 'Project
     $routeProvider.when('/projects/:projectId/work-packages/:workPackageId', {templateUrl: 'partials/workpackage.html', controller: PJS.Controllers.WorkPackage.get});
     $routeProvider.when('/projects/:projectId/add-work-package', {templateUrl: 'partials/add-workpackage.html', controller: PJS.Controllers.WorkPackage.add});
     $routeProvider.when('/projects/:projectId/work-items', {templateUrl: 'partials/workitems.html', controller: PJS.Controllers.WorkItem.list});
-    $routeProvider.when('/projects/:projectId/work-items/:workItemId/:mode', {templateUrl: 'partials/workitem.html', controller: PJS.Controllers.WorkItem.get});
+    $routeProvider.when('/projects/:projectId/work-items/:workItemId/edit', {templateUrl: 'partials/edit-workitem.html', controller: PJS.Controllers.WorkItem.update});
+    $routeProvider.when('/projects/:projectId/work-items/:workItemId/view', {templateUrl: 'partials/workitem.html', controller: PJS.Controllers.WorkItem.get});
     $routeProvider.when('/projects/:projectId/work-items/:workItemId', {templateUrl: 'partials/workitem.html', controller: PJS.Controllers.WorkItem.get});
     $routeProvider.when('/projects/:projectId/add-work-item', {templateUrl: 'partials/add-workitem.html', controller: PJS.Controllers.WorkItem.add});
     $routeProvider.otherwise({redirectTo: '/projects'});

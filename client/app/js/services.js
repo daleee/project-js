@@ -73,6 +73,8 @@ PJS.factories = {
     return function(data) {
       if (PJS.ViewModels[resourceName]) {
         data = PJS.ViewModels[resourceName](data);
+      } else {
+        data = PJS.ViewModels.all(data);
       }
       handleDeferred(resource, deferredResource, data);
       if (options.success) return options.success(deferredResource);
@@ -85,7 +87,7 @@ PJS.factories = {
       var newData = [];
       var hasViewModel = !!PJS.ViewModels[resourceName];
       data.forEach(function(resource) {
-        var newResource = hasViewModel ? PJS.ViewModels[resourceName](resource) : resource;
+        var newResource = hasViewModel ? PJS.ViewModels[resourceName](resource) : PJS.ViewModels.all(resource);
         newData.push(newResource);
       });
       handleDeferred(resource, deferredResource, newData);

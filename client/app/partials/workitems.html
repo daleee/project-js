@@ -4,51 +4,76 @@
   <a class="btn" href="#/projects/{{project.id}}/add-work-item">
     Add Work Item
   </a>
-  <form class="form-inline pull-right">
-    Search: <input class="input-medium" ng-model="wkFilter.title"></input>
-  </form>
 
-  <div ng-init="predicate = 'lastModifiedBy'; reverse=!reverse" class="pull-right span4 sorting">
-    <span class="sorting-title">Sort:</span> 
-    <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
-    <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
-    <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
-  </div>
+  <span ng-show="hasWorkItems">
+    <form class="form-inline pull-right">
+      Search: <input class="input-medium" ng-model="wkFilter.title"></input>
+    </form>
 
-  <ul class="above-table nav nav-tabs">
-    <li class="active"><a ng-click="changeMode('open')" href="#open" data-toggle="tab">Open</a></li>
-    <li><a href="#closed" ng-click="changeMode('closed')" data-toggle="tab">Closed</a></li>
-  </ul>
+    <div ng-init="predicate = 'lastModifiedDate'; reverse=!reverse" class="pull-right sorting">
+      <span class="sorting-title">Sort:</span> 
+      <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
+      <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
+      <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
+    </div>
 
-  <div class="work-items tab-content">
+    <ul class="above-table nav nav-tabs">
+      <li class="active"><a ng-click="changeMode(['open', 'late'])" href="#open" data-toggle="tab">Open</a></li>
+      <li><a href="#closed" ng-click="changeMode(['closed'])" data-toggle="tab">Closed</a></li>
+    </ul>
+  </span>
 
-    <div class="tab-pane active" id="{{status}}">
+  <div ng-show="hasWorkItems" class="work-items tab-content">
+
+    <div class="tab-pane active" id="{{status[0]}}">
       <table class="table table-condensed table-striped table-bordered">
         <tbody>
         <tr ng-repeat="workItem in workItems | filter:wkFilter | orderBy:predicate:reverse">
           <td>
-            <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view"><b>{{workItem.title}}</b></a>
-            <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit"><i class="icon icon-edit"></i></a>
-            <div>{{workItem.description}}</div>
-            <p class="pull-left info-small">by: 
-              <a href="#/users/{{workItem.lastModifiedBy}}">Username</a> on {{workItem.lastModifiedDate | date:'yy/MM/dd'}} 
-            </p>
-            <table class="span10">
+
+            <table class="table table-condensed work-item">
               <tr>
-                <td class="span1">
-                  <span class="label {{workItem.status.labelType}}">{{workItem.status.text}}</span>
+                <td class="span4">
+                  <span class="title"><a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/view"><b>{{workItem.title}}</b></a></span>
+                  <a href="#/projects/{{project.id}}/work-items/{{workItem.id}}/edit"><i class="icon icon-edit"></i></a>
+
+                  <div class="assigned-users info-small" ng-show="workItem.assignedUsers.length != 0">
+                    <span>Assigned: </span>
+                    <span ng-repeat="assignedUser in workItem.assignedUsers">
+                      <a class="btn btn-mini" href="#/users/{{assignedUser._id}}">{{assignedUser.firstName}} {{assignedUser.lastName}}</a>
+                    </span> 
+                  </div>
                 </td>
-                <td class="span10">
-                  <div class="span10 progress"><div class="bar" style="width: {{workItem.completionPercentage}}%;"></div></div>
+                <td class="span9">
+                  <table>
+                    <tr>
+                      <td class="span1">
+                        <span class="label {{workItem.status.labelType}}">{{workItem.status.text}}</span>
+                      </td>
+                      <td class="span8">
+                        <div class="span8 progress"><div class="bar" style="width: {{workItem.completionPercentage}}%;"></div></div>
+                      </td>
+                    </tr>
+                  </table>
+                  <span class="info-small time-info pull-right">
+                    <span ng-show="workItem.timeSpent != 0">Time spent: {{workItem.timeSpentStr}} |</span>
+                    <span ng-show="workItem.timeEstimate != 0">Estimated time: {{workItem.timeEstimateStr}}</span>
+                  </span>
                 </td>
               </tr>
             </table>
+            <div class="info-small">{{workItem.description}}</div>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
 
+  </div>
+
+  <div ng-show="!hasWorkItems" class="empty-message">
+    <hr />
+    There are currently no work items in this project.
   </div>
 
 </div>

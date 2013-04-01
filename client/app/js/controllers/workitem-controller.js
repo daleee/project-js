@@ -1,9 +1,17 @@
 PJS.Controllers.WorkItem = {
+  relations: {
+    'dependencies': {list: 'workItems', type: 'WorkItem'},
+    'workPackages': {list: 'workPackages', type: 'WorkPackage'}
+  },
+
   list: function($scope, $routeParams, WorkItem, Project) {
-    $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+    Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+      $scope.project = project;
+      PJS.Controllers.allRelations('WorkItem', project, project.workItems);
       var workItems = PJS.ViewModels.each('WorkItem', project.workItems);
-      $scope.status = 'open';
+      $scope.status = ['open', 'late'];
       $scope.workItems = PJS.Utilities.filterByStatus(workItems, $scope.status);
+      $scope.hasWorkItems = !!workItems.length;
 
       $scope.changeMode = function(status) {
         $scope.status = status;
@@ -14,9 +22,10 @@ PJS.Controllers.WorkItem = {
 
   get: function($scope, $routeParams, WorkItem, Project) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+      $scope.project = project;
       var workItem = PJS.Utilities.findInArray(project.workItems, $routeParams.workItemId.toLowerCase());
+      PJS.Controllers.relations('WorkItem', project, workItem);
       $scope.workItem = PJS.ViewModels.WorkItem(workItem);
-      $scope.mode = $routeParams.mode || 'view';
     });
   },
 
@@ -36,6 +45,7 @@ PJS.Controllers.WorkItem = {
     Project.get({id: projectId}, function(project) {
       $scope.project = project;
       WorkItem.get({projectId: projectId, id: workItemId}, function(workItem) {
+        $scope.workItem = workItem;
         $scope.updateWorkItem = function() {
           workItem.title = $scope.workItem.title;
           workItem.description = $scope.workItem.description;

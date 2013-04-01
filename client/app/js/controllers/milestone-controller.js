@@ -11,8 +11,9 @@ PJS.Controllers.Milestone = {
       $scope.isDefined = PJS.Utilities.isDefined;
       var milestones = PJS.ViewModels.each('Milestone', project.milestones);
       
-      $scope.status = 'open';
+      $scope.status = ['open', 'late'];
       $scope.milestones = PJS.Utilities.filterByStatus(milestones, $scope.status);
+      $scope.hasMilestones = !!milestones.length;
 
       $scope.changeMode = function(status) {
         $scope.status = status;
