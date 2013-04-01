@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Role = mongoose.model('Role'),
   passport = require('passport'),
-  Utilities = require('../../utilities');
+  Utilities = require('../../utilities'),
+  ObjectId = mongoose.Schema.Types.ObjectId;
 
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
@@ -52,7 +53,14 @@ module.exports = function(app) {
     if(req.body.dependencies){
       for (var i = 0, l = req.body.dependencies.length; i < l; i ++) {
         var v = req.body.dependencies[i];
-        wi.dependencies.push(ObjectId(v));
+        if (v) wi.dependencies.push(v._id || v);
+      }
+    }
+
+    if(req.body.workPackages){
+      for (var i = 0, l = req.body.workPackages.length; i < l; i ++) {
+        var v = req.body.workPackages[i];
+        if (v) wi.workPackages.push(v._id || v);
       }
     }
 
@@ -81,9 +89,18 @@ module.exports = function(app) {
 
     // add dependencies
     if(req.body.dependencies){
+      wi.dependencies = [];
       for (var i = 0, l = req.body.dependencies.length; i < l; i ++) {
         var v = req.body.dependencies[i];
-        wi.dependencies.push(ObjectId(v));
+        if (v) wi.dependencies.push(v._id || v);
+      }
+    }
+
+    if(req.body.workPackages){
+      wi.workPackages = [];
+      for (var i = 0, l = req.body.workPackages.length; i < l; i ++) {
+        var v = req.body.workPackages[i];
+        if (v) wi.workPackages.push(v._id || v);
       }
     }
 

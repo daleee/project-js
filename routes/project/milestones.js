@@ -41,7 +41,7 @@ module.exports = function(app) {
     if(req.body.wpDependencies){
       for (var i = 0, l = req.body.wpDependencies.length; i < l; i ++) {
         var v = req.body.wpDependencies[i];
-        v.wkpackage = ObjectId(v.wkpackage);
+        v.wkpackage = v.wkpackage._id || v.wkpackage;
         milestone.wpDependencies.push(v);
       }
     }
@@ -49,7 +49,7 @@ module.exports = function(app) {
     if(req.body.msDependencies){
       for (var i = 0, l = req.body.msDependencies.length; i < l; i ++) {
         var v = req.body.msDependencies[i];
-        milestone.msDependencies.push(ObjectId(v));
+        milestone.msDependencies.push(v._id || v);
       }
     }
 
@@ -80,7 +80,7 @@ module.exports = function(app) {
     if(req.body.wpDependencies){
       for (var i = 0, l = req.body.wpDependencies.length; i < l; i ++) {
         var v = req.body.wpDependencies[i];
-        v.wkpackage = ObjectId(v.wkpackage);
+        v.wkpackage = v.wkpackage._id || v.wkpackage;
         ms.wpDependencies.push(v);
       }
     }
@@ -88,7 +88,7 @@ module.exports = function(app) {
     if(req.body.msDependencies){
       for (var i = 0, l = req.body.msDependencies.length; i < l; i ++) {
         var v = req.body.msDependencies[i];
-        ms.msDependencies.push(ObjectId(v));
+        ms.msDependencies.push(v._id || v);
       }
     }
 
