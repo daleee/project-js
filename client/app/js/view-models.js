@@ -61,9 +61,10 @@ PJS.ViewModels = {
     if (resource.lastModifiedBy) {
       resource.lastModifiedBy = PJS.ViewModels.User(resource.lastModifiedBy);
     }
-    if (resource.status) {
-      var type = resource.status;
-      resource.status = statuses[resource.status ? resource.status.toLowerCase() : 'open'] || statuses.open;
+    if (resource.status && typeof resource.status === 'string') {
+      var type = resource.status.toLowerCase() || 'open';
+      if (!statuses[type]) type = 'open';
+      resource.status = statuses[type];
       resource.status.type = type;
       resource.status.labelType = labelTypes[resource.status.level];
     }

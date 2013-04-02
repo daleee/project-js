@@ -35,7 +35,7 @@ module.exports = function(app) {
     var project = req.project;
     if (!(req.body.title
          && req.body.description
-         && req.body.timeEstimate)) {
+         && req.body.timeEstimate !== undefined)) {
            res.send(500, 'Not enough data to create a new work item');
            res.end();
     }
@@ -44,10 +44,15 @@ module.exports = function(app) {
     // add attributes
     wi.title = req.body.title;
     wi.description = req.body.description;
-    wi.timeEstimate = req.body.timeEstimate;
+    wi.timeEstimate = req.body.timeEstimate || 0;
+    wi.timeSpent = req.body.timeSpent || 0;
     wi.startDate = new Date();
     wi.status = req.body.status || 'open';
     wi.completionPercentage = req.body.completionPercentage || 0;
+    wi.dependencies = [];
+    wi.workPackages = [];
+    wi.assignedUsers = [];
+    wi.comments = [];
 
     // add dependencies
     if(req.body.dependencies){
@@ -71,9 +76,17 @@ module.exports = function(app) {
       }
     }
 
+    if(req.body.comments){
+      for (var i = 0, l = req.body.comments.length; i < l; i ++) {
+        var v = req.body.comments[i];
+        if (v) wi.comments.push(v);
+      }
+    }
+
     project.workItems.push(wi);
     project.save(function(err){
       if(err) {
+        console.log(err);
         res.send(500, err);
         res.end();
       }
@@ -90,9 +103,10 @@ module.exports = function(app) {
     // update attributes
     if(req.body.title) wi.title = req.body.title;
     if(req.body.description) wi.description = req.body.description;
-    if(req.body.timeEstimate) wi.timeEstimate = req.body.timeEstimate;
+    if(req.body.timeEstimate !== undefined) wi.timeEstimate = req.body.timeEstimate;
+    if(req.body.timeSpent !== undefined) wi.timeSpent = req.body.timeSpent;
     if(req.body.status) wi.status = req.body.status;
-    if(req.body.completionPercentage) wi.completionPercentage = req.body.completionPercentage;
+    if(req.body.completionPercentage !== undefined) wi.completionPercentage = req.body.completionPercentage;
 
     // add dependencies
     if(req.body.dependencies){
@@ -119,8 +133,17 @@ module.exports = function(app) {
       }
     }
 
+    if(req.body.comments){
+      wi.comments = [];
+      for (var i = 0, l = req.body.comments.length; i < l; i ++) {
+        var v = req.body.comments[i];
+        if (v) wi.comments.push(v);
+      }
+    }
+
     project.save(function(err){
       if(err) {
+        console.log(err);
         res.send(500, err);
         res.end();
       }

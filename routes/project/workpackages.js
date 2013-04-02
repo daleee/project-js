@@ -38,6 +38,7 @@ module.exports = function(app) {
     wp.description = req.body.description;
     wp.status = req.body.status || 'open';
     wp.completionPercentage = req.body.completionPercentage || 0;
+    wp.dependencies = [];
 
     // add dependencies
     if(req.body.dependencies) {

@@ -70,7 +70,7 @@ PJS.Utilities.setSelectedOption = function(selectMenu, expected) {
 
 PJS.Utilities.filterByStatus = function(items, status) {
   var newItems = [];
-
+  
   items.forEach(function(item) {
     var itemAdded = false;
     if (item.status) {

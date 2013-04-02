@@ -28,20 +28,51 @@ PJS.Controllers.WorkItem = {
       var workItem = PJS.Utilities.findInArray(project.workItems, $routeParams.workItemId.toLowerCase());
       PJS.Controllers.relations('WorkItem', project, workItem);
       $scope.workItem = PJS.ViewModels.WorkItem(workItem);
+
+      PJS.Controllers.WorkItem.addComment($scope, $routeParams, WorkItem, Project);
     });
   },
 
-  add: function($scope, $routeParams, WorkItem, Project) {
+  add: function($scope, $routeParams, WorkItem, Project, WorkPackage, User) {
     var projectId = $routeParams.projectId.toLowerCase();
-    $scope.addWorkItem = function() {
-      var workItem = new WorkItem($scope.workItem);
-      workItem.$save(workItem, function(workItem) {
-        window.location = '/#/projects/' + projectId + '/work-items/' + workItem._id + '/edit';
-      });
-    };
+
+    Project.get({id: projectId}, function(project) {
+      $scope.project = project;
+      $scope.workItem = {
+        workPackages: [],
+        dependencies: [],
+        assignedUsers: [],
+        comments: [],
+        completionPercentage: 0,
+        timeEstimate: 0,
+        timeSpent: 0,
+        startDate: Date.now,
+        status: 'open'
+      };
+
+      PJS.Controllers.updateRelations($scope, $scope.workItem, 'workPackages', WorkPackage);
+      PJS.Controllers.updateRelations($scope, $scope.workItem, 'dependencies', WorkItem);
+      PJS.Controllers.updateRelations($scope, $scope.workItem, 'assignedUsers', User);
+
+      // TODO: filter these based on what's already chosen
+      $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
+      $scope.dependenciesList = WorkItem.query({projectId: projectId, list: true});
+      $scope.usersList = User.query({projectId: projectId, list: true}); 
+
+      $scope.type = 'Add';
+      $scope.submitType = 'Create';
+
+      $scope.updateWorkItem = function() {
+        var workItem = new WorkItem($scope.workItem);
+        workItem.projectId = projectId;
+        workItem.$save(workItem, function(workItem) {
+          window.location = '/#/projects/' + projectId + '/work-items/' + (workItem._id || '');
+        });
+      };
+    });
   },
 
-  update: function($scope, $routeParams, WorkItem, Project, WorkPackage, User){
+  update: function($scope, $routeParams, WorkItem, Project, WorkPackage, User) {
     var projectId = $routeParams.projectId.toLowerCase();
     var workItemId = $routeParams.workItemId.toLowerCase();
     Project.get({id: projectId}, function(project) {
@@ -58,6 +89,10 @@ PJS.Controllers.WorkItem = {
         $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
         $scope.dependenciesList = WorkItem.query({projectId: projectId, list: true});
         $scope.usersList = User.query({projectId: projectId, list: true}); 
+
+        $scope.type = 'Edit';
+        $scope.submitType = 'Update';
+        $scope.workItem.status = $scope.workItem.status.type || $scope.workItem.status;
         
         $scope.updateWorkItem = function() {
           workItem.title = $scope.workItem.title;
@@ -78,24 +113,23 @@ PJS.Controllers.WorkItem = {
     })
   },
 
-  addComment: function($scope, $routeParams, WorkItem, Project){
+  addComment: function($scope, $routeParams, WorkItem, Project) {
     var projectId = $routeParams.projectId.toLowerCase();
     var workItemId = $routeParams.workItemId.toLowerCase();
-    Project.get({id: projectId}, function(project) {
-      $scope.project = project;
-      WorkItem.get({projectId: projectId, id: workItemId}, function(workItem) {
-        $scope.addComment = function() {
-          //TODO: Update these attributes for new comments or change around so that the API handles it
-          //newComment.commentNumber=;
-          //newComment.postedBy='someperson';
-          //newComment.datePosted=Date.now();
-          newComment.title=$scope.newComment.title;
-          newComment.text=$scope.newComment.text;
-          workItem.comments.unshift(newComment);
+    WorkItem.get({projectId: projectId, id: workItemId}, function(workItem) {
+      $scope.newComment = {};
+
+      $scope.addComment = function() {
+        if ($scope.newComment && $scope.newComment.title && $scope.newComment.text) {
+          workItem.comments.unshift({
+            title: $scope.newComment.title,
+            text: $scope.newComment.text
+          });
+          workItem.projectId = projectId;
           workItem.$save(workItem);
-        };
-      });
-    })
+        }
+      };
+    });
   }
 };
 
