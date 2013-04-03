@@ -45,6 +45,36 @@ module.exports = function(app) {
     res.end();
   });
 
+  // POST /projects/:project/workbreakdown/move: move a workbreakdownitem around within the WBS
+  app.post(prefix + '/projects/:project/workbreakdown/move', function(req, res, next){
+    var project = req.project;
+    var source = req.body.source;
+    var appendAfter = req.body.appendAfter;
+    if(!(source && appendAfter)) {
+      res.send(400, 'source and appendAfter arguments required to move workbreakdown items.');
+      res.end();
+    }
+    var sourceObj = project.workBreakdownStructure.id(source);
+    var appendObj = project.workBreakdownStructure.id(appendAfter);
+    var sourceIdx = project.workBreakdownStructure.indexOf(sourceObj);
+    var appendIdx = project.workBreakdownStructure.indexOf(appendObj);
+
+    if(sourceIdx === -1 || appendIdx === -1) {
+      res.send(400, 'Could not find source or appendAfter IDs');
+      res.end();
+    }
+    var wbi = project.workBreakdownStructure.splice(sourceIdx, 1);
+    project.workBreakdownStructure.splice(appendIdx, 0, wbi[0]);
+    project.save(function(err){
+      if(err) {
+        res.send(500, err);
+        res.end();
+      }
+      res.json(project.workBreakdownStructure);
+      res.end();
+    });
+  });
+
   // POST /projects/:project/workbreakdown/:workbreakdown: add a new child to workbreakdownitem
   app.post(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', function(req, res, next) {
     var project = req.project;
