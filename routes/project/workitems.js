@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   Project = mongoose.model('Project'),
   User = mongoose.model('User'),
   Role = mongoose.model('Role'),
+  WorkItem = mongoose.model("WorkItem"),
   passport = require('passport'),
   Utilities = require('../../utilities'),
   ObjectId = mongoose.Schema.Types.ObjectId;
@@ -40,7 +41,7 @@ module.exports = function(app) {
            res.end();
     }
 
-    var wi = {};
+    var wi = new WorkItem();
     // add attributes
     wi.title = req.body.title;
     wi.description = req.body.description;

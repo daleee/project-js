@@ -1,3 +1,6 @@
+var mongoose = require('mongoose'),
+  WorkBreakdownItem = mongoose.model('WorkBreakdownItem');
+
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
   
@@ -14,16 +17,15 @@ module.exports = function(app) {
       res.end();
     }
     var project = req.project;
-    var item = {
-      title: req.body.title,
-      description: req.body.description,
-      children: [],
-      status: 'open',
-      lastModifiedDate: new Date(),
-      //lastModifiedBy: 
-    };
+    var item = new WorkBreakdownItem();
+    item.title = req.body.title;
+    item.description = req.body.description;
+    item.children = [];
+    item.status = 'open';
+    item.lastModifiedDate = new Date();
+      //lastModifiedBy:
     if (req.body.children) {
-      for (var i = 0; i < req.body.children.lengh; i++) {
+      for (var i = 0; i < req.body.children.length; i++) {
         var child = req.body.children[i]._id || req.body.children[i];
         item.children.push(child);
       }
@@ -32,7 +34,7 @@ module.exports = function(app) {
     project.save(function(err) {
       if (err) {
         res.send(500, err);
-        res.end()
+        res.end();
       }
       res.json(item);
       res.end();
