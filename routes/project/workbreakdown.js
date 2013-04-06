@@ -24,6 +24,7 @@ module.exports = function(app) {
     item.status = 'open';
     item.lastModifiedDate = new Date();
       //lastModifiedBy:
+
     if (req.body.children) {
       for (var i = 0; i < req.body.children.length; i++) {
         var child = req.body.children[i]._id || req.body.children[i];
@@ -86,7 +87,8 @@ module.exports = function(app) {
       res.send(400, 'Requires child IDs');
       res.end();
     }
-    children = JSON.parse(children);
+
+    wbi.children.length = 0;
     for (var i = 0, l = children.length; i < l; i ++) {
       var id = children[i]._id || children[i];
       wbi.children.push(id);
