@@ -643,19 +643,19 @@ exports.projects = [{
         status: "open",
         msDependencies: [],
         requiredCompletion: [{
-            wkpackage: "PJ1Theory",
+            wkPackage: "PJ1Theory",
             percentage: 33
         }, {
-            wkpackage: "PJ1AntAssembly",
+            wkPackage: "PJ1AntAssembly",
             percentage: 33
         }, {
-            wkpackage: "PJ1DSPAssembly",
+            wkPackage: "PJ1DSPAssembly",
             percentage: 33
         }, {
-            wkpackage: "PJ1ContAssembly",
+            wkPackage: "PJ1ContAssembly",
             percentage: 33
         }, {
-            wkpackage: "PJ1ApplicationInt",
+            wkPackage: "PJ1ApplicationInt",
             percentage: 33
         }],
         lastModifiedDate: new Date('Jan 30, 2013'),
@@ -683,19 +683,19 @@ exports.projects = [{
         status: "open",
         msDependencies: [],
         msRequiredCompletion: [{
-            wkpackage: "PJ1AntAssembly",
+            wkPackage: "PJ1AntAssembly",
             percentage: 66
         }, {
-            wkpackage: "PJ1RFAssembly",
+            wkPackage: "PJ1RFAssembly",
             percentage: 66
         }, {
-            wkpackage: "PJ1DSPAssembly",
+            wkPackage: "PJ1DSPAssembly",
             percentage: 66
         }, {
-            wkpackage: "PJ1ContAssembly",
+            wkPackage: "PJ1ContAssembly",
             percentage: 66
         }, {
-            wkpackage: "PJ1ApplicationInt",
+            wkPackage: "PJ1ApplicationInt",
             percentage: 66
         }],
         lastModifiedDate: new Date('Jan 30, 2013'),

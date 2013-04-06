@@ -6,5 +6,6 @@ module.exports = {
   milestone: require('./milestone'),
   workbreakdownitem: require('./workbreakdownitem'),
   workitem: require('./workitem'),
-  workpackage: require('./workpackage')
+  workpackage: require('./workpackage'),
+  completion: require('./completion')
 };

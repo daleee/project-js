@@ -14,8 +14,10 @@ PJS.Controllers.ProjectUser = {
 
   update: function($scope, $routeParams, User, Project, Role, ProjectUser) {
     var projectId = $routeParams.projectId.toLowerCase();
+    $scope.hasUsers = true;
 
     User.query(function(users) {
+      $scope.hasUsers = !!users.length;
       $scope.usersList = PJS.ViewModels.each('User', users);
       Role.query(function(roles) {
         $scope.rolesList = PJS.ViewModels.each('Role', roles);

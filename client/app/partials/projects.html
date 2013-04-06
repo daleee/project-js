@@ -10,7 +10,7 @@
     </form>
 
     <span ng-init="predicate = 'dueDate'; reverse=!reverse" class="pull-right sorting">
-      <span class="sorting-title">Sort:</span> 
+      <span class="sorting-title">Sort:</span>
       <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
       <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
       <button class="btn" href="" ng-click="predicate = 'dueDate'; reverse=!reverse">Due Date</button>
@@ -20,7 +20,8 @@
 
 <div class="table projects">
   <div ng-show="projects.length != 0" class="well project" id="{{project.id}}" ng-repeat="project in projects | filter:filter | orderBy:predicate:reverse">
-    <h4 class="title"><a href="#/projects/{{project.id}}">{{project.title}}</a></h4>
+    <h4 class="title"><a href="#/projects/{{project.id}}">{{project.title}}</a>
+    <a href="#/projects/{{project.id}}/edit"><i class="icon icon-edit"></i></a></h4>
     <p>{{project.description}}</p>
     <p ng-show="project.projectUsers.length != 0"><b>Project Manager:</b>
       <span ng-repeat="user in project.usersByRole['project manager']">
@@ -28,10 +29,10 @@
       </span>
     </p>
     <p><span class="label {{project.status.labelType}}">{{project.status.text}}</span></p>
-    <b>Overall Progress:</b> <div class="progress"><div class="bar" style="width: {{project.progress}}%;"></div></div>
+    <b>Overall Progress:</b> <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
   </div>
 
-  <div ng-show="projects.length == 0" class="empty-message">
+  <div ng-show="!hasProjects" class="empty-message">
     <hr />
     You have not yet added any projects.
   </div>

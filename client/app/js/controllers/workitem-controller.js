@@ -7,6 +7,7 @@ PJS.Controllers.WorkItem = {
   },
 
   list: function($scope, $routeParams, WorkItem, Project) {
+    $scope.hasWorkItems = true;
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       $scope.project = project;
       PJS.Controllers.allRelations('WorkItem', project, project.workItems);

@@ -6,13 +6,15 @@ PJS.Controllers.Project = {
   },
 
   list: function($scope, $routeParams, Project, User, Role) {
+    $scope.hasProjects = true;
     $scope.projects = Project.query(function(projects) {
+      $scope.hasProjects = !!projects.length;
       $scope.projects.forEach(function(project) {
         project.usersByRole = PJS.Controllers.ProjectUser.usersByRole(project.projectUsers);
       });
     });
   },
-  
+
   getMain: function($scope, $routeParams, Project, User, Role) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       project.usersByRole = PJS.Controllers.ProjectUser.usersByRole(project.projectUsers);
@@ -25,30 +27,52 @@ PJS.Controllers.Project = {
       }).splice(0, 5);
     });
   },
-  
+
   get: function($scope, $routeParams, Project) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       $scope.project = project;
     });
     $scope.setSelectedOptionProject = setSelectedOptionProject;
   },
-  
+
   add: function($scope, $routeParams, Project) {
-    $scope.addProject = function() {
-      var project = new Project({title: $scope.title, description: $scope.description, 
-        clientName: 'testing', projectDueDate: new Date()});
+    $scope.type = 'Add';
+    $scope.submitType = 'Create';
+
+    $scope.project = {
+      title: '',
+      description: '',
+      projectDueDate: null,
+      clientName: '',
+      status: 'open',
+      completionPercentage: 0
+    };
+
+    $scope.updateProject = function() {
+      var project = new Project($scope.project);
       project.$save(project, function(project) {
         window.location = '/#/projects/' + project._id;
         window.location.reload(true);
       });
     };
   },
-  
+
   update: function($scope, $routeParams, Project) {
+    $scope.type = 'Edit';
+    $scope.submitType = 'Update';
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+      $scope.project = project;
+      $scope.project.status = $scope.project.status.type || $scope.project.status;
+
       $scope.updateProject = function() {
-        project.name = $scope.title;
-        project.description = $scope.description;
+        project.title = $scope.project.title;
+        project.description = $scope.project.description;
+        project.projectDueDate = $scope.project.projectDueDate;
+        project.clientName = $scope.project.clientName;
+        project.status = $scope.project.status;
+        project.completionPercentage = $scope.project.completionPercentage;
+        console.log(project);
+
         project.$save(project, function(project) {
           window.location = '/#/projects/' + project._id;
           window.location.reload(true);
@@ -56,7 +80,7 @@ PJS.Controllers.Project = {
       };
     });
   },
-  
+
   remove: function($scope, $routeParams, Project) {
     Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       project.$remove(project);

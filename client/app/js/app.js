@@ -18,7 +18,8 @@ angular.module('ProjectJS', ['ProjectJS.filters', 'ProjectJS.services', 'Project
     $routeProvider.when('/users/:userId', {templateUrl: 'partials/user.html', controller: PJS.Controllers.User.get});
     $routeProvider.when('/projects', {templateUrl: 'partials/projects.html', controller: PJS.Controllers.Project.list});
     $routeProvider.when('/projects/:projectId', {templateUrl: 'partials/project.html', controller: PJS.Controllers.Project.getMain});
-    $routeProvider.when('/add-project', {templateUrl: 'partials/add-project.html', controller: PJS.Controllers.Project.add});
+    $routeProvider.when('/projects/:projectId/edit', {templateUrl: 'partials/edit-project.html', controller: PJS.Controllers.Project.update});
+    $routeProvider.when('/add-project', {templateUrl: 'partials/edit-project.html', controller: PJS.Controllers.Project.add});
     $routeProvider.when('/projects/:projectId/users', {templateUrl: 'partials/project-users.html', controller: PJS.Controllers.ProjectUser.update});
     $routeProvider.when('/projects/:projectId/work-breakdown', {templateUrl: 'partials/workbreakdown.html', controller: PJS.Controllers.WorkBreakdown.list});
     $routeProvider.when('/projects/:projectId/add-work-breakdown', {templateUrl: 'partials/add-workbreakdown.html', controller: PJS.Controllers.WorkBreakdown.add});

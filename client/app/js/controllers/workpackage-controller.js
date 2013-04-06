@@ -8,6 +8,7 @@ PJS.Controllers.WorkPackage = {
   },
 
   list: function($scope, $routeParams, WorkPackage, Project, WorkItem) {
+    $scope.hasWorkPackages = true;
     $scope.project = Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
       PJS.Controllers.allRelations('WorkPackage', project, project.workPackages);
       var workPackages = PJS.ViewModels.each('WorkPackage', project.workPackages);

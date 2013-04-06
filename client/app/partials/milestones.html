@@ -35,9 +35,9 @@
 
         <div ng-show="milestone.wpDependencies.length != 0" class="span4 workPackages">
           <h5>Work Packages</h5>
-          <div class="workPackage" id="{{container.wkpackage.id}}" ng-repeat="container in milestone.wpDependencies">
-            <a href="#/projects/{{project.id}}/work-packages/{{container.wkpackage.id}}">{{container.wkpackage.title}}
-              <span ng-show="isDefined(container.percentage)">{{container.wkpackage.completionPercentage}}/{{container.percentage}}%</span>
+          <div class="workPackage" id="{{container.wkPackage.id}}" ng-repeat="container in milestone.wpDependencies">
+            <a href="#/projects/{{project.id}}/work-packages/{{container.wkPackage.id}}">{{container.wkPackage.title}}
+              <span ng-show="isDefined(container.percentage)">{{container.wkPackage.completionPercentage}}/{{container.percentage}}%</span>
             </a>
           </div>
         </div>

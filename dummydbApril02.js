@@ -198,7 +198,7 @@ db.projects.insert ([
     milestones: [
       { _id: ObjectId("514e4c51002fb0e90331a85e"), title: "Project1 Theory Complete", description: "...", dueDate: new Date("Feb 2, 2013"), priority: "high", completionPercentage: 0, status: "open",
         wpDependencies: [
-          { wkpackage: ObjectId("514e4741002fb0e90331a84f") }
+          { wkPackage: ObjectId("514e4741002fb0e90331a84f") }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
       { _id: ObjectId("514e4c78002fb0e90331a85f"), title: "Project1 Materials Selected", description: "...", dueDate: new Date("Feb 7, 2013"), priority: "high", completionPercentage: 0, status: "open",
@@ -218,11 +218,11 @@ db.projects.insert ([
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
       { _id: ObjectId("514e4d6b002fb0e90331a864"), title: "Project1 Indiv_idual Assembly at 33%", description: "...", dueDate: new Date("Mar 14, 2013"), priority: "medium", completionPercentage: 0, status: "open",
         wpDependencies: [
-          { wkpackage: ObjectId("514e4741002fb0e90331a84f"), percentage: 33 },
-          { wkpackage: ObjectId("514e488b002fb0e90331a851"), percentage: 33 },
-          { wkpackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 33 },
-          { wkpackage: ObjectId("514e491a002fb0e90331a854"), percentage: 33 },
-          { wkpackage: ObjectId("514e494c002fb0e90331a855"), percentage: 33 }
+          { wkPackage: ObjectId("514e4741002fb0e90331a84f"), percentage: 33 },
+          { wkPackage: ObjectId("514e488b002fb0e90331a851"), percentage: 33 },
+          { wkPackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 33 },
+          { wkPackage: ObjectId("514e491a002fb0e90331a854"), percentage: 33 },
+          { wkPackage: ObjectId("514e494c002fb0e90331a855"), percentage: 33 }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
       { _id: ObjectId("514e4d9c002fb0e90331a865"), title: "Project1 Materials Integration Tested", description: "...", dueDate: new Date("Mar 21, 2013"), priority: "medium", completionPercentage: 0, status: "open",
@@ -230,20 +230,20 @@ db.projects.insert ([
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
       { _id: ObjectId("514e4dc8002fb0e90331a866"), title: "Project1 Indiv_idual Assembly at 66%", description: "...", dueDate: new Date("Mar 28, 2013"), priority: "medium", completionPercentage: 0, status: "open",
         wpDependencies: [
-          { wkpackage: ObjectId("514e488b002fb0e90331a851"), percentage: 66 },
-          { wkpackage: ObjectId("514e48bc002fb0e90331a852"), percentage: 66 },
-          { wkpackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 66 },
-          { wkpackage: ObjectId("514e491a002fb0e90331a854"), percentage: 66 },
-          { wkpackage: ObjectId("514e494c002fb0e90331a855"), percentage: 66 }
+          { wkPackage: ObjectId("514e488b002fb0e90331a851"), percentage: 66 },
+          { wkPackage: ObjectId("514e48bc002fb0e90331a852"), percentage: 66 },
+          { wkPackage: ObjectId("514e48ef002fb0e90331a853"), percentage: 66 },
+          { wkPackage: ObjectId("514e491a002fb0e90331a854"), percentage: 66 },
+          { wkPackage: ObjectId("514e494c002fb0e90331a855"), percentage: 66 }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
       { _id: ObjectId("514e4e30002fb0e90331a867"), title: "Project1 Test Pulse Send", description: "...", dueDate: new Date("Apr 10, 2013"), priority: "medium", completionPercentage: 0, status: "open",
         wpDependencies: [
-          { wkpackage: ObjectId("514e488b002fb0e90331a851") },
-          { wkpackage: ObjectId("514e48bc002fb0e90331a852") },
-          { wkpackage: ObjectId("514e48ef002fb0e90331a853") },
-          { wkpackage: ObjectId("514e491a002fb0e90331a854") },
-          { wkpackage: ObjectId("514e494c002fb0e90331a855") }
+          { wkPackage: ObjectId("514e488b002fb0e90331a851") },
+          { wkPackage: ObjectId("514e48bc002fb0e90331a852") },
+          { wkPackage: ObjectId("514e48ef002fb0e90331a853") },
+          { wkPackage: ObjectId("514e491a002fb0e90331a854") },
+          { wkPackage: ObjectId("514e494c002fb0e90331a855") }
         ],
         msDependencies: [ObjectId("514e4dc8002fb0e90331a866")],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },

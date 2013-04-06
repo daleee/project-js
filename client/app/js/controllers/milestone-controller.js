@@ -1,11 +1,12 @@
 PJS.Controllers.Milestone = {
   relations: {
-    'wpDependencies': {inner: 'wkpackage', list: 'workPackages', type: 'WorkPackage'},
+    'wpDependencies': {inner: 'wkPackage', list: 'workPackages', type: 'WorkPackage'},
     'msDependencies': {list: 'milestones', type: 'Milestone'}
   },
 
   list: function($scope, $routeParams, Milestone, Project, WorkPackage) {
     var projectId = $routeParams.projectId.toLowerCase();
+    $scope.hasMilestones = true;
     $scope.project = Project.get({id: projectId}, function(project) {
       PJS.Controllers.allRelations('Milestone', project, project.milestones);
       $scope.isDefined = PJS.Utilities.isDefined;
@@ -60,8 +61,9 @@ PJS.Controllers.Milestone = {
       $scope.updateMilestone = function() {
         var milestone = new Milestone($scope.milestone);
         milestone.projectId = projectId;
-        milestone.wpDependencies.forEach(function(workPackage, index) {
-          milestone.wpDependencies[index] = {wkpackage: workPackage};
+        milestone.wpDependencies = [];
+        $scope.milestone.wpDependencies.forEach(function(workPackage, index) {
+          milestone.wpDependencies[index] = {wkPackage: workPackage};
         });
         milestone.$save(milestone, function(milestone) {
           window.location = '/#/projects/' + projectId + '/milestones/' + (milestone._id || '');
@@ -77,15 +79,14 @@ PJS.Controllers.Milestone = {
       $scope.project = project;
       Milestone.get({projectId: projectId, id: milestoneId}, function(milestone) {
         $scope.milestone = milestone;
-
-        milestone.wpDependencies.forEach(function(workPackage, index) {
-          milestone.wpDepedencies[index] = workPackage.wkpackage;
-        });
-
         PJS.Controllers.relations('Milestone', project, milestone);
 
         PJS.Controllers.updateRelations($scope, $scope.milestone, 'wpDependencies', WorkPackage);
         PJS.Controllers.updateRelations($scope, $scope.milestone, 'msDependencies', Milestone);
+
+        milestone.wpDependencies.forEach(function(workPackage, index) {
+          milestone.wpDependencies[index] = workPackage.wkPackage ? workPackage.wkPackage : workPackage;
+        });
 
         // TODO: filter these based on what's already chosen
         $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
@@ -99,9 +100,10 @@ PJS.Controllers.Milestone = {
           milestone.title = $scope.milestone.title;
           milestone.description = $scope.milestone.description;
           milestone.msDependencies = $scope.milestone.msDependencies;
-          milestone.wpDependencies = $scope.milestone.wpDependencies;
-          milestone.wpDependencies.forEach(function(workPackage, index) {
-            milestone.wpDepedencies[index] = workPackage.wkpackage;
+          var wpDependencies = $scope.milestone.wpDependencies;
+          milestone.wpDependencies = [];
+          wpDependencies.forEach(function(workPackage, index) {
+            milestone.wpDependencies.push({wkPackage: workPackage});
           });
           milestone.completionPercentage = $scope.milestone.completionPercentage;
           milestone.status = $scope.milestone.status;

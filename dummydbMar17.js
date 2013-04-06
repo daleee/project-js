@@ -15,7 +15,7 @@ db.users.insert([
 
 
 db.roles.insert([
-  { title: "project manager", 
+  { title: "project manager",
     permissions: [
       "addProject",
       "addUserToProject",
@@ -61,7 +61,7 @@ db.roles.insert([
       "viewWPStatus",
       "viewMSStatus"
     ] },
-  { title: "product manager", 
+  { title: "product manager",
     permissions: [
       "viewAllProjects",
       "viewCurrentProject",
@@ -73,7 +73,7 @@ db.roles.insert([
       "viewWPStatus",
       "viewMSStatus"
     ] },
-  { title: "project lead", 
+  { title: "project lead",
     permissions: [
       "viewCurrentProject",
       "switchProjects",
@@ -88,7 +88,7 @@ db.roles.insert([
       "editComment",
       "filterList"
     ] },
-  { title: "developer", 
+  { title: "developer",
     permissions: [
       "viewCurrentProject",
       "switchProjects",
@@ -101,7 +101,7 @@ db.roles.insert([
       "editComment",
       "filterList"
     ] },
-  { title: "tester", 
+  { title: "tester",
     permissions: [
       "viewCurrentProject",
       "switchProjects",
@@ -114,7 +114,7 @@ db.roles.insert([
       "editComment",
       "filterList"
     ] },
-  { title: "account manager", 
+  { title: "account manager",
     permissions: [
       "viewCurrentProject",
       "switchProjects",
@@ -124,9 +124,9 @@ db.roles.insert([
 
 
 db.projects.insert ([
-  { title: "Project 1", clientName: "Client 1", projectDueDate: new Date("Apr 30, 2013"), status: "open", completionPercentage: 0, 
+  { title: "Project 1", clientName: "Client 1", projectDueDate: new Date("Apr 30, 2013"), status: "open", completionPercentage: 0,
     dateCreated: new Date("Jan 29, 2013"), lastModifiedDate: new Date("Jan 29, 2013"), dateCompleted: null,
-    projectUsers: [ 
+    projectUsers: [
                     { user: "lsantos", role: "project manager" },
                     { user: "jrobertson", role: "product manager" },
                     { user: "ncovello", role: "project lead" },
@@ -175,8 +175,8 @@ db.projects.insert ([
                                   "PJ1Controller",
                                   "PJ1EventLoop",
                                   "PJ1AppInt",
-                                  "PJ1Panel"  
-                                ], 
+                                  "PJ1Panel"
+                                ],
                                 lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" }
     ],
     workPackages: [
@@ -260,11 +260,11 @@ db.projects.insert ([
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" },
                   { id: "PJ1IndAssembly33", index: 7, description: "...", title: "Project1 Individual Assembly at 33%", dueDate: new Date("Mar 14, 2013"), priority: "medium", completionPercentage: 0, status: "open",
                     requiredCompletion: [
-                      { wkpackage: "PJ1Theory", percentage: 33 },
-                      { wkpackage: "PJ1AntAssembly", percentage: 33 },
-                      { wkpackage: "PJ1DSPAssembly", percentage: 33 },
-                      { wkpackage: "PJ1ContAssembly", percentage: 33 },
-                      { wkpackage: "PJ1ApplicationInt", percentage: 33 }
+                      { wkPackage: "PJ1Theory", percentage: 33 },
+                      { wkPackage: "PJ1AntAssembly", percentage: 33 },
+                      { wkPackage: "PJ1DSPAssembly", percentage: 33 },
+                      { wkPackage: "PJ1ContAssembly", percentage: 33 },
+                      { wkPackage: "PJ1ApplicationInt", percentage: 33 }
                     ],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" },
                   { id: "PJ1MatIntegTested", index: 8, description: "...", title: "Project1 Materials Integration Tested", dueDate: new Date("Mar 21, 2013"), priority: "medium", completionPercentage: 0, status: "open",
@@ -272,11 +272,11 @@ db.projects.insert ([
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" },
                   { id: "PJ1IndAssembly66", index: 9, description: "...", title: "Project1 Individual Assembly at 66%", dueDate: new Date("Mar 28, 2013"), priority: "medium", completionPercentage: 0, status: "open",
                     msRequiredCompletion: [
-                      { wkpackage: "PJ1AntAssembly", percentage: 66 },
-                      { wkpackage: "PJ1RFAssembly", percentage: 66 },
-                      { wkpackage: "PJ1DSPAssembly", percentage: 66 },
-                      { wkpackage: "PJ1ContAssembly", percentage: 66 },
-                      { wkpackage: "PJ1ApplicationInt", percentage: 66 }
+                      { wkPackage: "PJ1AntAssembly", percentage: 66 },
+                      { wkPackage: "PJ1RFAssembly", percentage: 66 },
+                      { wkPackage: "PJ1DSPAssembly", percentage: 66 },
+                      { wkPackage: "PJ1ContAssembly", percentage: 66 },
+                      { wkPackage: "PJ1ApplicationInt", percentage: 66 }
                     ],
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" },
                   { id: "PJ1TestPulseSend", index: 10, description: "...", title: "Project1 Test Pulse Send", dueDate: new Date("Apr 10, 2013"), priority: "medium", completionPercentage: 0, status: "open",
@@ -297,7 +297,7 @@ db.projects.insert ([
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" },
                   { id: "PJ1FinalRpt", index: 13, description: "...", title: "Project1 Final Report MS", dueDate: new Date("Apr 27, 2013"), priority: "low", completionPercentage: 0, status: "open",
                     lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" }
-    ], 
+    ],
     milestoneList: [
                       { items: [
                         "PJ1TheoryComp",
@@ -312,8 +312,8 @@ db.projects.insert ([
                         "PJ1TestPulseSend",
                         "PJ1TestPulseReceive",
                         "PJ1TestPulseAnalysis",
-                        "PJ1FinalRpt" 
-                        ], 
-                        lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" }	 
-    ]   
+                        "PJ1FinalRpt"
+                        ],
+                        lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: "jmcdonald" }
+    ]
 }]);

@@ -16,7 +16,7 @@
 <div ng-show="users.length != 0" class="table">
 
   <hr />
-  
+
   <table class="container-bordered table table-condensed table-striped">
     <tr class="user" id="{{container.user.id}}" ng-repeat="container in users">
       <td class="span2">
@@ -37,7 +37,7 @@
   </table>
 </div>
 
-<div ng-show="users.length == 0" class="empty-message">
+<div ng-show="!hasUsers" class="empty-message">
   <hr />
   There are currently no users in this project.
 </div>

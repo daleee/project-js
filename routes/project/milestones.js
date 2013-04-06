@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
-  Milestone = mongoose.model('Milestone');
+  Milestone = mongoose.model('Milestone'),
+  Completion = mongoose.model('Completion');
 
 var Utilities = require('../../utilities');
 
@@ -41,15 +42,19 @@ module.exports = function(app) {
     });
 
     // add dependencies
-    if(req.body.wpDependencies){
+    if(req.body.wpDependencies) {
       for (var i = 0, l = req.body.wpDependencies.length; i < l; i ++) {
-        var v = req.body.wpDependencies[i];
-        v.wkpackage = v.wkpackage._id || v.wkpackage;
-        milestone.wpDependencies.push(v);
+        var workPackage = req.body.wpDependencies[i];
+        var completion = new Completion();
+        completion.wkPackage = workPackage.wkPackage._id || v.wkPackage;
+        if (workPackage.percentage !== undefined) {
+          completion.percentage = workPackage.percentage;
+        }
+        milestone.wpDependencies.push(completion);
       }
     }
 
-    if(req.body.msDependencies){
+    if(req.body.msDependencies) {
       for (var i = 0, l = req.body.msDependencies.length; i < l; i ++) {
         var v = req.body.msDependencies[i];
         milestone.msDependencies.push(v._id || v);
@@ -80,16 +85,20 @@ module.exports = function(app) {
     if(req.body.completionPercentage) ms.completionPercentage = req.body.completionPercentage;
 
     // add dependencies
-    if(req.body.wpDependencies){
+    if(req.body.wpDependencies) {
       ms.wpDependencies = [];
       for (var i = 0, l = req.body.wpDependencies.length; i < l; i ++) {
-        var v = req.body.wpDependencies[i];
-        v.wkpackage = v.wkpackage._id || v.wkpackage;
-        ms.wpDependencies.push(v);
+        var workPackage = req.body.wpDependencies[i];
+        var completion = new Completion();
+        completion.wkPackage = workPackage.wkPackage._id || v.wkPackage;
+        if (workPackage.percentage !== undefined) {
+          completion.percentage = workPackage.percentage;
+        }
+        ms.wpDependencies.push(completion);
       }
     }
 
-    if(req.body.msDependencies){
+    if(req.body.msDependencies) {
       ms.msDependencies = [];
       for (var i = 0, l = req.body.msDependencies.length; i < l; i ++) {
         var v = req.body.msDependencies[i];
