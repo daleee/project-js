@@ -1,8 +1,9 @@
 PJS.Controllers.WorkBreakdown = {
-  list: function($scope, $routeParams, WorkBreakdown, Project) {
-    Project.get({id: $routeParams.projectId.toLowerCase()}, function(project) {
+  list: function($scope, $routeParams, $http, WorkBreakdown, Project) {
+    var projectId = $routeParams.projectId.toLowerCase();
+    Project.get({id: projectId}, function(project) {
       WorkBreakdown.query({projectId: project._id}, function(flatWorkBreakdown){
-        $scope.workBreakdown = [];
+        var workBreakdown = [];
 
         //This is a recursive function that replaces the IDs of the children of workBreakdown[startIndex]
         //with the actual objects from further in the list.
@@ -28,14 +29,16 @@ PJS.Controllers.WorkBreakdown = {
                   if (workBreakdown[startIndex].children[childIndex] == workBreakdown[searchIndex]._id){
                     //We found it, splice into currentIndex + 1;
                     workBreakdown.splice(currentIndex + 1, 0, workBreakdown[searchIndex]);
+                    console.log("Object misplaced! Supposed to be at " + (currentIndex + 1) +", was at " + searchIndex);
                     if (currentIndex + 1 < searchIndex){
                       searchIndex++;
                     }else{
                       //TODO: If this line of code is reached there's a good chance that a child object got added as a top level object and will, as a result, appear twice in the tree. We should add some way of fixing this, but it's kind of an edge case so I'm not doing it right now.
                     }
                     workBreakdown.splice(searchIndex, 1);
-                    //TODO: Tell the server to put the item with id of workBreakdown[currentIndex+1]._id after
-                    //the item with id of workBreakdown[currentIndex]._id
+                    $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: workBreakdown[currentIndex+1], appendAfter: workBreakdown[currentIndex]}).success(function(){
+                      "Misplaced item successfully moved on the server"
+                    });
 
                     //Leave this loop and make the child loop up above try the current child again
                     searchIndex = workBreakdown.length;
@@ -54,28 +57,64 @@ PJS.Controllers.WorkBreakdown = {
             //ReplaceIDsWithChildren will return the farthest point in the array that it got to.
             //This allows us to skip all the parts that already got recursively added
             var skipAheadPoint = replaceIDsWithChildren(flatWorkBreakdown, wbIndex);
-            $scope.workBreakdown.push(flatWorkBreakdown[wbIndex]);
+            workBreakdown.push(flatWorkBreakdown[wbIndex]);
             wbIndex = skipAheadPoint + 1;
           }else{
-            $scope.workBreakdown.push(flatWorkBreakdown[wbIndex]);
+            workBreakdown.push(flatWorkBreakdown[wbIndex]);
             wbIndex++;
           }
         }
+        $scope.data = {};
+        $scope.data.children = workBreakdown;
+        $scope.data.newItem = {};
+        $scope.mode = "view";
       });
 
       //TODO: Make this delete the item associated with data
       $scope.delete = function(data) {
 
       };
-      $scope.add = function(data) {
-        var newItem = new WorkBreakdown({title: data.newItem.title, description: data.newItem.description});
+      $scope.addChildren = function(data) {
+        var description = data.newItem.description || "";
+        var newItem = new WorkBreakdown({title: data.newItem.title, description: description});
+        newItem.projectId = projectId;
         newItem.$save(newItem, function(newItem){
+          if (!data.children){
+            data.children = [];
+          }
           data.children.push(newItem);
-          //TODO: Make sure that this actually is a resource
-          //TODO: Check the update methods- if they can't handle getting an object instead of an ID in the children, add that capability
-          data.$save();
+          //The $save function is going to replace our children with their IDs, so we can just make a copy
+          //of them and replace them
+          var childrenCopy = data.children.slice(0);
+          data.projectId = projectId;
+          data.$save(data, function(data){
+            data.children = childrenCopy;
+            if (data.children.length === 1){
+              $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: newItem, appendAfter: data}).success(function(){});
+            }else{
+              var bottomLevelObject = data.children[data.children.length-2];
+              //Get the child item that we want to be directly before our new item.
+              while(bottomLevelObject.children.length > 0){
+                bottomLevelObject = bottomLevelObject.children[bottomLevelObject.children.length-1];
+              };
+              $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: newItem, appendAfter: bottomLevelObject}).success(function(){});
+            }
+          });
         });
       };
+
+      $scope.add = function(data) {
+        var description = data.newItem.description || "";
+        var newItem = new WorkBreakdown({title: data.newItem.title, description: description});
+        newItem.projectId = projectId;
+        newItem.$save(newItem, function(newItem){
+          if (!data.children){
+            data.children = [];
+          }
+          data.children.push(newItem);
+        });
+      };
+
     });
   },
   treeInit: function($scope){
