@@ -32,7 +32,7 @@ PJS.Controllers = {
       });
     };
   },
-  
+
   logout: function($http) {
     $http({method: 'GET', url: '/api/logout'});
     window.location = '/';

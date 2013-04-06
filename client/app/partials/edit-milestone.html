@@ -1,0 +1,86 @@
+<div ng-include src="'partials/project-nav.html'"></div>
+
+<form class="form-horizontal" ng-submit="updateMilestone()">
+  <fieldset>
+    <legend>{{type}} Milestone</legend>
+
+    <div class="span5">
+      <div class="control-group">
+        <label class="control-label span2" for="inputTitle">Title:</label>
+        <div class="controls">
+          <input type="text" id="inputTitle" ng-model="milestone.title" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputDescription">Description:</label>
+        <div class="controls">
+          <input type="text" id="inputDescription" ng-model="milestone.description" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputPriority">Priority:</label>
+        <div class="controls">
+          <input type="text" id="inputPriority" ng-model="milestone.priority" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputDueDate">Due Date:</label>
+        <div class="controls">
+          <input type="text" id="inputDueDate" ng-model="milestone.dueDate" />
+        </div>
+      </div>
+    </div>
+
+    <div class="span5">
+      <div class="control-group">
+        <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
+        <div class="nullable">
+          <select id="{{wpDependencies + '-menu'}}" ng-change="wpDependenciesAdd(milestone)"
+            ng-model="wpDependenciesAddChosen" ng-options="dependency.title for dependency in workPackagesList">
+            <option value="">-- Add a Work Package --</option>
+          </select>
+        </div>
+        <div class="info-small span3 pull-right milestone" id="{{dependency.id}}" ng-repeat="dependency in milestone.wpDependencies">
+          <a href="#/projects/{{project.id}}/work-packages/{{dependency.id}}">{{dependency.title}}
+          </a>
+          <a ng-click="wpDependenciesRemove(dependency)"><i class="icon-remove-circle"></i></a>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputDependencies">Dependencies:</label>
+        <div class="nullable">
+          <select id="{{msDependencies + '-menu'}}" ng-change="msDependenciesAdd(milestone)"
+            ng-model="msDependenciesAddChosen" ng-options="dependency.title for dependency in milestonesList">
+            <option value="">-- Add a Dependency --</option>
+          </select>
+        </div>
+        <div class="info-small span3 pull-right milestone" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
+          <a href="#/projects/{{project.id}}/milestones/{{dependency.id}}">{{dependency.title}}
+          </a>
+          <a ng-click="msDependenciesRemove(dependency)"><i class="icon-remove-circle"></i></a>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputCompletionPercentage">Completion:</label>
+        <div class="controls">
+          <input type="text" id="inputCompletionPercentage" ng-model="milestone.completionPercentage" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label span2" for="inputStatus">Status:</label>
+        <div class="controls">
+          <select id="inputStatus" ng-model="milestone.status">
+            <option value="open">Open</option>
+            <option value="late">Late</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </fieldset>
+
+  <div style="float: none;" class="form-actions">
+    <button type="submit" class="btn">{{submitType}}</button>
+  </div>
+</form>

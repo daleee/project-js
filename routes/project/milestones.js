@@ -63,13 +63,13 @@ module.exports = function(app) {
         res.send(500, err);
         res.end();
       }
-      res.json(req.project.milestones);
+      res.json(req.project.milestone);
       res.end();
     });
   });
 
-  // POST /project/:project/workpackage: update a project's work packages
-  app.post(prefix + '/projects/:project/workpackages/:workpackage', function(req, res) {
+  // POST /project/:project/milestones/:milestone: update a project's milestones
+  app.post(prefix + '/projects/:project/milestones/:milestone', function(req, res) {
     var project = req.project;
     var ms = req.milestone;
 

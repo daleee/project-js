@@ -47,6 +47,7 @@ PJS.Controllers.WorkItem = {
         timeEstimate: 0,
         timeSpent: 0,
         startDate: Date.now,
+        priority: 'low',
         status: 'open'
       };
 
@@ -57,7 +58,7 @@ PJS.Controllers.WorkItem = {
       // TODO: filter these based on what's already chosen
       $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
       $scope.dependenciesList = WorkItem.query({projectId: projectId, list: true});
-      $scope.usersList = User.query({projectId: projectId, list: true}); 
+      $scope.usersList = User.query({projectId: projectId, list: true});
 
       $scope.type = 'Add';
       $scope.submitType = 'Create';
@@ -88,12 +89,12 @@ PJS.Controllers.WorkItem = {
         // TODO: filter these based on what's already chosen
         $scope.workPackagesList = WorkPackage.query({projectId: projectId, list: true});
         $scope.dependenciesList = WorkItem.query({projectId: projectId, list: true});
-        $scope.usersList = User.query({projectId: projectId, list: true}); 
+        $scope.usersList = User.query({projectId: projectId, list: true});
 
         $scope.type = 'Edit';
         $scope.submitType = 'Update';
         $scope.workItem.status = $scope.workItem.status.type || $scope.workItem.status;
-        
+
         $scope.updateWorkItem = function() {
           workItem.title = $scope.workItem.title;
           workItem.description = $scope.workItem.description;
@@ -102,6 +103,7 @@ PJS.Controllers.WorkItem = {
           workItem.dependencies = $scope.workItem.dependencies;
           workItem.timeEstimate = $scope.workItem.timeEstimate;
           workItem.timeSpent = $scope.workItem.timeSpent;
+          workItem.priority = $scope.workItem.priority;
           workItem.completionPercentage = $scope.workItem.completionPercentage;
           workItem.status = $scope.workItem.status;
           workItem.projectId = projectId;

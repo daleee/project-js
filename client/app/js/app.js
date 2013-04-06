@@ -24,10 +24,12 @@ angular.module('ProjectJS', ['ProjectJS.filters', 'ProjectJS.services', 'Project
     $routeProvider.when('/projects/:projectId/add-work-breakdown', {templateUrl: 'partials/add-workbreakdown.html', controller: PJS.Controllers.WorkBreakdown.add});
     $routeProvider.when('/projects/:projectId/milestones', {templateUrl: 'partials/milestones.html', controller: PJS.Controllers.Milestone.list});
     $routeProvider.when('/projects/:projectId/milestones/:milestoneId', {templateUrl: 'partials/milestone.html', controller: PJS.Controllers.Milestone.get});
-    $routeProvider.when('/projects/:projectId/add-milestone', {templateUrl: 'partials/add-milestone.html', controller: PJS.Controllers.Milestone.add});
+    $routeProvider.when('/projects/:projectId/milestones/:milestoneId/edit', {templateUrl: 'partials/edit-milestone.html', controller: PJS.Controllers.Milestone.update});
+    $routeProvider.when('/projects/:projectId/add-milestone', {templateUrl: 'partials/edit-milestone.html', controller: PJS.Controllers.Milestone.add});
     $routeProvider.when('/projects/:projectId/work-packages', {templateUrl: 'partials/workpackages.html', controller: PJS.Controllers.WorkPackage.list});
     $routeProvider.when('/projects/:projectId/work-packages/:workPackageId', {templateUrl: 'partials/workpackage.html', controller: PJS.Controllers.WorkPackage.get});
-    $routeProvider.when('/projects/:projectId/add-work-package', {templateUrl: 'partials/add-workpackage.html', controller: PJS.Controllers.WorkPackage.add});
+    $routeProvider.when('/projects/:projectId/add-work-package', {templateUrl: 'partials/edit-work-package.html', controller: PJS.Controllers.WorkPackage.add});
+    $routeProvider.when('/projects/:projectId/work-packages/:workPackageId/edit', {templateUrl: 'partials/edit-work-package.html', controller: PJS.Controllers.WorkPackage.update});
     $routeProvider.when('/projects/:projectId/work-items', {templateUrl: 'partials/workitems.html', controller: PJS.Controllers.WorkItem.list});
     $routeProvider.when('/projects/:projectId/work-items/:workItemId/edit', {templateUrl: 'partials/edit-workitem.html', controller: PJS.Controllers.WorkItem.update});
     $routeProvider.when('/projects/:projectId/work-items/:workItemId/view', {templateUrl: 'partials/workitem.html', controller: PJS.Controllers.WorkItem.get});

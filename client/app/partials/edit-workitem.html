@@ -18,9 +18,15 @@
         </div>
       </div>
       <div class="control-group">
+        <label class="control-label span2" for="inputPriority">Priority:</label>
+        <div class="controls">
+          <input type="text" id="inputPriority" ng-model="workPackage.priority" />
+        </div>
+      </div>
+      <div class="control-group">
         <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
         <div class="nullable">
-          <select id="{{workPackages + '-menu'}}" ng-change="workPackagesAdd(workPackage)" 
+          <select id="{{workPackages + '-menu'}}" ng-change="workPackagesAdd(workPackage)"
             ng-model="workPackagesAddChosen" ng-options="workPackage.title for workPackage in workPackagesList">
             <option value="">-- Add a Work Package --</option>
           </select>
@@ -34,7 +40,7 @@
       <div class="control-group">
         <label class="control-label span2" for="inputAssignedUsers">Assigned Users:</label>
         <div class="nullable">
-          <select id="{{assignedUsers + '-menu'}}" ng-change="assignedUsersAdd(assigned)" 
+          <select id="{{assignedUsers + '-menu'}}" ng-change="assignedUsersAdd(assigned)"
             ng-model="assignedUsersAddChosen" ng-options="assigned.username + ': ' + assigned.firstName + ' ' + assigned.lastName for assigned in usersList">
             <option value="">-- Assign a User --</option>
           </select>
@@ -48,7 +54,7 @@
       <div class="control-group">
         <label class="control-label span2" for="inputDependencies">Dependencies:</label>
         <div class="nullable">
-          <select id="{{dependencies + '-menu'}}" ng-change="dependenciesAdd(dependency)" 
+          <select id="{{dependencies + '-menu'}}" ng-change="dependenciesAdd(dependency)"
             ng-model="dependenciesAddChosen" ng-options="dependency.title for dependency in dependenciesList">
             <option value="">-- Add a Dependency --</option>
           </select>
@@ -60,7 +66,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="span5">
       <div class="control-group">
         <label class="control-label span2" for="inputTimeEstimate">Time Estimate:</label>

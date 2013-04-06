@@ -2,7 +2,7 @@
 
 <div>
   <div class="span11 milestone well" id="{{milestone.id}}">
-    <h4 class="title">{{milestone.title}}</h4>
+    <h4 class="title">{{milestone.title}} <a href="#/projects/{{project.id}}/milestones/{{milestone.id}}/edit"><i class="icon icon-edit"></i></a></h4>
     <p>{{milestone.description}}</p>
     <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>

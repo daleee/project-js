@@ -1,15 +1,15 @@
 <div ng-include src="'partials/project-nav.html'"></div>
 
 <div>
-  <a class="btn" href="#/projects/{{project.id}}/add-workPackage">Add Work Package</a>
-  
+  <a class="btn" href="#/projects/{{project.id}}/add-work-package">Add Work Package</a>
+
   <span ng-show="hasWorkPackages">
     <form class="form-inline pull-right">
       Search: <input class="input-medium" ng-model="filter.title"></input>
     </form>
 
     <div ng-init="predicate = 'lastModifiedDate'; reverse=!reverse" class="pull-right sorting">
-      <span class="sorting-title">Sort:</span> 
+      <span class="sorting-title">Sort:</span>
       <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
       <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
       <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
@@ -26,7 +26,8 @@
   <div class="tab-content work-packages">
     <div class="tab-pane active" id="{{status[0]}}">
       <div class="well span11 workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in workPackages | filter:filter | orderBy:predicate:reverse">
-        <h4 class="title"><a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a></h4>
+        <h4 class="title"><a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}">{{workPackage.title}}</a>
+        <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}/edit"><i class="icon icon-edit"></i></a></h4>
         <p>{{workPackage.description}}</p>
         <p><span class="label {{workPackage.status.labelType}}">{{workPackage.status.text}}</span></p>
         <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{workPackage.completionPercentage}}%;"></div></div>

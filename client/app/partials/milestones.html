@@ -2,14 +2,14 @@
 
 <div>
   <a class="btn" href="#/projects/{{project.id}}/add-milestone">Add Milestone</a>
-  
+
   <span ng-show="hasMilestones">
     <form class="form-inline pull-right">
       Search: <input class="input-medium" ng-model="filter.title"></input>
     </form>
 
     <div ng-init="predicate = 'lastModifiedDate'; reverse=!reverse" class="pull-right sorting">
-      <span class="sorting-title">Sort:</span> 
+      <span class="sorting-title">Sort:</span>
       <button class="btn" href="" ng-click="predicate = 'title'; reverse=!reverse">Title</button>
       <button class="btn" href="" ng-click="predicate = 'completionPercentage'; reverse=!reverse">Completed</button>
       <button class="btn" href="" ng-click="predicate = 'lastModifiedBy'; reverse=!reverse">Modified</button>
@@ -27,7 +27,8 @@
     <div class="tab-pane active" id="{{status[0]}}">
 
       <div class="well span11 milestone" id="{{milestone.id}}" ng-repeat="milestone in milestones | filter:filter | orderBy:predicate:reverse">
-        <h4 class="title"><a href="#/projects/{{project.id}}/milestones/{{milestone.id}}">{{milestone.title}}</a></h4>
+        <h4 class="title"><a href="#/projects/{{project.id}}/milestones/{{milestone.id}}">{{milestone.title}}</a>
+        <a href="#/projects/{{project.id}}/milestones/{{milestone.id}}/edit"><i class="icon icon-edit"></i></a></h4>
         <p>{{milestone.description}}</p>
         <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
         <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
