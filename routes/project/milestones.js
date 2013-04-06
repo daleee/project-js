@@ -1,3 +1,6 @@
+var mongoose = require('mongoose'),
+  Milestone = mongoose.model('Milestone');
+
 var Utilities = require('../../utilities');
 
 module.exports = function(app) {
@@ -27,7 +30,7 @@ module.exports = function(app) {
   // POST /project/:project/milestones: create project milestones
   app.post(prefix + "/projects/:project/milestones", function(req, res) {
     var project = req.project;
-    var milestone = {
+    var milestone = new Milestone({
       title: req.body.title,
       description: req.body.description,
       completionPercentage: req.body.completionPercentage || 0,
@@ -35,7 +38,7 @@ module.exports = function(app) {
       msDependencies: [],
       priority: 'high',
       status: 'open'
-    };
+    });
 
     // add dependencies
     if(req.body.wpDependencies){

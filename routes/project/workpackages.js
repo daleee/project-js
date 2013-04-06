@@ -1,3 +1,6 @@
+var mongoose = require('mongoose'),
+  WorkPackage = mongoose.model('WorkPackage');
+
 var Utilities = require('../../utilities');
 
 module.exports = function(app) {
@@ -32,7 +35,7 @@ module.exports = function(app) {
       res.end();
     }
 
-    var wp = {};
+    var wp = new WorkPackage();
     // add attributes
     wp.title = req.body.title;
     wp.description = req.body.description;
