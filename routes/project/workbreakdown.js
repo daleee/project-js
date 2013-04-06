@@ -89,6 +89,9 @@ module.exports = function(app) {
     }
 
     wbi.children.length = 0;
+    // synchronous save to make sure children are
+    // cleared out of WBI array
+    project.save();
     for (var i = 0, l = children.length; i < l; i ++) {
       var id = children[i]._id || children[i];
       wbi.children.push(id);
