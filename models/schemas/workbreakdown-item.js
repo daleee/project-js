@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var WorkBreakdownItem = new Schema({
-  title: { type: String, unique: true, trim: true, sparse: true },
+  title: { type: String, trim: true, sparse: true },
   description: { type: String, trim: true },
   children: [{ type: ObjectId }],
   status: { type: String, trim: true, default: 'open' },

@@ -15,8 +15,8 @@ PJS.Controllers.WorkBreakdown = {
             //recursion to put all of its children,grandchildren,etc. together
             //That recursion should give us the index immediately before the next child, allowing us to loop again
             for (var childIndex = 0; childIndex < workBreakdown[startIndex].children.length; childIndex++){
-              //TODO: Make sure that _id is actually a primitive string or something that can be compared like this
-              if(workBreakdown[startIndex].children[childIndex] === workBreakdown[currentIndex+1]._id){
+
+              if(workBreakdown[currentIndex+1] && (workBreakdown[startIndex].children[childIndex] === workBreakdown[currentIndex+1]._id)){
                 workBreakdown[startIndex].children[childIndex] = workBreakdown[currentIndex+1];
                 currentIndex = replaceIDsWithChildren(workBreakdown, currentIndex+1);
               }else{
@@ -25,8 +25,10 @@ PJS.Controllers.WorkBreakdown = {
                 //This code should NOT be getting called frequently unless there are a lot of people editing
                 //the work breakdown structure at the same time for some reason.
                 //It wouldn't even be necessary if mongoDB could just store a tree
+                var foundItem = false;
                 for (var searchIndex = 0; searchIndex < workBreakdown.length; searchIndex++){
                   if (workBreakdown[startIndex].children[childIndex] == workBreakdown[searchIndex]._id){
+                    foundItem = true;
                     //We found it, splice into currentIndex + 1;
                     workBreakdown.splice(currentIndex + 1, 0, workBreakdown[searchIndex]);
                     console.log("Object misplaced! Supposed to be at " + (currentIndex + 1) +", was at " + searchIndex);
@@ -44,6 +46,19 @@ PJS.Controllers.WorkBreakdown = {
                     searchIndex = workBreakdown.length;
                     childIndex--;
                   }
+                }
+                if (!foundItem){
+                  console.log("Deleted empty child entry")
+                  workBreakdown[startIndex].children.splice(childIndex, 1);
+                  workBreakdown[startIndex].projectId = projectId;
+                  workBreakdown[startIndex].$save(workBreakdown[startIndex], function(){
+                    //Sigh. AngularJS will screw up if we cut out a child in the middle of things, it appears.
+                    //So we reload the page after deleting stuff and everything should be fine.
+                    window.location = '/#/projects/' + projectId + '/work-breakdown/';
+                  });
+                  //We're splicing a child out of the array, so we have to reduce the child index by 1 or we'll
+                  //end up skipping one
+                  childIndex--;
                 }
               }
             }
@@ -72,7 +87,10 @@ PJS.Controllers.WorkBreakdown = {
 
       //TODO: Make this delete the item associated with data
       $scope.delete = function(data) {
-
+        data.projectId = projectId;
+        data.$delete(data, function(){
+          window.location = '/#/projects/' + projectId + '/work-breakdown/';
+        });
       };
       $scope.addChildren = function(data) {
         var description = data.newItem.description || "";

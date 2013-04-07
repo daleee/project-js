@@ -2,7 +2,9 @@
 <div ng-show="showDescription">{{data.description}}</div>
 <button ng-click="mode='add'" ng-show="mode!='add'">+</button>
 <button ng-click="mode='view'" ng-show="mode=='add'">Stop</button>
-<button ng-click="delete(data)" ng-show="data.children.length > 0">-</button>
+<button ng-click="mode='delete'" ng-show="mode!='delete'">-</button>
+<button ng-click="mode='view'" ng-show="mode=='delete'">Cancel</button>
+<button ng-click="delete(data)" ng-show="mode=='delete'">Confirm Deletion</button>
 <div ng-show="mode=='add'">
   Title: <input type="text" id="title" ng-model="data.newItem.title" />
   Description: <input type="text" id="description" ng-model="data.newItem.description" />

@@ -37,6 +37,34 @@ module.exports = function(app) {
     });
   }
 
+  function deleteItem(req, res, next) {
+    var project = req.project;
+    var wbi = req.workbreakdownitem;
+
+    function recursiveDelete(id){
+      var wbiToDelete = project.workBreakdownStructure.id(id);
+      for(var childIndex = 0; childIndex < wbiToDelete.children.length; childIndex++){
+        recursiveDelete(wbiToDelete.children[childIndex]);
+      }
+      var sourceIdx = project.workBreakdownStructure.indexOf(wbiToDelete);
+      project.workBreakdownStructure.splice(sourceIdx, 1);
+    }
+    recursiveDelete(wbi._id);
+    project.save(function(err) {
+      if (err) {
+        res.send(500, err);
+        res.end()
+      }
+      res.json(wbi);
+      res.end();
+    });
+  }
+
+  app.delete(prefix + "/projects/:project/workbreakdown", function(req, res, next){
+    req.workbreakdownitem = req.project.workBreakdownStructure.id(req.query._id);
+    deleteItem(req,res,next);
+  });
+
   // POST /projects/:project/workbreakdown: create a new parent work breakdown item
   // or update an existing one if there
   app.post(prefix + "/projects/:project/workbreakdown", function(req, res, next) {
@@ -116,32 +144,8 @@ module.exports = function(app) {
   // POST /projects/:project/workbreakdown/:workbreakdown: add a new child to workbreakdownitem
   app.post(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', addChildren);
 
-  // DELETE /projects/:project/workbreakdown/:workbreakdown: delete a workbreakdownitem child
-  app.delete(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', function(req, res, next) {
-    var project = req.project;
-    var wbi = req.workbreakdownitem;
-    var children = req.body.children;
-    if(!children){
-      res.send(400, 'Requires child IDs');
-      res.end();
-    }
-    children = JSON.parse(children);
-    for (var i = 0, l = children.length; i < l; i ++) {
-      var id = children[i]._id || children[i];
-      var idx = wbi.children.indexOf(id);
-      if(idx !== -1) {
-        wbi.children.splice(idx, 1);
-      }
-    }
-    project.save(function(err) {
-      if (err) {
-        res.send(500, err);
-        res.end()
-      }
-      res.json(wbi);
-      res.end();
-    });
-  });
+  // DELETE /projects/:project/workbreakdown/:workbreakdown: delete a workbreakdownitem
+  app.delete(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', deleteItem);
   // PUT /projects/:project/workbreakdown/:workbreakdown: update a workbreakdownitem
   app.put(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', function(req, res, next) {
     var project = req.project;
