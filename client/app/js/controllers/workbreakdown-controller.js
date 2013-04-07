@@ -89,16 +89,17 @@ PJS.Controllers.WorkBreakdown = {
           data.projectId = projectId;
           data.$save(data, function(data){
             data.children = childrenCopy;
+            var bottomLevelObject;
             if (data.children.length === 1){
-              $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: newItem, appendAfter: data}).success(function(){});
+              bottomLevelObject = data;
             }else{
-              var bottomLevelObject = data.children[data.children.length-2];
+              bottomLevelObject = data.children[data.children.length-2];
               //Get the child item that we want to be directly before our new item.
               while(bottomLevelObject.children.length > 0){
                 bottomLevelObject = bottomLevelObject.children[bottomLevelObject.children.length-1];
               };
-              $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: newItem, appendAfter: bottomLevelObject}).success(function(){});
             }
+            $http.post('api/projects/' + projectId + '/workbreakdown/move', {source: newItem, appendAfter: bottomLevelObject}).success(function(){});
           });
         });
       };
