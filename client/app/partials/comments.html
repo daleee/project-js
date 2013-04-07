@@ -1,3 +1,25 @@
+<form class="add-comments info-small form-vertical" ng-submit="addComment()">
+  <fieldset>
+    <h5>Add Comment</h5>
+    <hr />
+    <div class="control-group">
+      <label class="control-label" for="inputNewCommentTitle">Title:</label>
+      <div class="controls">
+        <input type="text" id="inputNewCommentTitle" required maxlength="50" ng-maxlength="50" ng-model="newComment.title" />
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputNewCommentText">Comment:</label>
+      <div class="controls">
+        <textarea id="inputNewCommentText" ng-model="newComment.text" cols="50" rows="5" />
+      </div>
+    </div>
+    <button type="submit" class="btn">Add Comment</button>
+  </fieldset>
+</form>
+
+<hr />
+
 <div ng-show="workItem.comments.length != 0">
   <h5>Comments</h5>
   <div class="comments" ng-repeat="comment in workItem.comments">
@@ -13,23 +35,3 @@
     </table>
   </div>
 </div>
-
-<form class="info-small form-vertical" ng-submit="addComment()">
-  <fieldset>
-    <h5>Add Comment</h5>
-    <hr />
-    <div class="control-group">
-      <label class="control-label" for="inputNewCommentTitle">Title:</label>
-      <div class="controls">
-        <input type="text" id="inputNewCommentTitle" ng-model="newComment.title" />
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputNewCommentText">Comment:</label>
-      <div class="controls">
-        <textarea id="inputNewCommentText" ng-model="newComment.text" />
-      </div>
-    </div>
-      <button type="submit" class="btn">Add Comment</button>
-  </fieldset>
-</form>

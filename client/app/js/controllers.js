@@ -16,33 +16,10 @@ PJS.Controllers = {
     PJS.Controllers.all($scope, $routeParams, Login);
     $scope.projectsList = Project.query({list: true});
 
-    $scope.changeProject = function() {
+    $scope.changeProject = function(id) {
       if ($scope.projectChosen) {
-        window.location = '/#/projects/' + $scope.projectChosen._id;
+        window.location = '/#/projects/' + $scope.projectChosen;
       }
-    };
-  },
-
-  login: function($scope, $routeParams, $location, Login) {
-    PJS.Controllers.all($scope, $routeParams, Login);
-    $scope.login = function() {
-      var login = new Login({id: $scope.username, password: $scope.password});
-      login.$save({username: $scope.username, password: $scope.password}, function(loggedInUser) {
-        window.location.reload(true);
-      });
-    };
-  },
-
-  logout: function($http) {
-    $http({method: 'GET', url: '/api/logout'});
-    window.location = '/';
-  },
-
-  register: function($scope, $routeParams, User) {
-    $scope.register = function() {
-      /*User.get({id: $scope.username, password: $scope.password}, function(loggedInUser) {
-        user = loggedInUser;
-      });*/
     };
   },
 
@@ -109,9 +86,9 @@ PJS.Controllers = {
     var list = model[key];
 
     $scope[key + 'Add'] = function() {
-      var id = $scope[key + 'AddChosen']._id;
+      var id = $scope[key + 'AddChosen']._id || $scope[key + 'AddChosen'];
       var index = PJS.Utilities.findIndexInArray(list, id);
-      if (index === -1) {
+      if (index === -1 && id !== model._id) {
         Related.get({projectId: projectId, id: id}, function(related) {
           list.push(related);
           if (shouldSave) {
@@ -124,7 +101,7 @@ PJS.Controllers = {
 
     $scope[key + 'Remove'] = function(related) {
       var index = PJS.Utilities.findIndexInArray(list, related._id);
-      if (index !== -1) {
+      if (index !== -1 && related.id !== model._id) {
         list.splice(index, 1);
         if (shouldSave) {
           model.projectId = projectId;

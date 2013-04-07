@@ -18,14 +18,14 @@
         </span>
       </div>
       <hr />
-      <div>Started on: {{workItem.startDate | date:'yy/MM/dd'}}</div>
+      <div>Started on: {{workItem.startDate | date:'MMMM dd, yyyy'}}</div>
       <hr />
       <div ng-show="workItem.timeSpent != 0">Time spent: {{workItem.timeSpentStr}}<hr /></div>
       <div ng-show="workItem.timeEstimate != 0">Estimated time: {{workItem.timeEstimateStr}}<hr /></div>
     </div>
 
     <div ng-show="lastModifiedBy" class="info-small">
-      Last modified {{lastModifiedDate | date:'yy/MM/dd'}} by:
+      Last modified {{lastModifiedDate | date:'MMMM dd, yyyy'}} by:
       <a href="#/users/{{lastModifiedBy.id}}">{{lastModifiedBy.firstName}} {{lastModifiedBy.lastName}}</a>
     </div>
 
@@ -40,7 +40,7 @@
     <div ng-show="workItem.dependencies.length != 0" class="span4 dependencies">
       <h5>Dependencies</h5>
       <div class="dependencies" id="{{dependency.id}}" ng-repeat="dependency in workItem.dependencies">
-        <a href="#/projects/{{project.id}}/workItems/{{dependency.id}}">{{dependency.title}}</a>
+        <a href="#/projects/{{project.id}}/work-items/{{dependency.id}}">{{dependency.title}}</a>
       </div>
     </div>
 

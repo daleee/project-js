@@ -5,6 +5,7 @@
     <h4 class="title">{{milestone.title}} <a href="#/projects/{{project.id}}/milestones/{{milestone.id}}/edit"><i class="icon icon-edit"></i></a></h4>
     <p>{{milestone.description}}</p>
     <p><span class="label {{milestone.status.labelType}}">{{milestone.status.text}}</span></p>
+    <p ng-show="milestone.dueDate" class="info-small">Due: {{milestone.dueDate | date:'MMMM dd, yyyy'}}</p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{milestone.completionPercentage}}%;"></div></div>
 
     <div ng-show="milestone.wpDependencies.length != 0" class="span4 workPackages">

@@ -8,25 +8,30 @@
       <div class="control-group">
         <label class="control-label span2" for="inputTitle">Title:</label>
         <div class="controls">
-          <input type="text" id="inputTitle" ng-model="milestone.title" />
+          <input type="text" id="inputTitle" required maxlength="75" ng-maxlength="75" ng-model="milestone.title" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDescription">Description:</label>
         <div class="controls">
-          <input type="text" id="inputDescription" ng-model="milestone.description" />
+          <textarea id="inputDescription" ng-model="milestone.description" cols="50" rows="5" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputPriority">Priority:</label>
         <div class="controls">
-          <input type="text" id="inputPriority" ng-model="milestone.priority" />
+          <select id="inputPriority" ng-model="milestone.priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDueDate">Due Date:</label>
         <div class="controls">
-          <input type="text" id="inputDueDate" ng-model="milestone.dueDate" />
+          <input ui-datepicker id="inputDueDate" ng-model="milestone.dueDate" />
         </div>
       </div>
     </div>
@@ -35,9 +40,12 @@
       <div class="control-group">
         <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
         <div class="nullable">
-          <select id="{{wpDependencies + '-menu'}}" ng-change="wpDependenciesAdd(milestone)"
-            ng-model="wpDependenciesAddChosen" ng-options="dependency.title for dependency in workPackagesList">
-            <option value="">-- Add a Work Package --</option>
+          <select select2 data-placeholder="-- Add a Work Package --" id="{{wpDependencies + '-menu'}}" ng-change="wpDependenciesAdd(milestone)"
+            ng-model="wpDependenciesAddChosen">
+            <option></option>
+            <option value="{{dependency._id}}" ng-repeat="dependency in workPackagesList">
+              {{dependency.title}}
+            </option>
           </select>
         </div>
         <div class="info-small span3 pull-right milestone" id="{{dependency.id}}" ng-repeat="dependency in milestone.wpDependencies">
@@ -49,9 +57,12 @@
       <div class="control-group">
         <label class="control-label span2" for="inputDependencies">Dependencies:</label>
         <div class="nullable">
-          <select id="{{msDependencies + '-menu'}}" ng-change="msDependenciesAdd(milestone)"
-            ng-model="msDependenciesAddChosen" ng-options="dependency.title for dependency in milestonesList">
-            <option value="">-- Add a Dependency --</option>
+          <select select2 data-placeholder="-- Add a Dependency --" id="{{msDependencies + '-menu'}}" ng-change="msDependenciesAdd(milestone)"
+            ng-model="msDependenciesAddChosen">
+            <option></option>
+            <option value="{{dependency._id}}" ng-repeat="dependency in milestonesList">
+              {{dependency.title}}
+            </option>
           </select>
         </div>
         <div class="info-small span3 pull-right milestone" id="{{dependency.id}}" ng-repeat="dependency in milestone.msDependencies">
@@ -63,7 +74,7 @@
       <div class="control-group">
         <label class="control-label span2" for="inputCompletionPercentage">Completion:</label>
         <div class="controls">
-          <input type="text" id="inputCompletionPercentage" ng-model="milestone.completionPercentage" />
+          <input type="range" min="0" max="100" id="inputCompletionPercentage" ng-model="milestone.completionPercentage" />
         </div>
       </div>
       <div class="control-group">

@@ -6,19 +6,19 @@
       <div class="control-group">
         <label class="control-label span2" for="inputTitle">Title:</label>
         <div class="controls">
-          <input type="text" id="inputTitle" ng-model="project.title" />
+          <input type="text" id="inputTitle" required maxlength="50" ng-maxlength="50" ng-model="project.title" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDescription">Description:</label>
         <div class="controls">
-          <input type="text" id="inputDescription" ng-model="project.description" />
+          <textarea id="inputDescription" ng-model="project.description" cols="50" rows="5" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDueDate">Due Date:</label>
         <div class="controls">
-          <input type="text" id="inputDueDate" ng-model="project.projectDueDate" />
+          <input ui-datepicker id="inputDueDate" ng-model="project.projectDueDate" />
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
       <div class="control-group">
         <label class="control-label span2" for="inputCompletionPercentage">Completion:</label>
         <div class="controls">
-          <input type="text" id="inputCompletionPercentage" ng-model="project.completionPercentage" />
+          <input type="range" min="0" max="100" id="inputCompletionPercentage" ng-model="project.completionPercentage" />
         </div>
       </div>
       <div class="control-group">

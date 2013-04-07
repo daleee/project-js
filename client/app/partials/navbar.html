@@ -17,7 +17,12 @@
         </span>
         <span ng-switch-default>
           <ul class="nav pull-right">
-            <li><a href="#/users/register">Sign Up</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign Up <strong class="caret"></strong></a>
+              <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                <div ng-include src="'partials/register.html'"></div>
+              </div>
+            </li>
             <li class="divider-vertical"></li>
             <li class="dropdown">
               <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
@@ -34,12 +39,13 @@
         </li>
         <li>
           <span class="nullable">
-            <select id="projects-menu" ng-change="changeProject()" ng-model="projectChosen" ng-options="projectChoice.title for projectChoice in projectsList">
-              <option value="">Choose a Project</option>
+            <select select2 id="projects-menu" data-placeholder="Choose a Project" ng-change="changeProject()" ng-model="projectChosen">
+              <option></option>
+              <option value="{{projectChoice._id}}" ng-repeat="projectChoice in projectsList">{{projectChoice.title}}</option>
             </select>
           </span>
         </li>
       </ul>
     </div>
   </div>
-</div>  
+</div>

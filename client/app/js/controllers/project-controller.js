@@ -71,7 +71,6 @@ PJS.Controllers.Project = {
         project.clientName = $scope.project.clientName;
         project.status = $scope.project.status;
         project.completionPercentage = $scope.project.completionPercentage;
-        console.log(project);
 
         project.$save(project, function(project) {
           window.location = '/#/projects/' + project._id;

@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
-  
+
   // GET /project/:project/workitem: get a project's work items
   app.get(prefix + '/projects/:project/workitems', function(req, res) {
     var project = req.project;

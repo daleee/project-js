@@ -8,27 +8,24 @@
       <div class="control-group">
         <label class="control-label span2" for="inputTitle">Title:</label>
         <div class="controls">
-          <input type="text" id="inputTitle" ng-model="workItem.title" />
+          <input type="text" id="inputTitle" required maxlength="50" ng-maxlength="50" ng-model="workItem.title" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputDescription">Description:</label>
         <div class="controls">
-          <input type="text" id="inputDescription" ng-model="workItem.description" />
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label span2" for="inputPriority">Priority:</label>
-        <div class="controls">
-          <input type="text" id="inputPriority" ng-model="workItem.priority" />
+          <textarea id="inputDescription" ng-model="workItem.description" cols="50" rows="5" />
         </div>
       </div>
       <div class="control-group">
         <label class="control-label span2" for="inputWorkPackages">Work Packages:</label>
         <div class="nullable">
-          <select id="{{workPackages + '-menu'}}" ng-change="workPackagesAdd(workPackage)"
-            ng-model="workPackagesAddChosen" ng-options="workPackage.title for workPackage in workPackagesList">
-            <option value="">-- Add a Work Package --</option>
+          <select select2 data-placeholder="-- Add a Work Package --" id="{{workPackages + '-menu'}}" ng-change="workPackagesAdd(workPackage)"
+            ng-model="workPackagesAddChosen">
+            <option></option>
+            <option value="{{workPackage._id}}" ng-repeat="workPackage in workPackagesList">
+              {{workPackage.title}}
+            </option>
           </select>
         </div>
         <div class="info-small span3 pull-right workPackage" id="{{workPackage.id}}" ng-repeat="workPackage in workItem.workPackages">
@@ -40,9 +37,12 @@
       <div class="control-group">
         <label class="control-label span2" for="inputAssignedUsers">Assigned Users:</label>
         <div class="nullable">
-          <select id="{{assignedUsers + '-menu'}}" ng-change="assignedUsersAdd(assigned)"
-            ng-model="assignedUsersAddChosen" ng-options="assigned.username + ': ' + assigned.firstName + ' ' + assigned.lastName for assigned in usersList">
-            <option value="">-- Assign a User --</option>
+          <select select2 data-placeholder="-- Assign a User --" id="{{assignedUsers + '-menu'}}" ng-change="assignedUsersAdd(assigned)"
+            ng-model="assignedUsersAddChosen">
+            <option></option>
+            <option value="{{assigned._id}}" ng-repeat="assigned in usersList">
+              {{assigned.firstName + ' ' + assigned.lastName}}
+            </option>
           </select>
         </div>
         <div class="info-small span3 pull-right assigned" id="{{assigned.id}}" ng-repeat="assigned in workItem.assignedUsers">
@@ -54,9 +54,12 @@
       <div class="control-group">
         <label class="control-label span2" for="inputDependencies">Dependencies:</label>
         <div class="nullable">
-          <select id="{{dependencies + '-menu'}}" ng-change="dependenciesAdd(dependency)"
-            ng-model="dependenciesAddChosen" ng-options="dependency.title for dependency in dependenciesList">
-            <option value="">-- Add a Dependency --</option>
+          <select select2 id="{{dependencies + '-menu'}}" data-placeholder="-- Add a Dependency --" ng-change="dependenciesAdd(dependency)"
+            ng-model="dependenciesAddChosen">
+            <option></option>
+            <option value="{{dependency._id}}" ng-repeat="dependency in dependenciesList">
+              {{dependency.title}}
+            </option>
           </select>
         </div>
         <div class="info-small span3 pull-right dependency" id="{{dependency.id}}" ng-repeat="dependency in workItem.dependencies">
@@ -83,7 +86,7 @@
       <div class="control-group">
         <label class="control-label span2" for="inputCompletionPercentage">Completion:</label>
         <div class="controls">
-          <input type="text" id="inputCompletionPercentage" ng-model="workItem.completionPercentage" />
+          <input type="range" min="0" max="100" id="inputCompletionPercentage" ng-model="workItem.completionPercentage" />
         </div>
       </div>
       <div class="control-group">

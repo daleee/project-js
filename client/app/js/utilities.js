@@ -66,11 +66,14 @@ PJS.Utilities.setSelectedOption = function(selectMenu, expected) {
   if (!anySelected && selectMenu.children.length) {
     selectMenu.children[0].selected = true;
   }
+  if (selectMenu.className.indexOf('select2') !== -1) {
+    $(selectMenu).select2();
+  }
 };
 
 PJS.Utilities.filterByStatus = function(items, status) {
   var newItems = [];
-  
+
   items.forEach(function(item) {
     var itemAdded = false;
     if (item.status) {

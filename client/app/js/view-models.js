@@ -6,26 +6,26 @@ PJS.ViewModels = {
   Project: function(project) {
     return PJS.ViewModels.all(project);
   },
-  
+
   Milestone: function(milestone) {
     return PJS.ViewModels.all(milestone);
   },
-  
+
   WorkItem: function(workItem) {
     workItem.timeSpentStr = hoursString(workItem.timeSpent);
     workItem.timeEstimateStr = hoursString(workItem.timeEstimate);
     return PJS.ViewModels.all(workItem);
   },
-  
+
   Comment: function(comment) {
     comment.postedBy = PJS.ViewModels.User(comment.postedBy);
     return PJS.ViewModels.all(comment);
   },
-  
+
   WorkBreakdownItem: function(wbItem) {
     return PJS.ViewModels.all(wbItem);
   },
-  
+
   WorkPackage: function(workPackage) {
     return PJS.ViewModels.all(workPackage);
   },

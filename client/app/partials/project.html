@@ -9,6 +9,7 @@
       </span>
     </h5>
     <h5><span class="label {{project.status.labelType}}">{{project.status.text}}</span></h5>
+    <p ng-show="project.projectDueDate" class="info-small">Due: {{project.projectDueDate | date:'MMMM dd, yyyy'}}</p>
     <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
   </div>
   <div class="span5 milestones">

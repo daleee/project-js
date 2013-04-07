@@ -48,7 +48,6 @@ PJS.Controllers.WorkItem = {
         timeEstimate: 0,
         timeSpent: 0,
         startDate: Date.now,
-        priority: 'low',
         status: 'open'
       };
 
@@ -104,7 +103,6 @@ PJS.Controllers.WorkItem = {
           workItem.dependencies = $scope.workItem.dependencies;
           workItem.timeEstimate = $scope.workItem.timeEstimate;
           workItem.timeSpent = $scope.workItem.timeSpent;
-          workItem.priority = $scope.workItem.priority;
           workItem.completionPercentage = $scope.workItem.completionPercentage;
           workItem.status = $scope.workItem.status;
           workItem.projectId = projectId;
@@ -130,6 +128,7 @@ PJS.Controllers.WorkItem = {
           });
           workItem.projectId = projectId;
           workItem.$save(workItem);
+          $scope.workItem.comments = workItem.comments;
         }
       };
     });

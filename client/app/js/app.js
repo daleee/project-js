@@ -10,11 +10,11 @@ this.PJS = {
 (function() {
 
 // AngularJS routing for each pages. Links to controllers.
-angular.module('ProjectJS', ['ProjectJS.filters', 'ProjectJS.services', 'ProjectJS.directives']).
+angular.module('ProjectJS', ['ProjectJS.filters', 'ProjectJS.services', 'ProjectJS.directives', 'ui']).
   config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/users/login', {templateUrl: 'partials/login.html', controller: PJS.Controllers.login});
-    $routeProvider.when('/users/logout', {templateUrl: 'partials/logout.html', controller: PJS.Controllers.logout});
-    $routeProvider.when('/users/register', {templateUrl: 'partials/register.html', controller: PJS.Controllers.register});
+    $routeProvider.when('/users/login', {templateUrl: 'partials/login.html', controller: PJS.Controllers.User.login});
+    $routeProvider.when('/users/logout', {templateUrl: 'partials/logout.html', controller: PJS.Controllers.User.logout});
+    $routeProvider.when('/users/register', {templateUrl: 'partials/register.html', controller: PJS.Controllers.User.add});
     $routeProvider.when('/users/:userId', {templateUrl: 'partials/user.html', controller: PJS.Controllers.User.get});
     $routeProvider.when('/projects', {templateUrl: 'partials/projects.html', controller: PJS.Controllers.Project.list});
     $routeProvider.when('/projects/:projectId', {templateUrl: 'partials/project.html', controller: PJS.Controllers.Project.getMain});
