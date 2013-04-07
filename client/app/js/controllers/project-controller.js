@@ -33,6 +33,7 @@ PJS.Controllers.Project = {
       $scope.project = project;
     });
     $scope.setSelectedOptionProject = setSelectedOptionProject;
+    $scope.currentProjectCategory = PJS.Controllers.Project.getCurrentCategory();
   },
 
   add: function($scope, $routeParams, Project) {
@@ -85,8 +86,28 @@ PJS.Controllers.Project = {
       project.$remove(project);
       window.location = '/#/projects/';
     });
+  },
+
+  getCurrentCategory: function() {
+    var href = window.location.href;
+    var activeChosen = false;
+    var current = {};
+    categories.forEach(function(category) {
+      if (href.indexOf(category) !== -1) {
+        current[category] = 'active';
+        activeChosen = true;
+      } else {
+        current[category] = 'inactive';
+      }
+    });
+    if (!activeChosen) {
+      current.dashboard = 'active';
+    }
+    return current;
   }
 };
+
+var categories = ['dashboard','users','work-breakdown','work-packages','work-items','milestones'];
 
 var setSelectedOptionProject = function(project) {
   if (project) {
