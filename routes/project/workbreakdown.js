@@ -10,14 +10,23 @@ module.exports = function(app) {
     res.send(project.workBreakdownStructure);
   });
 
-  function addChildren(req, res, next) {
+  function updateWBI(req, res, next) {
     var project = req.project;
     var wbi = req.workbreakdownitem;
     var children = req.body.children;
-    if(!children){
-      res.send(400, 'Requires child IDs');
-      res.end();
+    if(req.body.title) wbi.title = req.body.title;
+    if(req.body.description) wbi.description = req.body.description;
+    if(req.body.status) {
+      var status = req.body.status;
+      if (status === 'open'
+        || status === 'closed'
+        || status === 'late'
+        || status === 'deleted') {
+        wbi.status = req.body.status;
+      }
     }
+    wbi.lastModifiedDate = new Date();
+    //TODO: add user ID to lastModifiedBy
     wbi.children = [];
     // synchronous save to make sure children are
     // cleared out of WBI array
@@ -76,7 +85,7 @@ module.exports = function(app) {
     if (req.body._id){
       //We already have an ID so we don't need to make a new item. Just get the existing one.
       req.workbreakdownitem = project.workBreakdownStructure.id(req.body._id);
-      addChildren(req, res, next);
+      updateWBI(req, res, next);
     }else{
       var item = new WorkBreakdownItem();
       item.title = req.body.title;
@@ -142,7 +151,7 @@ module.exports = function(app) {
   });
 
   // POST /projects/:project/workbreakdown/:workbreakdown: add a new child to workbreakdownitem
-  app.post(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', addChildren);
+  app.post(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', updateWBI);
 
   // DELETE /projects/:project/workbreakdown/:workbreakdown: delete a workbreakdownitem
   app.delete(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', deleteItem);
@@ -155,14 +164,15 @@ module.exports = function(app) {
     if(req.body.status) {
       var status = req.body.status;
       if (status === 'open'
-         || status === 'closed'
-         || status === 'late'
-         || status === 'deleted') {
+        || status === 'closed'
+        || status === 'late'
+        || status === 'deleted') {
         wbi.status = req.body.status;
       }
     }
     wbi.lastModifiedDate = new Date();
     //TODO: add user ID to lastModifiedBy
+
     // wbi.lastModifiedBy = req.body.user._id || req.body.user;
     project.save(function(err) {
       if (err) {

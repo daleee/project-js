@@ -1,14 +1,24 @@
-<div ng-click="showDescription=!showDescription"><a href="">{{data.title}}</a></div>
+<div><a ng-click="showDescription=!showDescription" href="">{{data.title}}</a></div>
 <div ng-show="showDescription">{{data.description}}</div>
+
+<button ng-click="mode='update';updatedItem.title=data.title;updatedItem.description=data.description" ng-show="mode!='update'">*</button>
+
 <button ng-click="mode='add'" ng-show="mode!='add'">+</button>
-<button ng-click="mode='view'" ng-show="mode=='add'">Stop</button>
+<button ng-click="mode='view'" ng-show="mode=='add'">Stop Adding</button>
+
 <button ng-click="mode='delete'" ng-show="mode!='delete'">-</button>
 <button ng-click="mode='view'" ng-show="mode=='delete'">Cancel</button>
 <button ng-click="delete(data)" ng-show="mode=='delete'">Confirm Deletion</button>
 <div ng-show="mode=='add'">
-  Title: <input type="text" id="title" ng-model="data.newItem.title" />
-  Description: <input type="text" id="description" ng-model="data.newItem.description" />
-  <button ng-click="addChildren(data);newItem.description='';newItem.title=''">Save</button>
+  Title: <input type="text" id="title" ng-model="newItem.title" />
+  Description: <input type="text" id="description" ng-model="newItem.description" />
+  <button ng-click="addChildren(data, newItem);newItem.description='';newItem.title=''">Save</button>
+</div>
+<div ng-show="mode=='update'">
+  Title: <input type="text" id="updateTitle" ng-model="updatedItem.title" />
+  Description: <input type="text" id="updateDescription" ng-model="updatedItem.description" />
+  <button ng-click="mode='view'">Cancel Update</button>
+  <button ng-click="mode='view';update(data,updatedItem);updatedItem.title='';updatedItem.description=''">Update</button>
 </div>
 <ul>
   <li ng-repeat="data in data.children" ng-controller="PJS.Controllers.WorkBreakdown.treeInit" ng-include="'partials/workbreakdowntree.html'"></li>

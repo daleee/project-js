@@ -51,11 +51,13 @@ PJS.Controllers.WorkBreakdown = {
                   console.log("Deleted empty child entry")
                   workBreakdown[startIndex].children.splice(childIndex, 1);
                   workBreakdown[startIndex].projectId = projectId;
-                  workBreakdown[startIndex].$save(workBreakdown[startIndex], function(){
-                    //Sigh. AngularJS will screw up if we cut out a child in the middle of things, it appears.
-                    //So we reload the page after deleting stuff and everything should be fine.
-                    window.location = '/#/projects/' + projectId + '/work-breakdown/';
-                  });
+                  workBreakdown[startIndex].$save(workBreakdown[startIndex]);
+                  //Sigh. AngularJS will screw up if we cut out a child in the middle of things, it appears.
+                  //So we reload the page after deleting stuff and everything should be fine.
+                  window.location = '/#/projects/' + projectId + '/work-breakdown/';
+
+                  //This line will never be reached, but is being left in in case the above angularJS issue gets fixed
+                  // and the double page reload becomes unnecessary
                   //We're splicing a child out of the array, so we have to reduce the child index by 1 or we'll
                   //end up skipping one
                   childIndex--;
@@ -81,20 +83,20 @@ PJS.Controllers.WorkBreakdown = {
         }
         $scope.data = {};
         $scope.data.children = workBreakdown;
-        $scope.data.newItem = {};
+        $scope.newItem = {};
+        $scope.updatedItem = {};
         $scope.mode = "view";
       });
 
-      //TODO: Make this delete the item associated with data
       $scope.delete = function(data) {
         data.projectId = projectId;
         data.$delete(data, function(){
           window.location = '/#/projects/' + projectId + '/work-breakdown/';
         });
       };
-      $scope.addChildren = function(data) {
-        var description = data.newItem.description || "";
-        var newItem = new WorkBreakdown({title: data.newItem.title, description: description});
+      $scope.addChildren = function(data, item) {
+        var description = item.description || "";
+        var newItem = new WorkBreakdown({title: item.title, description: description});
         newItem.projectId = projectId;
         newItem.$save(newItem, function(newItem){
           if (!data.children){
@@ -122,9 +124,19 @@ PJS.Controllers.WorkBreakdown = {
         });
       };
 
-      $scope.add = function(data) {
-        var description = data.newItem.description || "";
-        var newItem = new WorkBreakdown({title: data.newItem.title, description: description});
+      $scope.update = function(data, item){
+        data.title = item.title;
+        data.description = item.description;
+        data.projectId = projectId;
+        var childrenCopy = data.children.slice(0);
+        data.$save(data, function(){
+          data.children = childrenCopy;
+        });
+      };
+
+      $scope.add = function(data, item) {
+        var description = item.description || "";
+        var newItem = new WorkBreakdown({title: item.title, description: description});
         newItem.projectId = projectId;
         newItem.$save(newItem, function(newItem){
           if (!data.children){
@@ -140,5 +152,6 @@ PJS.Controllers.WorkBreakdown = {
     $scope.mode = "view";
     $scope.showDescription = false;
     $scope.newItem = {};
+    $scope.updatedItem = {};
   }
 };

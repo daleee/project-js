@@ -10,9 +10,9 @@
 <button ng-click="mode='view'" ng-show="mode=='add'">Stop</button>
 <button ng-click="delete(data)" ng-show="data.items.length > 0">-</button>
 <div ng-show="mode=='add'">
-  Title: <input type="text" id="title" ng-model="data.newItem.title" />
-  Description: <input type="text" id="description" ng-model="data.newItem.description" />
-  <button ng-click="add(data);newItem.description='';newItem.title=''">Save</button>
+  Title: <input type="text" id="title" ng-model="newItem.title" />
+  Description: <input type="text" id="description" ng-model="newItem.description" />
+  <button ng-click="add(data, newItem);newItem.description='';newItem.title=''">Save</button>
 </div>
 <li ng-repeat="data in data.children" ng-controller="PJS.Controllers.WorkBreakdown.treeInit" ng-include="'partials/workbreakdowntree.html'"></li>
 
