@@ -169,27 +169,27 @@ db.projects.insert ([
       { _id: ObjectId("514e4981002fb0e90331a856"), title: "Project1 Final Report WP", description: "...", priority: "low", timeEstimate: 10, completionPercentage: 0, status: "open", dependencies: [ObjectId("514e494c002fb0e90331a855")], lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") }
     ],
     workItems: [
-      { _id: ObjectId("514e4a18002fb0e90331a857"), title: "Project1 Work Item 1", description: "...", workPackages: [ObjectId("514e4741002fb0e90331a84f")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c0"), ObjectId("5146b4e310cbdcdacc1261c3")], dependencies: [], startDate: new Date("Jan 31, 2013"), timeEstimate: 2, timeSpent: 0, completionPercentage: 0, status: "open",
+      { _id: ObjectId("514e4a18002fb0e90331a857"), title: "Project1 Work Item 1", description: "...", workPackages: [ObjectId("514e4741002fb0e90331a84f")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c0"), ObjectId("5146b4e310cbdcdacc1261c3")], dependencies: [], startDate: new Date("Jan 31, 2013"), timeEstimate: 2, timeSpent: 0, completionPercentage: 0, ownCompletionPercentage: 0, status: "open",
         comments: [
           { title: "1st comment Work Item 1", text: "This is work item 1 first comment", postedBy: ObjectId("5146b4e310cbdcdacc1261bb"), datePosted: new Date("Jan 30, 2013") }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
-      { _id: ObjectId("514e4a47002fb0e90331a858"), title: "Project1 Work Item 2", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c1"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 2, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, status: "open",
+      { _id: ObjectId("514e4a47002fb0e90331a858"), title: "Project1 Work Item 2", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c1"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 2, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, ownCompletionPercentage: 0, status: "open",
         comments: [
           { title: "1st comment Work Item 2", text: "This is work item 2 first comment", postedBy: ObjectId("5146b4e310cbdcdacc1261bb"), datePosted: new Date("Jan 30, 2013") }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
-      { _id: ObjectId("514e4a70002fb0e90331a859"), title: "Project1 Work Item 3", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c2"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 2, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, status: "open",
+      { _id: ObjectId("514e4a70002fb0e90331a859"), title: "Project1 Work Item 3", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c2"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 2, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, ownCompletionPercentage: 0, status: "open",
         comments: [
           { title: "1st comment Work Item 3", text: "This is work item 3 first comment", postedBy: ObjectId("5146b4e310cbdcdacc1261bb"), datePosted: new Date("Jan 30, 2013") }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
-      { _id: ObjectId("514e4a98002fb0e90331a85a"), title: "Project1 Work Item 4", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c0"), ObjectId("5146b4e310cbdcdacc1261c3")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 7, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, status: "open",
+      { _id: ObjectId("514e4a98002fb0e90331a85a"), title: "Project1 Work Item 4", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c0"), ObjectId("5146b4e310cbdcdacc1261c3")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 7, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, ownCompletionPercentage: 0, status: "open",
         comments: [
           { title: "1st comment Work Item 4", text: "This is work item 4 first comment", postedBy: ObjectId("5146b4e310cbdcdacc1261bb"), datePosted: new Date("Jan 30, 2013") }
         ],
         lastModifiedDate: new Date("Jan 30, 2013"), lastModifiedBy: ObjectId("5146b4e310cbdcdacc1261bb") },
-      { _id: ObjectId("514e4b7d002fb0e90331a85d"), title: "Project1 Work Item 5", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c1"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 7, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, status: "open",
+      { _id: ObjectId("514e4b7d002fb0e90331a85d"), title: "Project1 Work Item 5", description: "...", workPackages: [ObjectId("514e47e1002fb0e90331a850")], assignedUsers: [ObjectId("5146b4e310cbdcdacc1261c1"), ObjectId("5146b4e310cbdcdacc1261c4")], dependencies: [ObjectId("514e4a18002fb0e90331a857")], startDate: new Date("Feb 7, 2013"), timeEstimate: 5, timeSpent: 0, completionPercentage: 0, ownCompletionPercentage: 0, status: "open",
         comments: [
           { title: "1st comment Work Item 5", text: "This is work item 5 first comment", postedBy: ObjectId("5146b4e310cbdcdacc1261bb"), datePosted: new Date("Jan 30, 2013") }
         ],

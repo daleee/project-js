@@ -30,6 +30,39 @@ var Project = new Schema({
 module.exports = Project;
 
 Project.methods = {
+  getCompletion: function(ids) {
+    ids = ids || {};
+    if (!ids[this._id]) {
+      ids[this._id] = true;
+      var completionPercentage = 0;
+      var sum = 0;
+      var amount = this.milestones.length;
+
+      if (amount) {
+        this.milestones.forEach(function(milestone) {
+          sum += milestone.getCompletion(ids, this);
+        }, this);
+      } else if (this.workPackages.length) {
+        amount = this.workPackages.length;
+        this.workPackages.forEach(function(workPackage) {
+          sum += workPackage.getCompletion(ids, this);
+        }, this);
+      } else {
+        amount = this.workItems.length;
+        this.workItems.forEach(function(workItem) {
+          sum += workItem.getCompletion(ids, this);
+        }, this);
+      }
+
+      if (amount) {
+        completionPercentage = sum / amount;
+      }
+
+      this.completionPercentage = completionPercentage;
+    }
+    return this.completionPercentage;
+  },
+
   hasUser: function(id, cb) {
     return !!this.hasUserAndRetrieve(id, cb);
   },
@@ -81,6 +114,7 @@ Project.methods = {
 
 Project.pre('save', function(next) {
   var project = this;
+  project.getCompletion();
   project.lastModifiedDate = new Date();
   next();
 });

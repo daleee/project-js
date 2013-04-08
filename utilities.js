@@ -1,7 +1,7 @@
 module.exports = {
   findInArrayInner: function(list, id, inner) {
     for (var i = 0; i < list.length; ++i) {
-      if (list[i] && (list[i][inner] == id || 
+      if (list[i] && (list[i][inner] == id ||
          (list[i][inner] && list[i][inner]._id == id))) {
         return list[i];
       }
@@ -11,7 +11,7 @@ module.exports = {
 
   findIndexInArrayInner: function(list, id, inner) {
     for (var i = 0; i < list.length; ++i) {
-      if (list[i] && (list[i][inner] == id || 
+      if (list[i] && (list[i][inner] == id ||
          (list[i][inner] && list[i][inner]._id == id))) {
         return i;
       }
@@ -20,8 +20,10 @@ module.exports = {
   },
 
   findInArray: function(list, id) {
+    id = id.toString();
     for (var i = 0; i < list.length; ++i) {
-      if (list[i]._id == id) {
+      var otherId = list[i]._id || list[i];
+      if (otherId.toString() === id) {
         return list[i];
       }
     }
@@ -29,14 +31,16 @@ module.exports = {
   },
 
   findIndexInArray: function(list, id) {
+    id = id.toString();
     for (var i = 0; i < list.length; ++i) {
-      if (list[i]._id == id) {
+      var otherId = list[i]._id || list[i];
+      if (otherId.toString() === id) {
         return i;
       }
     }
     return false;
   },
-  
+
   lightList: function(list) {
     var newList = [];
     list.forEach(function(item, index) {

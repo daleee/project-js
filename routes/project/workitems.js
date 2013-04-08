@@ -49,7 +49,7 @@ module.exports = function(app) {
     wi.timeSpent = req.body.timeSpent || 0;
     wi.startDate = new Date();
     wi.status = req.body.status || 'open';
-    wi.completionPercentage = req.body.completionPercentage || 0;
+    wi.ownCompletionPercentage = req.body.ownCompletionPercentage || 0;
     wi.dependencies = [];
     wi.workPackages = [];
     wi.assignedUsers = [];
@@ -107,7 +107,7 @@ module.exports = function(app) {
     if(req.body.timeEstimate !== undefined) wi.timeEstimate = req.body.timeEstimate;
     if(req.body.timeSpent !== undefined) wi.timeSpent = req.body.timeSpent;
     if(req.body.status) wi.status = req.body.status;
-    if(req.body.completionPercentage !== undefined) wi.completionPercentage = req.body.completionPercentage;
+    if(req.body.ownCompletionPercentage !== undefined) wi.ownCompletionPercentage = req.body.ownCompletionPercentage;
 
     // add dependencies
     if(req.body.dependencies){

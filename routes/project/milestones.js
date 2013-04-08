@@ -34,7 +34,6 @@ module.exports = function(app) {
     var milestone = new Milestone({
       title: req.body.title,
       description: req.body.description,
-      completionPercentage: req.body.completionPercentage || 0,
       wpDependencies: [],
       msDependencies: [],
       priority: 'low',
@@ -83,7 +82,6 @@ module.exports = function(app) {
     if(req.body.title) ms.title = req.body.title;
     if(req.body.description) ms.description = req.body.description;
     if(req.body.status) ms.status = req.body.status;
-    if(req.body.completionPercentage) ms.completionPercentage = req.body.completionPercentage;
     if(req.body.priority) ms.priority = req.body.priority;
     if(req.body.dueDate) ms.dueDate = req.body.dueDate;
 

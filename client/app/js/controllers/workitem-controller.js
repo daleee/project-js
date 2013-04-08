@@ -44,7 +44,7 @@ PJS.Controllers.WorkItem = {
         dependencies: [],
         assignedUsers: [],
         comments: [],
-        completionPercentage: 0,
+        ownCompletionPercentage: 0,
         timeEstimate: 0,
         timeSpent: 0,
         startDate: Date.now,
@@ -103,7 +103,7 @@ PJS.Controllers.WorkItem = {
           workItem.dependencies = $scope.workItem.dependencies;
           workItem.timeEstimate = $scope.workItem.timeEstimate;
           workItem.timeSpent = $scope.workItem.timeSpent;
-          workItem.completionPercentage = $scope.workItem.completionPercentage;
+          workItem.ownCompletionPercentage = $scope.workItem.ownCompletionPercentage;
           workItem.status = $scope.workItem.status;
           workItem.projectId = projectId;
           workItem.$save(workItem, function(workItem) {

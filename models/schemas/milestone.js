@@ -6,12 +6,12 @@ var Completion = require('./completion');
 
 var Milestone = new Schema({
   title: { type: String, required: true, unique: true, trim: true, sparse: true },
-  description: { type: String, trim: true }, 
+  description: { type: String, trim: true },
   dueDate: { type: Date },
   priority: { type: String, trim: true }, //required?
   completionPercentage: { type: Number, min: 0, max: 100, default: 0 },
-  status: { type: String, trim: true, default: 'open' }, 
-  wpDependencies: [Completion], 
+  status: { type: String, trim: true, default: 'open' },
+  wpDependencies: [Completion],
   msDependencies: [{ type: ObjectId }],
   lastModifiedDate: {type: Date, default: Date.now },
   lastModifiedBy: { type: ObjectId, ref: 'User' }
@@ -20,6 +20,33 @@ var Milestone = new Schema({
 module.exports = Milestone;
 
 Milestone.methods = {
+  getCompletion: function(ids, project) {
+    ids = ids || {};
+    if (!ids[this._id]) {
+      ids[this._id] = true;
+      var completionPercentage = 0;
+      var sum = 0;
+      var amount = (this.wpDependencies.length + this.msDependencies.length);
+
+      this.msDependencies.forEach(function(dependency) {
+        dependency = project.hasMilestoneAndRetrieve(dependency);
+        if (dependency) sum += dependency.getCompletion(ids, project);
+      });
+
+      this.wpDependencies.forEach(function(dependency) {
+        dependency = dependency.wkPackage ? project.hasWorkPackageAndRetrieve(dependency.wkPackage) : null;
+        if (dependency) sum += dependency.getCompletion(ids, project);
+      });
+
+      if (amount) {
+        completionPercentage = sum / amount;
+      }
+
+      this.completionPercentage = completionPercentage;
+    }
+    return this.completionPercentage;
+  },
+
   // editMilestone - updates a project milestone with changes user has made
   editMilestone: function(id, newTitle, newDesc, newPriority, newStatus, wpDep, msDep, reqComp, userId){
     var project = new Project();
@@ -48,7 +75,7 @@ Milestone.methods = {
         while (item.wpDependencies.length > 0) {
           milestone.wpDependencies.pop();
         }
-        // insert new wpDependencies  
+        // insert new wpDependencies
         for (var i = 0; i < wpDep.length; i++) {
            milestone.wpDependencies.push(wpDep[i]);
         }
@@ -58,7 +85,7 @@ Milestone.methods = {
         while (item.msDependencies.length > 0) {
           milestone.msDependencies.pop();
         }
-        // insert new msDependencies  
+        // insert new msDependencies
         for (var i = 0; i < msDep.length; i++) {
            milestone.msDependencies.push(msDep[i]);
         }
@@ -68,7 +95,7 @@ Milestone.methods = {
         while (item.requiredCompletion.length > 0) {
           milestone.requiredCompletion.pop();
         }
-        // insert new requiredCompletion  
+        // insert new requiredCompletion
         for (var i = 0; i < msDep.length; i++) {
            milestone.requiredCompletion.push(reqComp.title[i]);
            milestone.requiredCompletion.push(reqComp.percentage[i]);
@@ -83,11 +110,11 @@ Milestone.methods = {
         console.log(err);
         res.send(500, err);
         res.end()
-       }  
+       }
      });
     res.json(req.project.milestone);
     res.end();
-  }, 
+  },
 
   // deleteMilestone - changes the status of the milestone to 'deleted'
   deleteMilestone: function(id, userId) {
@@ -103,7 +130,7 @@ Milestone.methods = {
       milestone.status = 'deleted';
       milestone.lastModifiedDate = Date.now;
       milestone.lastModifiedBy = userId;
-        
+
       project.milestones.markModified(milestone);
     });
     project.save(function(err) {
@@ -111,7 +138,7 @@ Milestone.methods = {
         console.log(err);
         res.send(500, err);
         res.end()
-      }  
+      }
     });
     res.json(req.project.milestone);
     res.end();
