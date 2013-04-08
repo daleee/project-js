@@ -6,7 +6,8 @@
     <p>{{workItem.description}}</p>
     <p><span class="label {{workItem.status.labelType}}">{{workItem.status.text}}</span></p>
 
-    <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{workItem.completionPercentage}}%;"></div></div>
+    <h5>Overall Progress: {{workItem.completionPercentage | number:1}}%</h5>
+    <div class="progress"><div class="bar" style="width: {{workItem.completionPercentage}}%;"></div></div>
 
     <hr />
 

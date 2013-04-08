@@ -5,7 +5,11 @@
     <h4 class="title">{{workPackage.title}} <a href="#/projects/{{project.id}}/work-packages/{{workPackage.id}}/edit"><i class="icon icon-edit"></i></a></h4>
     <p>{{workPackage.description}}</p>
     <p><span class="label {{workPackage.status.labelType}}">{{workPackage.status.text}}</span></p>
-    <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{workPackage.completionPercentage}}%;"></div></div>
+    <h5>Overall Progress: {{workPackage.completionPercentage | number:1}}%</h5>
+    <div class="progress"><div class="bar" style="width: {{workPackage.completionPercentage}}%;"></div></div>
+    <hr />
+    <div class="info-small" ng-show="workPackage.timeSpent != 0">Time spent: {{workPackage.timeSpentStr}}<hr /></div>
+    <div class="info-small" ng-show="workPackage.timeEstimate != 0">Estimated time: {{workPackage.timeEstimateStr}}<hr /></div>
 
     <div ng-show="workPackage.workItems.length != 0" class="span4 workItems">
       <h5>Work Items</h5>

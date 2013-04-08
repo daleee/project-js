@@ -20,7 +20,7 @@ module.exports = function(app)
   ///////////////////////////////////////////////////////////////////
 
   // use short logging
-  app.use(express.logger('short'));
+  //app.use(express.logger('short'));
   // enable express cookie parsing
   app.use(express.cookieParser());
   // enable express body parsing

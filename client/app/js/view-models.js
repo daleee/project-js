@@ -27,6 +27,9 @@ PJS.ViewModels = {
   },
 
   WorkPackage: function(workPackage) {
+    workPackage.timeSpent = workPackage.timeSpent || 0;
+    workPackage.timeSpentStr = hoursString(workPackage.timeSpent);
+    workPackage.timeEstimateStr = hoursString(workPackage.timeEstimate);
     return PJS.ViewModels.all(workPackage);
   },
 

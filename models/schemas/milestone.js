@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = mongoose.Schema.Types.ObjectId;
+var Utilities = require('../../utilities');
 
 var Completion = require('./completion');
 
@@ -20,29 +21,68 @@ var Milestone = new Schema({
 module.exports = Milestone;
 
 Milestone.methods = {
+  getWeight: function() {
+    return Utilities.getPriorityWeight(this.priority);
+  },
+
   getCompletion: function(ids, project) {
     ids = ids || {};
     if (!ids[this._id]) {
       ids[this._id] = true;
       var completionPercentage = 0;
       var sum = 0;
-      var amount = (this.wpDependencies.length + this.msDependencies.length);
-
-      this.msDependencies.forEach(function(dependency) {
-        dependency = project.hasMilestoneAndRetrieve(dependency);
-        if (dependency) sum += dependency.getCompletion(ids, project);
-      });
+      var amount = 0;
+      var completedDependencies = 0;
+      var ownWeight = 4;
 
       this.wpDependencies.forEach(function(dependency) {
+        var percentage = dependency.percentage;
         dependency = dependency.wkPackage ? project.hasWorkPackageAndRetrieve(dependency.wkPackage) : null;
-        if (dependency) sum += dependency.getCompletion(ids, project);
+        var num = 0;
+        if (dependency) {
+          var weight = dependency.getWeight();
+          amount += weight;
+          num = dependency.getCompletion(ids, project);
+          if (percentage) {
+            if (num > percentage) num = percentage;
+            num = num / percentage * 100;
+          }
+          num *= weight;
+        }
+        sum += num;
       });
 
       if (amount) {
         completionPercentage = sum / amount;
       }
 
-      this.completionPercentage = completionPercentage;
+      amount = 0;
+      sum = 0;
+
+      this.msDependencies.forEach(function(dependency) {
+        dependency = project.hasMilestoneAndRetrieve(dependency);
+        if (dependency) {
+          var weight = dependency.getWeight();
+          amount += weight;
+          sum += dependency.getCompletion(ids, project) * weight;
+        }
+      });
+
+      if (amount) {
+        completedDependencies = sum / amount;
+      } else {
+        completedDependencies = 100;
+      }
+
+      this.completionPercentage = completionPercentage - (100 - completedDependencies) / ownWeight;
+
+      if (this.completionPercentage < 0) {
+        this.completionPercentage = 0;
+      }
+
+      if (this.completionPercentage > 100) {
+        this.completionPercentage = 100;
+      }
     }
     return this.completionPercentage;
   },

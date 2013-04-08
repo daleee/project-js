@@ -1,8 +1,4 @@
 <div class="table">
-  <h3>Your Projects</h3>
-</div>
-
-<div class="table">
   <a class="btn" href="#/add-project">Add Project</a>
   <span ng-show="projects.length != 0">
     <form class="form-inline pull-right">
@@ -28,9 +24,11 @@
         <a class="btn btn-mini" href="#/users/{{user._id}}"> {{user.firstName}} {{user.lastName}} </a>
       </span>
     </p>
+    <p ng-show="project.clientName != ''"><b>Client: </b>{{project.clientName}}<p>
     <p><span class="label {{project.status.labelType}}">{{project.status.text}}</span></p>
     <p ng-show="project.projectDueDate" class="info-small">Due: {{project.projectDueDate | date:'MMMM dd, yyyy'}}</p>
-    <b>Overall Progress:</b> <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
+    <b>Overall Progress: {{project.completionPercentage | number:1}}%</b>
+    <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
   </div>
 
   <div ng-show="!hasProjects" class="empty-message">

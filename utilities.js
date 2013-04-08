@@ -50,5 +50,16 @@ module.exports = {
       });
     });
     return newList;
+  },
+
+  getPriorityWeight: function(weight) {
+    return priorityWeights[weight.toLowerCase()];
   }
+};
+
+var priorityWeights = {
+  low: 0.25,
+  medium: 0.5,
+  high: 0.75,
+  urgent: 1
 };

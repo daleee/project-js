@@ -2,23 +2,24 @@
 
 <div class="row">
   <div class="well well-small span11 project">
-    <h4>Your Project at a Glance:</h4>
     <h5 ng-show="project.projectUsers.length != 0">Project Manager:
       <span ng-repeat="user in project.usersByRole['project manager']">
         <a class="btn btn-mini" href="#/users/{{user._id}}"> {{user.firstName}} {{user.lastName}} </a>
       </span>
     </h5>
+    <h5 ng-show="project.clientName != ''">Client: {{project.clientName}}<h5>
     <h5><span class="label {{project.status.labelType}}">{{project.status.text}}</span></h5>
     <p ng-show="project.projectDueDate" class="info-small">Due: {{project.projectDueDate | date:'MMMM dd, yyyy'}}</p>
-    <h5>Overall Progress:</h5> <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
+    <h5>Overall Progress: {{project.completionPercentage | number:1}}%</h5>
+    <div class="progress"><div class="bar" style="width: {{project.completionPercentage}}%;"></div></div>
   </div>
-  <div class="span5 milestones">
+  <div ng-show="upcomingMilestones.length != 0" class="span5 milestones">
     <h5>Upcoming Milestones</h5>
     <div id="{{milestone.id}}" ng-repeat="milestone in upcomingMilestones">
       <a href="#/projects/{{project.id}}/milestones/{{milestone._id}}">{{milestone.dueDate | date:'yy/MM/dd'}} {{milestone.title}}</a>
     </div>
   </div>
-  <div class="span5 issues">
+  <div ng-show="latestIssues.length != 0" class="span5 issues">
     <h5>Latest Issues</h5>
     <div id="{{issue.id}}" ng-repeat="issue in latestIssues">
       <a href="#/projects/{{project.id}}/work-items/{{issue._id}}/view">{{issue.lastModifiedDate | date:'yy/MM/dd'}} {{issue.title}}</a>

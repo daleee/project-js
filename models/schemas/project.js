@@ -36,21 +36,25 @@ Project.methods = {
       ids[this._id] = true;
       var completionPercentage = 0;
       var sum = 0;
-      var amount = this.milestones.length;
+      var amount = 0;
 
-      if (amount) {
+      if (this.milestones.length) {
         this.milestones.forEach(function(milestone) {
-          sum += milestone.getCompletion(ids, this);
+          var weight = milestone.getWeight();
+          amount += weight;
+          sum += milestone.getCompletion(ids, this) * weight;
         }, this);
       } else if (this.workPackages.length) {
-        amount = this.workPackages.length;
         this.workPackages.forEach(function(workPackage) {
-          sum += workPackage.getCompletion(ids, this);
+          var weight = workPackage.getWeight();
+          amount += weight;
+          sum += workPackage.getCompletion(ids, this) * weight;
         }, this);
       } else {
-        amount = this.workItems.length;
         this.workItems.forEach(function(workItem) {
-          sum += workItem.getCompletion(ids, this);
+          var weight = workItem.getWeight();
+          amount += weight;
+          sum += workItem.getCompletion(ids, this) * weight;
         }, this);
       }
 
