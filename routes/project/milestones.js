@@ -10,7 +10,6 @@ module.exports = function(app) {
   // GET /project/:project/milestones: get project milestones
   app.get(prefix + "/projects/:project/milestones", function(req, res) {
     res.send(req.query.list ? Utilities.lightList(req.project.milestones) : req.project.milestones);
-    res.end();
   });
 
   // :milestone parameter route: finds a milestone &
@@ -24,7 +23,6 @@ module.exports = function(app) {
     }
     else {
       res.send(404, 'Milestone not found');
-      res.end();
     }
   });
 
@@ -64,12 +62,9 @@ module.exports = function(app) {
     project.milestones.push(milestone);
     project.save(function(err){
       if(err) {
-        console.log(err);
         res.send(500, err);
-        res.end();
       }
       res.json(req.project.milestone);
-      res.end();
     });
   });
 
@@ -110,10 +105,8 @@ module.exports = function(app) {
     project.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.send(ms);
-      res.end();
     });
   });
 

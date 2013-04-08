@@ -38,10 +38,8 @@ module.exports = function(app) {
       project.save(function(err) {
         if (err) {
           res.send(500, err);
-          res.end()
         }
         res.json(wbi);
-        res.end();
       });
     });
   }
@@ -62,10 +60,8 @@ module.exports = function(app) {
     project.save(function(err) {
       if (err) {
         res.send(500, err);
-        res.end()
       }
       res.json(wbi);
-      res.end();
     });
   }
 
@@ -79,7 +75,6 @@ module.exports = function(app) {
   app.post(prefix + "/projects/:project/workbreakdown", function(req, res, next) {
     if (!(req.body.title)) {
       res.send(404, 'Title is required');
-      res.end();
     }
     var project = req.project;
     if (req.body._id){
@@ -106,10 +101,8 @@ module.exports = function(app) {
       project.save(function(err) {
         if (err) {
           res.send(500, err);
-          res.end();
         }
         res.json(item);
-        res.end();
       });
     }
   });
@@ -117,7 +110,6 @@ module.exports = function(app) {
   // GET /projects/:project/workbreakdown/:workbreakdown: get a specific WorkBreakdownItem
   app.get(prefix + '/projects/:project/workbreakdown/:workbreakdownitem', function(req, res, next) {
     res.json(req.workbreakdownitem);
-    res.end();
   });
 
   // POST /projects/:project/workbreakdown/move: move a workbreakdownitem around within the WBS
@@ -127,7 +119,6 @@ module.exports = function(app) {
     var appendAfter = req.body.appendAfter;
     if(!(source && appendAfter)) {
       res.send(400, 'source and appendAfter arguments required to move workbreakdown items.');
-      res.end();
     }
     var sourceObj = project.workBreakdownStructure.id(source._id || source);
     var appendObj = project.workBreakdownStructure.id(appendAfter._id || source);
@@ -136,17 +127,14 @@ module.exports = function(app) {
 
     if(sourceIdx === -1 || appendIdx === -1) {
       res.send(400, 'Could not find source or appendAfter IDs');
-      res.end();
     }
     var wbi = project.workBreakdownStructure.splice(sourceIdx, 1);
     project.workBreakdownStructure.splice(appendIdx + 1, 0, wbi[0]);
     project.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(project.workBreakdownStructure);
-      res.end();
     });
   });
 
@@ -177,10 +165,8 @@ module.exports = function(app) {
     project.save(function(err) {
       if (err) {
         res.send(500, err);
-        res.end()
       }
       res.json(wbi);
-      res.end();
     });
   });
 
@@ -194,7 +180,6 @@ module.exports = function(app) {
     }
     else {
       res.send(404, 'Cannot find that work breakdown item');
-      res.end();
     }
   });
 };

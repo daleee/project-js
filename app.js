@@ -1,6 +1,7 @@
 // import express & mongoose modules, start express app
 var express = require("express")
   , mongoose = require("mongoose")
+  , passport = require("passport")
   , app = express();
 
 // configuration

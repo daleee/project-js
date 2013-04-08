@@ -11,7 +11,6 @@ module.exports = function(app) {
     Role.find({}, function(err, roles) {
      if(err) {
        res.send(500, err);
-       res.end();
      }
      res.json(roles);
     });
@@ -30,7 +29,6 @@ module.exports = function(app) {
   app.post(prefix + "/roles", function(req, res, next) {
     if(!(req.body.title)){
         res.send(404);
-        res.end('Not enough data to create a new role.');
       }
 
     var newrole = new Role({title: req.body.title});
@@ -46,10 +44,8 @@ module.exports = function(app) {
     newrole.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(newrole);
-      res.end();
     });
   });
 
@@ -57,7 +53,6 @@ module.exports = function(app) {
   app.post(prefix + "/roles/:role", function(req, res, next) {
     if(!req.role) {
       res.send(404);
-      res.end();
     }
 
     var role = req.role;
@@ -68,7 +63,6 @@ module.exports = function(app) {
     }
     role.save();
     res.send(200, role);
-    res.end();
   });
 
   // POST /role/:role: update role information
@@ -82,7 +76,6 @@ module.exports = function(app) {
     if(req.body.title) role.title = req.body.title;
     role.save();
     res.send(200);
-    res.end();
   });
 
   // DELETE /role/:role delete a role
@@ -101,10 +94,8 @@ module.exports = function(app) {
       role.save(function(err) {
         if(err) {
           res.send(500, err);
-          res.end();
         }
         res.send(200, role);
-        res.end();
       });
     } // end if (req.body.permissions)
     // ... otherwise, delete the
@@ -113,11 +104,9 @@ module.exports = function(app) {
       Role.remove({_id: req.role[0]._id}, function(err){
         if(err){
           res.send(500);
-          res.end('There was an error removing the role on the server');
         }
         else {
           res.send(200);
-          res.end();
         }
       });
     }
@@ -129,7 +118,6 @@ module.exports = function(app) {
     Role.find({_id : id}, function(err, role){
       if (err) {
         res.send(500, "Error while finding role");
-        res.end()
       } else if (role) {
         // Hack, find out why it's an array?!
         if (role instanceof Array && role.length === 1) {
@@ -139,7 +127,6 @@ module.exports = function(app) {
         next();
       } else {
         res.send(500, "Error while finding role");
-        res.end()
       }
     });
   });

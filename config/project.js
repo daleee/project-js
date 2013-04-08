@@ -20,13 +20,13 @@ module.exports = function(app)
   ///////////////////////////////////////////////////////////////////
 
   // use short logging
-  //app.use(express.logger('short'));
+  app.use(express.logger('short'));
   // enable express cookie parsing
   app.use(express.cookieParser());
   // enable express body parsing
   app.use(express.bodyParser());
   // use MongoStore if in production mode
-  /*if (app.get('env') === 'production') {
+  if (app.get('env') === 'production') {
     app.use(express.session({ secret: 'lolcats',
                             store: new MongoStore({
                               db: app.get('databaseName')
@@ -40,7 +40,7 @@ module.exports = function(app)
                               reapInterval: 60000 * 10
                             })
     }));
-  }*/
+  }
   // initialize passport
   app.use(passport.initialize());
   // initialize passport session

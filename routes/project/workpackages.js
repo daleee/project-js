@@ -23,7 +23,6 @@ module.exports = function(app) {
     }
     else {
       res.send(404, 'Work Package not found');
-      res.end();
     }
   });
 
@@ -32,7 +31,6 @@ module.exports = function(app) {
     var project = req.project;
     if (!(req.body.title)) {
       res.send(500, 'Not enough data to create a new work package');
-      res.end();
     }
 
     var wp = new WorkPackage();
@@ -55,12 +53,9 @@ module.exports = function(app) {
     project.workPackages.push(wp);
     project.save(function(err){
       if(err) {
-        console.log(err);
         res.send(500, err);
-        res.end();
       }
       res.send(wp);
-      res.end();
     });
   });
 
@@ -89,10 +84,8 @@ module.exports = function(app) {
     project.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.send(wp);
-      res.end();
     });
   });
 

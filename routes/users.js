@@ -16,7 +16,6 @@ module.exports = function(app) {
     User.find({}).populate(populateUserList).exec(function(err, users) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(users);
     });
@@ -30,7 +29,6 @@ module.exports = function(app) {
       req.body.email,
       req.body.password)){
         res.send(500, 'Not enough data to create a new user.');
-        res.end();
       }
 
     var newUser = new User();
@@ -43,10 +41,8 @@ module.exports = function(app) {
     User.register(newUser, req.body.password, function(err, user) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(user);
-      res.end();
     });
   });
 
@@ -58,7 +54,6 @@ module.exports = function(app) {
   // POST /user/:user: update user information
   app.post(prefix + "/users/:user", function(req, res) {
     var user = req.theUser;
-    console.log(req.user);
     if(req.body.firstName) user.firstName = req.body.firstName;
     if(req.body.lastName) user.lastName = req.body.lastName;
     if(req.body.email) user.email = req.body.email;
@@ -67,10 +62,8 @@ module.exports = function(app) {
     user.save(function(err) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.send(user);
-      res.end();
     });
   });
 
@@ -81,17 +74,14 @@ module.exports = function(app) {
     // make sure required data was sent in HTTP payload
     if(!req.body.newPassword) {
       res.send(500, "Data required: newPassword");
-      res.end();
     }
 
     var user = req.theUser;
     user.setPassword(req.body.newPassword, function(err, something) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.send(something);
-      res.end();
     });
   });
 
@@ -101,13 +91,11 @@ module.exports = function(app) {
     User.findById(id).populate(populateUserList).exec(function(err, user){
       if (err) {
         res.send(500, err);
-        res.end();
       } else if (user) {
         req.theUser = user;
         next();
       } else {
         res.send(500, "Failed to load user");
-        res.end();
       }
     });
   });

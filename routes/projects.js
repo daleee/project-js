@@ -20,12 +20,12 @@ var populateProjectList = [
 
 module.exports = function(app) {
   var prefix = app.get('apiPrefix');
+
   // GET /project: get all projects
   app.get(prefix + "/projects", function(req, res) {
     Project.find({}).populate(populateProjectList).exec(function(err, projects) {
       if(err) {
         res.send(500, err);
-        res.end('Something bad happened');
       }
       res.json(req.query.list ? Utilities.lightList(projects) : projects);
     });
@@ -48,10 +48,8 @@ module.exports = function(app) {
     project.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.send(200, project);
-      res.end();
     });
   });
 
@@ -59,7 +57,6 @@ module.exports = function(app) {
   app.post(prefix + "/projects", function(req, res, next) {
     if(!req.body.title){
       res.send(404, 'Not enough data to create a project');
-      res.end();
     }
 
     var newproject = new Project();
@@ -72,10 +69,8 @@ module.exports = function(app) {
     newproject.save(function(err){
       if(err) {
         res.send(500, err);
-        res.end('Something went wrong');
       }
       res.json(newproject);
-      res.end();
     });
   });
 
@@ -86,10 +81,8 @@ module.exports = function(app) {
     project.save(function(err) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(project);
-      res.end();
     });
   });
 
@@ -100,10 +93,8 @@ module.exports = function(app) {
     project.save(function(err) {
       if(err) {
         res.send(500, err);
-        res.end();
       }
       res.json(project);
-      res.end();
     });
   });
 
@@ -113,13 +104,11 @@ module.exports = function(app) {
     Project.findOne({"_id" : id}).populate(populateProjectList).exec(function(err, project){
       if (err) {
         res.send(500, "Error while finding project");
-        res.end();
       } else if (project) {
         req.project = project;
         next();
       } else {
         res.send(500, "Error while finding project");
-        res.end();
       }
     });
   });
