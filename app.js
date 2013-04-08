@@ -1,20 +1,15 @@
 // import express & mongoose modules, start express app
-var express = require("express"), 
-    mongoose = require("mongoose"),
-    passport = require("passport"),
-    app = express();
+var express = require("express")
+  , mongoose = require("mongoose")
+  , app = express();
 
 // configuration
 require('./config/project')(app);
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(__dirname + '/client/app'));
 
 // connect to mongoDB
-mongoose.connect('localhost', 'test');
+mongoose.connect('localhost', app.get('databaseName'));
 
+// initialize models & routes
 var models = require('./models/index');
 var routes = require('./routes/index')(app);
 

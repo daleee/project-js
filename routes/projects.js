@@ -47,7 +47,6 @@ module.exports = function(app) {
 
     project.save(function(err){
       if(err) {
-        console.log(err);
         res.send(500, err);
         res.end();
       }
@@ -72,7 +71,6 @@ module.exports = function(app) {
 
     newproject.save(function(err){
       if(err) {
-        console.log(err);
         res.send(500, err);
         res.end('Something went wrong');
       }

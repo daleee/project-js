@@ -38,7 +38,7 @@ module.exports = function(app) {
     newUser.firstName = req.body.firstName;
     newUser.lastName = req.body.lastName;
     newUser.email = req.body.email;
-    newUser.isAdmin = req.body.isAdmin || false;
+    newUser.siteAdmin = req.body.siteAdmin || false;
 
     User.register(newUser, req.body.password, function(err, user) {
       if(err) {
@@ -52,20 +52,26 @@ module.exports = function(app) {
 
   // GET /user/:user: get specific user information
   app.get(prefix + "/users/:user", function(req, res) {
-    res.json(req.user);
+    res.json(req.theUser);
   });
 
   // POST /user/:user: update user information
   app.post(prefix + "/users/:user", function(req, res) {
-    var user = req.user[0];
+    var user = req.theUser;
+    console.log(req.user);
     if(req.body.firstName) user.firstName = req.body.firstName;
     if(req.body.lastName) user.lastName = req.body.lastName;
     if(req.body.email) user.email = req.body.email;
     if(req.body.password) user.password = req.body.password;
-    if(req.body.isAdmin) user.isAdmin = req.body.isAdmin;
-    user.save();
-    res.send(200, user);
-    res.end();
+    if(req.body.siteAdmin) user.siteAdmin = req.body.siteAdmin;
+    user.save(function(err) {
+      if(err) {
+        res.send(500, err);
+        res.end();
+      }
+      res.send(user);
+      res.end();
+    });
   });
 
   // POST /user/:user/password: change a user's password
@@ -78,7 +84,7 @@ module.exports = function(app) {
       res.end();
     }
 
-    var user = req.user;
+    var user = req.theUser;
     user.setPassword(req.body.newPassword, function(err, something) {
       if(err) {
         res.send(500, err);
@@ -97,7 +103,7 @@ module.exports = function(app) {
         res.send(500, err);
         res.end();
       } else if (user) {
-        req.user = user;
+        req.theUser = user;
         next();
       } else {
         res.send(500, "Failed to load user");
