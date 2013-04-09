@@ -28,7 +28,7 @@ module.exports = function(app) {
   // (eg: [{"title": "canEat"}, {"title": "canSleep"}]
   app.post(prefix + "/roles", function(req, res, next) {
     if(!(req.body.title)){
-        res.send(404);
+        res.send(500);
       }
 
     var newrole = new Role({title: req.body.title});
@@ -52,7 +52,7 @@ module.exports = function(app) {
   // POST /role/:role: add new permissions to role
   app.post(prefix + "/roles/:role", function(req, res, next) {
     if(!req.role) {
-      res.send(404);
+      res.send(500);
     }
 
     var role = req.role;
@@ -66,16 +66,14 @@ module.exports = function(app) {
   });
 
   // POST /role/:role: update role information
-  app.post(prefix + "/roles/:role", function(req, res) {
+  app.put(prefix + "/roles/:role", function(req, res) {
     if(!req.role) {
-      res.send(404);
-      res.end();
-      return;
+      res.send(500);
     }
     var role = req.role;
     if(req.body.title) role.title = req.body.title;
     role.save();
-    res.send(200);
+    res.send(role);
   });
 
   // DELETE /role/:role delete a role

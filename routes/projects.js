@@ -56,7 +56,7 @@ module.exports = function(app) {
   // POST /project: create a new project
   app.post(prefix + "/projects", function(req, res, next) {
     if(!req.body.title){
-      res.send(404, 'Not enough data to create a project');
+      res.send(500, 'Not enough data to create a project');
     }
 
     var newproject = new Project();
