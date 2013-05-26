@@ -49,17 +49,3 @@ $ node app
 The client is accessible at `localhost:<port>`
 The API is accessible at `localhost:<port>/api/`
 The API prefix can be configured in `config/project.js`.
-
-### Server setup
-
-transfer files over (not db or node_modules, though)
-
-* run npm install
-* mkdir db
-* perform the data import operations as dictated above
-* nohup node app
-
-Should be accessible at http://zenit.senecac.on.ca:9078
-
-To remove the database prior to restoring it, kill the mongod process and the node process, delete everything in the DB folder,
-then follow the data import steps
