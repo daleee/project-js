@@ -55,8 +55,8 @@ The API prefix can be configured in `config/project.js`
 ### License
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2013 David Perit <dperit@gmail.com>, Jennifer McDonald <jen1073@gmail.com>, 
-Jesse Silver <dasilverblaze@hotmail.com>, Dale Karp <me@dale.io>
+Copyright (c) 2013 David Perit &lt;dperit@gmail.com>, Jennifer McDonald &lt;jen1073@gmail.com>, 
+Jesse Silver &lt;dasilverblaze@hotmail.com>, Dale Karp &lt;me@dale.io>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
