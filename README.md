@@ -1,4 +1,9 @@
-## pjs-api
+## Project.js
+_Project.js is the result of 8 months of work for the capstone project at Seneca College. It was developed by:_
+* _[@dperit](https://github.com/dperit)_
+* _[@JSilver99](https://github.com/JSilver99)_
+* _[@jenmcd](https://github.com/jenmcd)_
+* _[@daleee](https://github.com/daleee)_
 
 ### Getting Started
 Make sure you have the required tools:
